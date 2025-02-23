@@ -1,0 +1,32 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "files.associations": {
+            "bsp_beep.h": "c",
+            "bsp_led.h": "c",
+            "bsp_motor.C": "cpp"
+        }
+    },
+    "extensions": {},
+    "launch": {
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "cwd": "${workspaceFolder}",
+                "executable": "../industrial_training_car-main-main/build/RCT6/RCT6.elf",
+                "name": "Debug with JLink",
+                "request": "launch",
+                "type": "cortex-debug",
+                "device": "STM32F103RC",
+                "runToEntryPoint": "main",
+                "showDevDebugOutput": "none",
+                "servertype": "jlink"
+            }
+
+        ]
+    }
+}
