@@ -361,7 +361,12 @@ Emm_V5_Vel_Control(4, 0, speeed, 1,  0);
 
 
 }
-
+#define gg_0_X 180
+#define gg_0_Y 134 
+#define gg_1_X 153 
+#define gg_1_Y 185
+#define gg_2_X 151
+#define gg_2_Y 146  
 //gg=0就是色环，gg=2就是地上色块,gg1就是原料区的色块
 void weitiao(int gg)
 {
@@ -375,17 +380,17 @@ void weitiao(int gg)
 		
         if(flag_cx_complete==0&&XX!=0)
         {
-            if(XX<151)
+            if(XX<gg_1_X-2)
 			{
 			 Forward(5);
-			 while (XX<151);
+			 while (XX<gg_1_X-2);
 
 			}
 		
-			else if(XX>155)
+			else if(XX>gg_1_X+2)
 			{
 				Backward(5);
-			  while(XX>155);
+			  while(XX>gg_1_X+2);
 
 			}
               
@@ -393,16 +398,16 @@ void weitiao(int gg)
         }
         if(flag_cy_start==1&&flag_cy_complete==0&&YY!=0)
         {
-            if(YY<184)
+            if(YY<gg_1_Y-2)
 			 {
 				R_Translation(5);
-				while(YY<184);
+				while(YY<gg_1_Y-2);
 
 			}
-            else if(YY>186) 
+            else if(YY>gg_1_Y+2) 
 			{
 				L_Translation(5);
-				while(YY>186);
+				while(YY>gg_1_Y+2);
 
 			}
 				stop();
@@ -421,30 +426,30 @@ void weitiao(int gg)
     {
             printf("XX1:%d YY1:%d\n\r",XX1,YY1);
             if (flag_cx_complete == 0 && XX1 != 0) {
-                if (XX1 < 153) {
+                if (XX1 < gg_0_X - 2) {
                     Forward(5);
-                    while (XX1 < 153);
+                    while (XX1 < gg_0_X - 2);
 
                 }
 
-                else if (XX1 > 157) {
+                else if (XX1 > gg_0_X + 2) {
                     Backward(5);
-                    while (XX1 > 157);
+                    while (XX1 > gg_0_X + 2);
                 }
 				stop();flag_cx_complete=1;flag_cy_complete=0;flag_cy_start=1;
             }
         if(flag_cy_start==1&&flag_cy_complete==0&&YY1!=0)
         {
-            if(YY1<137)
+            if(YY1<gg_0_Y-2)
 			 {
 				R_Translation(5);
-				while(YY1<137);
+				while(YY1<gg_0_Y-2);
 	
 			}
-            else if(YY1>141) 
+            else if(YY1>gg_0_Y+2) 
 			{
 				L_Translation(5);
-				while(YY1>141);
+				while(YY1>gg_0_Y+2);
 
 			}
 				stop();flag_cy_complete=1;flag_adjusting++;flag_cx_complete=0;
@@ -462,33 +467,33 @@ void weitiao(int gg)
     {
         if(flag_cx_complete==0&&XX!=0)
         {
-            if(XX<149)
+            if(XX<gg_2_X-2)
 			{
 			 Forward(15);
-			  while (XX<149);
+			  while (XX<gg_2_X-2);
 
 			}
 			
-			else if(XX>153)
+			else if(XX>gg_2_X+2)
 			{
 				Backward(15);
-			  while(XX>153);
+			  while(XX>gg_2_X+2);
 
 			}
 				stop();flag_cx_complete=1;flag_cy_complete=0;flag_cy_start=1;
         }
         if(flag_cy_start==1&&flag_cy_complete==0&&YY!=0)
         {
-            if(YY<137)
+            if(YY<gg_2_Y-2)
 			 {
 				R_Translation(15);
-				while(YY<137);
+				while(YY<gg_2_Y-2);
 	
 			}
-            else if(YY>141) 
+            else if(YY>gg_2_Y+2) 
 			{
 				L_Translation(15);
-				while(YY>141);
+				while(YY>gg_2_Y+2);
 
 			}
 				stop();flag_cy_complete=1;flag_adjusting++;flag_cx_complete=0;

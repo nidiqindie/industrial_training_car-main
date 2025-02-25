@@ -64,7 +64,7 @@ int main(void)
 
 
     // 前进到获取物料
-    move_forward(speed_all, acc_all, 3.4);
+    move_forward(speed_all, acc_all, 3.2);
     delay_ms(3000);
     move_right(speed_all, acc_all, 0.1);
     // 微调加抓取
@@ -82,6 +82,7 @@ int main(void)
     goto_rough();
     
     // 加工物料
+    now = 2;
     start_p();
     delay_ms(100);
     go_to_target(task[0] / 100, 0);
@@ -90,6 +91,15 @@ int main(void)
     put_huan((task[0] % 100) / 10);
     go_to_target(task[0] % 10, 0);
     put_huan(task[0] % 10);
+
+    start_p();
+    delay_ms(2000);
+    go_to_target(task[1] / 100, 0);
+    put_huan(task[1] / 100);
+    go_to_target((task[1] % 100) / 10, 0);
+    put_huan((task[1] % 100) / 10);
+    go_to_target(task[1] % 10, 0);
+    put_huan(task[1] % 10);
 
     // 加工完成
     go_to_target(task[0] / 100, 2);
@@ -109,7 +119,7 @@ int main(void)
     Roughing_to_staging_area();
 
     // 暂存区放置物料
-    now = 2;
+
     go_to_target(task[0] / 100, 0);
     put_huan(task[0] / 100);
     go_to_target((task[0] % 100) / 10, 0);
@@ -122,7 +132,8 @@ int main(void)
     */
     // 暂存区到抓取二轮物料
     move_left(speed_all,20,0.5);
-    move_backward(speed_all, acc_all, 3.1);
+    delay_ms(800);
+    move_backward(speed_all, acc_all, 2.8);
     delay_ms(3000);
     yaw_run(0, big_calibrations);
     move_backward(speed_all, acc_all, 1.5);
@@ -158,6 +169,7 @@ int main(void)
     put_huan(task[1] % 10);
 
     // 加工完成取物料
+    
     go_to_target(task[1] / 100, 2);
     catch_huan();
     put(task[1] / 100);
@@ -176,9 +188,13 @@ int main(void)
 
     // 放物料到暂存区
     // 微调(环)
-    put_huan(task[0] / 100);
-    put_huan((task[0] % 100) / 10);
-    put_huan(task[0] % 10);
+
+    go_to_target(task[0] / 100, 2);
+    maduo(task[0] / 100);
+    go_to_target((task[0] % 100) / 10, 2);
+    maduo((task[0] % 100) / 10);
+    go_to_target(task[0] % 10, 2);
+    maduo(task[0] % 10);
 
     // 回到起点
     move_backward(speed_all, acc_all, 3.0);
@@ -211,18 +227,19 @@ void goto_rough()
     move_right(speed_all, 20, 0.21);
     delay_ms(500);
     yaw_run(90, smill_calibrations);
-    move_forward(speed_all, acc_all, 3.2);
+    move_forward(speed_all, acc_all, 3.35);
     delay_ms(2800);
 
     yaw_run(180, big_calibrations);
     move_right(speed_all, 20, 0.2);
     delay_ms(500);
-    yaw_run(180, smill_calibrations);
+    now = 2;
+    go_to_target(2, 0);
 }
 // 粗加工到暂存区
 void Roughing_to_staging_area()
 {
-    move_left(speed_all, acc_all, 3.47);
+    move_left(speed_all, acc_all, 3.35);
     delay_ms(3000);
     yaw_run(90, big_calibrations);
     move_right(speed_all, acc_all, 3.57);
