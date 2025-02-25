@@ -370,22 +370,22 @@ void weitiao(int gg)
    {
     flag_adjusting=1;
 	
-	while(flag_adjusting<=4&&flag_adjusting!=0)
+	while(flag_adjusting<=2&&flag_adjusting!=0)
     {
 		
         if(flag_cx_complete==0&&XX!=0)
         {
-            if(XX<128)
+            if(XX<151)
 			{
 			 Forward(5);
-			 while (XX<128);
+			 while (XX<151);
 
 			}
 		
-			else if(XX>132)
+			else if(XX>155)
 			{
 				Backward(5);
-			  while(XX>132);
+			  while(XX>155);
 
 			}
               
@@ -393,16 +393,16 @@ void weitiao(int gg)
         }
         if(flag_cy_start==1&&flag_cy_complete==0&&YY!=0)
         {
-            if(YY<140)
+            if(YY<184)
 			 {
 				R_Translation(5);
-				while(YY<140);
+				while(YY<184);
 
 			}
-            else if(YY>144) 
+            else if(YY>186) 
 			{
 				L_Translation(5);
-				while(YY>144);
+				while(YY>186);
 
 			}
 				stop();
@@ -421,30 +421,30 @@ void weitiao(int gg)
     {
             printf("XX1:%d YY1:%d\n\r",XX1,YY1);
             if (flag_cx_complete == 0 && XX1 != 0) {
-                if (XX1 < 141) {
+                if (XX1 < 153) {
                     Forward(5);
-                    while (XX1 < 141);
+                    while (XX1 < 153);
 
                 }
 
-                else if (XX1 > 145) {
+                else if (XX1 > 157) {
                     Backward(5);
-                    while (XX1 > 145);
+                    while (XX1 > 157);
                 }
 				stop();flag_cx_complete=1;flag_cy_complete=0;flag_cy_start=1;
             }
         if(flag_cy_start==1&&flag_cy_complete==0&&YY1!=0)
         {
-            if(YY1<123)
+            if(YY1<137)
 			 {
 				R_Translation(5);
-				while(YY1<123);
+				while(YY1<137);
 	
 			}
-            else if(YY1>127) 
+            else if(YY1>141) 
 			{
 				L_Translation(5);
-				while(YY1>127);
+				while(YY1>141);
 
 			}
 				stop();flag_cy_complete=1;flag_adjusting++;flag_cx_complete=0;
@@ -462,33 +462,33 @@ void weitiao(int gg)
     {
         if(flag_cx_complete==0&&XX!=0)
         {
-            if(XX<167)
+            if(XX<149)
 			{
 			 Forward(15);
-			  while (XX<167);
+			  while (XX<149);
 
 			}
 			
-			else if(XX>171)
+			else if(XX>153)
 			{
 				Backward(15);
-			  while(XX>171);
+			  while(XX>153);
 
 			}
 				stop();flag_cx_complete=1;flag_cy_complete=0;flag_cy_start=1;
         }
         if(flag_cy_start==1&&flag_cy_complete==0&&YY!=0)
         {
-            if(YY<115)
+            if(YY<137)
 			 {
 				R_Translation(15);
-				while(YY<115);
+				while(YY<137);
 	
 			}
-            else if(YY>119) 
+            else if(YY>141) 
 			{
 				L_Translation(15);
-				while(YY>119);
+				while(YY>141);
 
 			}
 				stop();flag_cy_complete=1;flag_adjusting++;flag_cx_complete=0;
@@ -510,7 +510,7 @@ void weitiao_2(void)
 	{
 	delay_ms(300);
 
-	if(abs(XX-x)<=10)
+	if(abs(XX-x)<=20)
 	break;
 	x=XX;
 	}
@@ -519,7 +519,7 @@ void weitiao_2(void)
 	{
 	delay_ms(300);
 
-	if(abs(XX-x)<=10&&KKK!=K)
+	if(abs(XX-x)<=20&&KKK!=K)
 	break;
 	x=XX;
 

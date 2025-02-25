@@ -190,7 +190,7 @@ void zp(uint16_t num)
   Servo_Angle_Config(2,49);
   break;
   case 2:
-  Servo_Angle_Config(2,143);
+  Servo_Angle_Config(2,140);
     break;
   case 3:
   Servo_Angle_Config(2,225);
@@ -201,7 +201,7 @@ void zp(uint16_t num)
 
 }
 
-//从原料区取物块
+//从原料区取物块//130142
 void catch(uint16_t num)
 {
   Servo_Angle_Config(1,60);
@@ -210,16 +210,14 @@ void catch(uint16_t num)
   switch (num)
   {
   case 1://h红色
-  Servo_Angle_Config(3,130);
-  Emm_V5_Pos_Control(1, 1, 400, 250, 3000, 01, 00);
-  delay_ms(500);
+
    while (op==1)
    {
-     x=XX;
-      y=YY;
-      delay_ms(300);    
-      if(abs(XX-x)<=20&&abs(YY-y)<=20&&K=='R'&&XX>=100&&XX<=240&&YY>=60&&YY<=180)
+      if(K=='R')
       {
+          Servo_Angle_Config(3, 130);
+          Emm_V5_Pos_Control(1, 1, 400, 250, 3550, 01, 00);
+          delay_ms(500);
           Servo_Angle_Config(3,90);
           delay_ms(1000);
           Emm_V5_Pos_Control(1, 0, 400, 250, 0, 01, 00);
@@ -229,16 +227,14 @@ void catch(uint16_t num)
    }
     break;
   case 2://绿色
-  Servo_Angle_Config(3,130);
-  Emm_V5_Pos_Control(1, 1, 400, 250, 3000, 01, 00);
-  delay_ms(500);
+
    while (op==1)
    {
-     x=XX;
-      y=YY;
-      delay_ms(300);    
-      if(abs(XX-x)<=20&&abs(YY-y)<=20&&K=='G'&&XX>=100&&XX<=240&&YY>=60&&YY<=180)
+      if(K=='G')
       {
+          Servo_Angle_Config(3, 130);
+          Emm_V5_Pos_Control(1, 1, 400, 250, 3550, 01, 00);
+          delay_ms(500);
           Servo_Angle_Config(3,90);
           delay_ms(1000);
           Emm_V5_Pos_Control(1, 0, 400, 250, 0, 01, 00);
@@ -248,16 +244,14 @@ void catch(uint16_t num)
    }
     break;
   case 3://蓝色
-  Servo_Angle_Config(3,130);
-  Emm_V5_Pos_Control(1, 1, 400, 250, 3000, 01, 00);
-  delay_ms(500);
+
    while (op==1)
    {
-     x=XX;
-      y=YY;
-      delay_ms(300);    
-      if(abs(XX-x)<=20&&abs(YY-y)<=20&&K=='B'&&XX>=100&&XX<=240&&YY>=60&&YY<=180)
+      if(K=='B')
       {
+          Servo_Angle_Config(3, 130);
+          Emm_V5_Pos_Control(1, 1, 400, 250, 3550, 01, 00);
+          delay_ms(500);
           Servo_Angle_Config(3,90);
           delay_ms(1000);
           Emm_V5_Pos_Control(1, 0, 400, 250, 0, 01, 00);
@@ -275,45 +269,55 @@ void catch(uint16_t num)
 void put(uint16_t num)
 {
     
-  switch (1)
+  switch (num)
   {
   case 1://红色
-    Servo_Angle_Config(1,195);
-    zp(1);
-    delay_ms(1000);
-    Emm_V5_Pos_Control(1, 1, 300, 250,2150, 01, 00);//脉冲数待定
-    delay_ms(1000);
-    Servo_Angle_Config(3, 130);
-    Emm_V5_Pos_Control(1, 0, 300, 250,0, 01, 00);//脉冲数待定
-    delay_ms(2000);
+     zp(1);
+     Servo_Angle_Config(1, 190);
 
+     delay_ms(1000);
+     Emm_V5_Pos_Control(1, 1, 300, 250, 2150, 01, 00); // 脉冲数待定
+     delay_ms(1000);
+     Servo_Angle_Config(3, 130);
+     delay_ms(1000);
 
-    break;
+     Emm_V5_Pos_Control(1, 0, 300, 250, 0, 01, 00); // 脉冲数待定
+     delay_ms(1000);
+
+     break;
   case 2://绿
-  Servo_Angle_Config(1,195);
-  zp(2);
-  delay_ms(1000);
-  Emm_V5_Pos_Control(1, 1, 300, 250,2150, 01, 00);//脉冲数待定
-  Servo_Angle_Config(3,130);
-  Emm_V5_Pos_Control(1, 0, 300, 250,0, 01, 00);//脉冲数待定
+      zp(2);
+      Servo_Angle_Config(1, 190);
 
-  delay_ms(2000);
-    break;
+      delay_ms(1000);
+      Emm_V5_Pos_Control(1, 1, 300, 250, 2150, 01, 00); // 脉冲数待定
+      delay_ms(1000);
+      Servo_Angle_Config(3, 130);
+      delay_ms(1000);
+
+      Emm_V5_Pos_Control(1, 0, 300, 250, 0, 01, 00); // 脉冲数待定
+
+      delay_ms(1000);
+      break;
   case 3:
-  Servo_Angle_Config(1,195);
-  zp(3);
-  delay_ms(1000);
-  Emm_V5_Pos_Control(1, 1, 300, 250,2150, 01, 00);//脉冲数待定
-  Servo_Angle_Config(3,130);
-  Emm_V5_Pos_Control(1, 0, 300, 250,0, 01, 00);//脉冲数待定
+      zp(3);
+      Servo_Angle_Config(1, 190);
 
-  delay_ms(2000);
-    break;
+
+      delay_ms(1000);
+      Emm_V5_Pos_Control(1, 1, 300, 250, 2150, 01, 00); // 脉冲数待定
+      delay_ms(1000);
+
+      Servo_Angle_Config(3, 130);
+      delay_ms(1000);
+      Emm_V5_Pos_Control(1, 0, 300, 250, 0, 01, 00); // 脉冲数待定
+
+      delay_ms(1000);
+      break;
   default:
     break;
   }
   start_p();
-  
 }
 //从加工区拿取物块
 void catch_huan(void)
@@ -331,66 +335,65 @@ void catch_huan(void)
 void put_huan(uint16_t num)
 {
   start_p();
-  delay_ms(1000);
+  // delay_ms(1000);
   switch (num)
   {
   case 1:
     zp(1);
     Servo_Angle_Config(1,195);
     delay_ms(1500);
-    Emm_V5_Pos_Control(1, 01, 300, 250,2150, 01, 00);
-    delay_ms(1500);
-    Servo_Angle_Config(3,90);
-    delay_ms(1500);
-    Emm_V5_Pos_Control(1, 0, 300, 250,0, 01, 00);
-    delay_ms(1500);
-    Servo_Angle_Config(1,60);
-    delay_ms(1500);
-    Emm_V5_Pos_Control(1, 01, 300, 250,8900, 01, 00);
-    delay_ms(2000);
-    Servo_Angle_Config(3,130);
+    Emm_V5_Pos_Control(1, 01, 300, 250,2130, 01, 00);
     delay_ms(1000);
-    start_p();
+    Servo_Angle_Config(3,90);
+    delay_ms(1000);
+    Emm_V5_Pos_Control(1, 0, 300, 250,0, 01, 00);
+    delay_ms(1000);
+    Servo_Angle_Config(1,60);
+    delay_ms(1000);
+    Emm_V5_Pos_Control(1, 01, 300, 250,8900, 01, 00);
     delay_ms(1500);
+    Servo_Angle_Config(3,130);
+    delay_ms(100);
+    start_p();
+
     break;
     case 2:
     zp(2);
     Servo_Angle_Config(1,195);
     delay_ms(1500);
-    Emm_V5_Pos_Control(1, 01, 300, 250,2150, 01, 00);
-    delay_ms(1500);
-    Servo_Angle_Config(3,90);
-    delay_ms(1500);
-    Emm_V5_Pos_Control(1, 0, 300, 250,0, 01, 00);
-    delay_ms(1500);
-    Servo_Angle_Config(1,195);
-    delay_ms(1500);
-    Emm_V5_Pos_Control(1, 01, 300, 250,8900, 01, 00);
-    delay_ms(2000);
-    Servo_Angle_Config(3,130);
+    Emm_V5_Pos_Control(1, 01, 300, 250,2130, 01, 00);
     delay_ms(1000);
-    start_p();
+    Servo_Angle_Config(3,90);
+    delay_ms(1000);
+    Emm_V5_Pos_Control(1, 0, 300, 250,0, 01, 00);
+    delay_ms(1000);
+    Servo_Angle_Config(1,60);
+    delay_ms(1000);
+    Emm_V5_Pos_Control(1, 01, 300, 250,8900, 01, 00);
     delay_ms(1500);
+    Servo_Angle_Config(3,130);
+    delay_ms(100);
+    start_p();
+
 
     break;
     case 3:
     zp(3);
     Servo_Angle_Config(1,195);
     delay_ms(1500);
-    Emm_V5_Pos_Control(1, 01, 300, 250,2150, 01, 00);
-    delay_ms(1500);
-    Servo_Angle_Config(3,90);
-    delay_ms(1500);
-    Emm_V5_Pos_Control(1, 0, 300, 250,0, 01, 00);
-    delay_ms(1500);
-    Servo_Angle_Config(1,195);
-    delay_ms(1500);
-    Emm_V5_Pos_Control(1, 01, 300, 250,8900, 01, 00);
-    delay_ms(2000);
-    Servo_Angle_Config(3,130);
+    Emm_V5_Pos_Control(1, 01, 300, 250,2130, 01, 00);
     delay_ms(1000);
-    start_p();
+    Servo_Angle_Config(3,90);
+    delay_ms(1000);
+    Emm_V5_Pos_Control(1, 0, 300, 250,0, 01, 00);
+    delay_ms(1000);
+    Servo_Angle_Config(1,60);
+    delay_ms(1000);
+    Emm_V5_Pos_Control(1, 01, 300, 250,8900, 01, 00);
     delay_ms(1500);
+    Servo_Angle_Config(3,130);
+    delay_ms(100);
+    start_p();
 
     break;
   default:
@@ -403,7 +406,7 @@ void put_huan(uint16_t num)
 void maduo(uint16_t num)
 {
 
-  switch (1)
+  switch (num)
   {
   case 1://红色
     
