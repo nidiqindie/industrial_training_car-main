@@ -408,7 +408,7 @@ void maduo(uint16_t num)
             Emm_V5_Pos_Control(1, 01, 300, 250, 4180, 01, 00); // 脉冲数待定
             delay_ms(3000);
             Servo_Angle_Config(3, 130);
-            Emm_V5_Pos_Control(6, 01, 400, 250, 0, 01, 00);
+            Emm_V5_Pos_Control(1, 0, 400, 250, 0, 01, 00);
             start_p();
             delay_ms(1000);
             break;
@@ -427,7 +427,7 @@ void maduo(uint16_t num)
             Emm_V5_Pos_Control(1, 01, 300, 250, 4180, 01, 00); // 脉冲数待定
             delay_ms(3000);
             Servo_Angle_Config(3, 130);
-            Emm_V5_Pos_Control(6, 01, 400, 250, 0, 01, 00);
+            Emm_V5_Pos_Control(1, 0, 400, 250, 0, 01, 00);
             start_p();
             delay_ms(1000);
             break;
@@ -446,7 +446,7 @@ void maduo(uint16_t num)
             Emm_V5_Pos_Control(1, 01, 300, 250, 4180, 01, 00); // 脉冲数待定
             delay_ms(3000);
             Servo_Angle_Config(3, 130);
-            Emm_V5_Pos_Control(6, 01, 400, 250, 0, 01, 00);
+            Emm_V5_Pos_Control(1, 0, 400, 250, 0, 01, 00);
             start_p();
             delay_ms(1000);
             break;

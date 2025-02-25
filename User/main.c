@@ -33,7 +33,6 @@ unsigned char buf[64];
 void goto_rough();
 void Roughing_to_staging_area();
 
-
 void go_to_target(int target, int Type_of_fine_tuning);
 
 void goto_rough();
@@ -62,7 +61,6 @@ int main(void)
     // HMISends((char *)buf);                                // 发送Ri的数据给page0页面的t3文本控件
     // HMISendb(0xff);                                       // 结束符
 
-
     // 前进到获取物料
     move_forward(speed_all, acc_all, 3.2);
     delay_ms(3000);
@@ -80,7 +78,7 @@ int main(void)
     // 从物料区跑到粗加工区
     // 后退转弯到粗加工
     goto_rough();
-    
+
     // 加工物料
     now = 2;
     start_p();
@@ -91,15 +89,6 @@ int main(void)
     put_huan((task[0] % 100) / 10);
     go_to_target(task[0] % 10, 0);
     put_huan(task[0] % 10);
-
-    start_p();
-    delay_ms(2000);
-    go_to_target(task[1] / 100, 0);
-    put_huan(task[1] / 100);
-    go_to_target((task[1] % 100) / 10, 0);
-    put_huan((task[1] % 100) / 10);
-    go_to_target(task[1] % 10, 0);
-    put_huan(task[1] % 10);
 
     // 加工完成
     go_to_target(task[0] / 100, 2);
@@ -131,7 +120,7 @@ int main(void)
     第二圈
     */
     // 暂存区到抓取二轮物料
-    move_left(speed_all,20,0.5);
+    move_left(speed_all, 20, 0.5);
     delay_ms(800);
     move_backward(speed_all, acc_all, 2.8);
     delay_ms(3000);
@@ -153,7 +142,6 @@ int main(void)
     catch (task[1] % 10);
     put(task[1] % 10);
 
-    
     // 从物料区跑到粗加工区
     // 后退转弯到粗加工
     goto_rough();
@@ -169,7 +157,7 @@ int main(void)
     put_huan(task[1] % 10);
 
     // 加工完成取物料
-    
+
     go_to_target(task[1] / 100, 2);
     catch_huan();
     put(task[1] / 100);
@@ -179,7 +167,7 @@ int main(void)
     go_to_target(task[1] % 10, 2);
     catch_huan();
     put(task[1] % 10);
-
+go_to_target(2, 0);
     move_left(speed_all, 20, 0.2);
     delay_ms(500);
 
@@ -216,14 +204,14 @@ void goto_rough()
 {
     move_left(speed_all, 20, 0.2);
     delay_ms(500);
-    yaw_run(0,smill_calibrations);
+    yaw_run(0, smill_calibrations);
     move_backward(speed_all, acc_all, 1.5);
     delay_ms(1900);
     yaw_run(90, big_calibrations);
     move_forward(speed_all, acc_all, 3.5);
     delay_ms(2800);
-    
-    //转人工
+
+    // 转人工
     move_right(speed_all, 20, 0.21);
     delay_ms(500);
     yaw_run(90, smill_calibrations);
@@ -246,7 +234,6 @@ void Roughing_to_staging_area()
     delay_ms(3000);
     yaw_run(90, smill_calibrations);
 }
-
 
 // 粗加工区按顺序位移，已包含了微调
 // Type_of_fine_tuning=0就是色环，Type_of_fine_tuning=2就是地上色块,Type_of_fine_tuning=1就是原料区的色块

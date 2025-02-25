@@ -364,7 +364,7 @@ Emm_V5_Vel_Control(4, 0, speeed, 1,  0);
 #define gg_0_X 160
 #define gg_0_Y 139 
 #define gg_1_X 153 
-#define gg_1_Y 185
+#define gg_1_Y 195
 #define gg_2_X 151
 #define gg_2_Y 146  
 //gg=0就是色环，gg=2就是地上色块,gg1就是原料区的色块
