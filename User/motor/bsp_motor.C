@@ -361,8 +361,8 @@ Emm_V5_Vel_Control(4, 0, speeed, 1,  0);
 
 
 }
-#define gg_0_X 180
-#define gg_0_Y 134 
+#define gg_0_X 160
+#define gg_0_Y 139 
 #define gg_1_X 153 
 #define gg_1_Y 185
 #define gg_2_X 151
