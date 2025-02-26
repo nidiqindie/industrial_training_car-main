@@ -43,6 +43,8 @@ int main(void)
 
     car_init();
 
+
+    
     // 出来
     move_left(speed_all, acc_all, 0.5);
     delay_ms(1000);
