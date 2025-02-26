@@ -37,12 +37,19 @@ void Roughing_to_staging_area();
 void go_to_target(int target, int Type_of_fine_tuning);
 
 void goto_rough();
-//nihao
+
 int main(void)
 {
 
     car_init();
 
+    
+    zp(1);
+    while (1)
+    {
+        /* code */
+    }
+    
 
     // 出来
     move_left(speed_all, acc_all, 0.5);
