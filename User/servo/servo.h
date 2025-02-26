@@ -35,7 +35,8 @@
 void SERVO_TIM_Init(void);
 void Servo_Angle_Config(uint8_t channel_n , int16_t angle);
 //void Compute_Angle_and_Response(float CAR_X, float CAR_Y, float CAR_Z);
-void start_p(void);
+void catch_p(void);
+void standby_p(void);
 void catch(uint16_t num);
 void put(uint16_t num);
 void catch_huan(void);

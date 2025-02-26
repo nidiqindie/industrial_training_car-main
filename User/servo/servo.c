@@ -12,11 +12,31 @@ extern uint8_t Serial_RxFlag, K;
 extern uint16_t DistanceX, DistanceY, Size, XX, YY;
 extern uint16_t task[2];
 
+
 /*****************************SERVO**********************/
+//servo1为机械臂舵机，servo2为转盘舵机，servo3为爪子舵机
+//转盘舵机PWM值
+#define servo2_red 55       //红色转盘
+#define servo2_green 140    //绿色转盘
+#define servo2_blue 225     //蓝色转盘
 
-#define zp_red 50
-#define zp_blue 100
+//机械臂舵机PWM
+#define servo1_out 60     //机械臂向外
+#define servo1_in 195      //机械臂向内
 
+//爪子舵机PWM值
+#define servo3_close 91     //爪子抓取
+#define servo3_open 130      //爪子展开
+
+//机械臂步进电机脉冲数
+#define start_position 0    //爪子起始位置，最高处
+#define catch_rew 3550      //从原料区抓取物料
+#define put_turntable 2010  //把物料放在车载转盘
+#define catch_turntable 2070//从车载转盘中拿去物料
+#define put_process 8900    //将物料放在加工区
+#define catch_process 8900  //从加工区拿去物料
+#define put_store 8900      //将物料放在暂存区
+#define put_maduo 4180      //将物料进行码垛
 
 
 static void SERVO_TIM_GPIO_Config(void)
@@ -168,27 +188,35 @@ void Servo_Angle_Config(uint8_t channel_n, int16_t angle)
     }
 }
 
-// 将机械臂和转盘调整置初始位置
-void start_p(void)
+// 将机械臂调整至抓取状态
+void catch_p(void)
 {
-    Servo_Angle_Config(1, 60);
-    Servo_Angle_Config(3, 130);
-    Emm_V5_Pos_Control(1, 00, 300, 250, 0, 01, 00);
-    delay_ms(1000);
+    Servo_Angle_Config(1, servo1_out);
+    Servo_Angle_Config(3, servo3_open);
+    Emm_V5_Pos_Control(1, 00, 300, 250, start_position, 01, 00);
 }
+
+//机械臂默认状态，爪子向内
+void standby_p(void)
+{
+    Servo_Angle_Config(1,servo1_in);
+    Emm_V5_Pos_Control(1, 00, 300, 250, start_position, 01, 00);
+}
+
+
 // 车载转盘位置 1为红色 2为绿色 3为蓝色
 void zp(uint16_t num)
 {
 
     switch (num) {
         case 1:
-            Servo_Angle_Config(2, 49);
+            Servo_Angle_Config(2, servo2_red);
             break;
         case 2:
-            Servo_Angle_Config(2, 140);
+            Servo_Angle_Config(2, servo2_green);
             break;
         case 3:
-            Servo_Angle_Config(2, 225);
+            Servo_Angle_Config(2, servo2_blue);
             break;
         default:
             break;
@@ -198,7 +226,6 @@ void zp(uint16_t num)
 // 从原料区取物块//130142
 void catch (uint16_t num)
 {
-    Servo_Angle_Config(1, 60);
     uint16_t op = 1, x, y;
     op          = 1;
     switch (num) {
@@ -209,12 +236,11 @@ void catch (uint16_t num)
                 y = YY;
                 delay_ms(300);
                 if (abs(XX - x) <= 20 && abs(YY - y) <= 20 && K == 'R' && XX >= 100 && XX <= 240 && YY >= 130 && YY <= 230) {
-                    Servo_Angle_Config(3, 130);
-                    Emm_V5_Pos_Control(1, 1, 400, 250, 3550, 01, 00);
+                    Emm_V5_Pos_Control(1, 1, 400, 250, catch_rew, 01, 00);
                     delay_ms(500);
-                    Servo_Angle_Config(3, 90);
-                    delay_ms(1000);
-                    Emm_V5_Pos_Control(1, 0, 400, 250, 0, 01, 00);
+                    Servo_Angle_Config(3, servo3_close);
+                    delay_ms(500);
+                    Emm_V5_Pos_Control(1, 0, 400, 250, start_position, 01, 00);
                     delay_ms(1000);
                     op = 2;
                 }
@@ -227,12 +253,11 @@ void catch (uint16_t num)
                 y = YY;
                 delay_ms(300);
                 if (abs(XX - x) <= 20 && abs(YY - y) <= 20 && K == 'G' && XX >= 100 && XX <= 240 && YY >= 130 && YY <= 230) {
-                    Servo_Angle_Config(3, 130);
-                    Emm_V5_Pos_Control(1, 1, 400, 250, 3550, 01, 00);
+                    Emm_V5_Pos_Control(1, 1, 400, 250, catch_rew, 01, 00);
                     delay_ms(500);
-                    Servo_Angle_Config(3, 90);
-                    delay_ms(1000);
-                    Emm_V5_Pos_Control(1, 0, 400, 250, 0, 01, 00);
+                    Servo_Angle_Config(3, servo3_close);
+                    delay_ms(500);
+                    Emm_V5_Pos_Control(1, 0, 400, 250, start_position, 01, 00);
                     delay_ms(1000);
                     op = 2;
                 }
@@ -245,12 +270,11 @@ void catch (uint16_t num)
                 y = YY;
                 delay_ms(300);
                 if (abs(XX - x) <= 20 && abs(YY - y) <= 20 && K == 'B' && XX >= 100 && XX <= 240 && YY >= 130 && YY <= 230) {
-                    Servo_Angle_Config(3, 130);
-                    Emm_V5_Pos_Control(1, 1, 400, 250, 3550, 01, 00);
+                    Emm_V5_Pos_Control(1, 1, 400, 250, catch_rew, 01, 00);
                     delay_ms(500);
-                    Servo_Angle_Config(3, 90);
-                    delay_ms(1000);
-                    Emm_V5_Pos_Control(1, 0, 400, 250, 0, 01, 00);
+                    Servo_Angle_Config(3, servo3_close);
+                    delay_ms(500);
+                    Emm_V5_Pos_Control(1, 0, 400, 250, start_position, 01, 00);
                     delay_ms(1000);
                     op = 2;
                 }
@@ -267,126 +291,108 @@ void put(uint16_t num)
     switch (num) {
         case 1: // 红色
             zp(1);
-            Servo_Angle_Config(1, 190);
-
+            Servo_Angle_Config(1, servo1_in);
             delay_ms(1000);
-            Emm_V5_Pos_Control(1, 1, 300, 250, 2010, 01, 00); // 脉冲数待定
-            delay_ms(1000);
-            Servo_Angle_Config(3, 130);
-            delay_ms(1000);
-
-            Emm_V5_Pos_Control(1, 0, 300, 250, 0, 01, 00); // 脉冲数待定
+            Emm_V5_Pos_Control(1, 1, 300, 250, put_turntable, 01, 00); // 脉冲数待定
+            delay_ms(500);
+            Servo_Angle_Config(3, servo3_open);
+            delay_ms(500);
+            Emm_V5_Pos_Control(1, 0, 300, 250, start_position, 01, 00); // 脉冲数待定
             delay_ms(1000);
 
             break;
         case 2: // 绿
             zp(2);
-            Servo_Angle_Config(1, 190);
+            Servo_Angle_Config(1, servo1_in);
+            delay_ms(1000);
+            Emm_V5_Pos_Control(1, 1, 300, 250, put_turntable, 01, 00); // 脉冲数待定
+            delay_ms(500);
+            Servo_Angle_Config(3, servo3_open);
+            delay_ms(500);
+            Emm_V5_Pos_Control(1, 0, 300, 250, start_position, 01, 00); // 脉冲数待定
+            delay_ms(1000);
 
-            delay_ms(1000);
-            Emm_V5_Pos_Control(1, 1, 300, 250, 2010, 01, 00); // 脉冲数待定
-            delay_ms(1000);
-            Servo_Angle_Config(3, 130);
-            delay_ms(1000);
-
-            Emm_V5_Pos_Control(1, 0, 300, 250, 0, 01, 00); // 脉冲数待定
-
-            delay_ms(1000);
             break;
         case 3:
             zp(3);
-            Servo_Angle_Config(1, 190);
-
+            Servo_Angle_Config(1, servo1_in);
             delay_ms(1000);
-            Emm_V5_Pos_Control(1, 1, 300, 250, 2010, 01, 00); // 脉冲数待定
+            Emm_V5_Pos_Control(1, 1, 300, 250, put_turntable, 01, 00); // 脉冲数待定
             delay_ms(1000);
-
-            Servo_Angle_Config(3, 130);
+            Servo_Angle_Config(3, servo3_open);
             delay_ms(1000);
-            Emm_V5_Pos_Control(1, 0, 300, 250, 0, 01, 00); // 脉冲数待定
-
+            Emm_V5_Pos_Control(1, 0, 300, 250, start_position, 01, 00); // 脉冲数待定
             delay_ms(1000);
             break;
         default:
             break;
     }
-    start_p();
 }
 // 从加工区拿取物块
 void catch_huan(void)
 {
-    start_p();
-    Emm_V5_Pos_Control(1, 1, 300, 250, 8900, 01, 00);
-    delay_ms(1000);
-    Servo_Angle_Config(3, 90);
-    delay_ms(1000);
-    Emm_V5_Pos_Control(1, 0, 300, 250, 0, 01, 00);
+    Emm_V5_Pos_Control(1, 1, 300, 250, catch_process, 01, 00);
+    delay_ms(800);
+    Servo_Angle_Config(3, servo3_close);
+    delay_ms(500);
+    Emm_V5_Pos_Control(1, 0, 300, 250, start_position, 01, 00);
     delay_ms(1000);
 }
 // 2070
 //  将转盘中的物料放到加工区
 void put_huan(uint16_t num)
 {
-    start_p();
-    // delay_ms(1000);
     switch (num) {
         case 1:
             zp(1);
-            Servo_Angle_Config(1, 195);
-            delay_ms(1500);
-            Emm_V5_Pos_Control(1, 01, 300, 250, 2070, 01, 00);
+            Servo_Angle_Config(1, servo1_in);
             delay_ms(1000);
-            Servo_Angle_Config(3, 90);
+            Emm_V5_Pos_Control(1, 01, 300, 250, catch_turntable, 01, 00);
+            delay_ms(600);
+            Servo_Angle_Config(3, servo3_close);
+            delay_ms(500);
+            Emm_V5_Pos_Control(1, 0, 300, 250, start_position, 01, 00);
+            delay_ms(500);
+            Servo_Angle_Config(1, servo1_out);
             delay_ms(1000);
-            Emm_V5_Pos_Control(1, 0, 300, 250, 0, 01, 00);
-            delay_ms(1000);
-            Servo_Angle_Config(1, 60);
-            delay_ms(1000);
-            Emm_V5_Pos_Control(1, 01, 300, 250, 8900, 01, 00);
-            delay_ms(1500);
-            Servo_Angle_Config(3, 130);
+            Emm_V5_Pos_Control(1, 01, 300, 250, put_process, 01, 00);
+            delay_ms(800);
+            Servo_Angle_Config(3, servo3_open);
             delay_ms(100);
-            start_p();
-            delay_ms(300);
             break;
         case 2:
             zp(2);
-            Servo_Angle_Config(1, 195);
-            delay_ms(1500);
-            Emm_V5_Pos_Control(1, 01, 300, 250, 2070, 01, 00);
+            Servo_Angle_Config(1, servo1_in);
             delay_ms(1000);
-            Servo_Angle_Config(3, 90);
+            Emm_V5_Pos_Control(1, 01, 300, 250, catch_turntable, 01, 00);
+            delay_ms(600);
+            Servo_Angle_Config(3, servo3_close);
+            delay_ms(500);
+            Emm_V5_Pos_Control(1, 0, 300, 250, start_position, 01, 00);
+            delay_ms(500);
+            Servo_Angle_Config(1, servo1_out);
             delay_ms(1000);
-            Emm_V5_Pos_Control(1, 0, 300, 250, 0, 01, 00);
-            delay_ms(1000);
-            Servo_Angle_Config(1, 60);
-            delay_ms(1000);
-            Emm_V5_Pos_Control(1, 01, 300, 250, 8900, 01, 00);
-            delay_ms(1500);
-            Servo_Angle_Config(3, 130);
+            Emm_V5_Pos_Control(1, 01, 300, 250, put_process, 01, 00);
+            delay_ms(800);
+            Servo_Angle_Config(3, servo3_open);
             delay_ms(100);
-            start_p();
-            delay_ms(300);
             break;
         case 3:
             zp(3);
-            Servo_Angle_Config(1, 195);
-            delay_ms(1500);
-            Emm_V5_Pos_Control(1, 01, 300, 250, 2070, 01, 00);
+            Servo_Angle_Config(1, servo1_in);
             delay_ms(1000);
-            Servo_Angle_Config(3, 90);
+            Emm_V5_Pos_Control(1, 01, 300, 250, catch_turntable, 01, 00);
+            delay_ms(600);
+            Servo_Angle_Config(3, servo3_close);
+            delay_ms(500);
+            Emm_V5_Pos_Control(1, 0, 300, 250, start_position, 01, 00);
+            delay_ms(500);
+            Servo_Angle_Config(1, servo1_out);
             delay_ms(1000);
-            Emm_V5_Pos_Control(1, 0, 300, 250, 0, 01, 00);
-            delay_ms(1000);
-            Servo_Angle_Config(1, 60);
-            delay_ms(1000);
-            Emm_V5_Pos_Control(1, 01, 300, 250, 8900, 01, 00);
-            delay_ms(1500);
-            Servo_Angle_Config(3, 130);
+            Emm_V5_Pos_Control(1, 01, 300, 250, put_process, 01, 00);
+            delay_ms(800);
+            Servo_Angle_Config(3, servo3_open);
             delay_ms(100);
-            start_p();
-            delay_ms(300);
-            break;
         default:
             break;
     }
@@ -399,60 +405,63 @@ void maduo(uint16_t num)
     switch (num) {
         case 1: // 红色
 
-            Servo_Angle_Config(1, 195);
-            Servo_Angle_Config(3, 130);
+            Servo_Angle_Config(1, servo1_in);
+            Servo_Angle_Config(3, servo3_open);
             zp(1);
             delay_ms(1000);
-            Emm_V5_Pos_Control(1, 01, 300, 250, 2070, 01, 00); // 脉冲数待定
-            delay_ms(1500);
-            Servo_Angle_Config(3, 90);
+            Emm_V5_Pos_Control(1, 01, 300, 250, catch_turntable, 01, 00); // 脉冲数待定
+            delay_ms(500);
+            Servo_Angle_Config(3, servo3_close);
+            delay_ms(500);
+            Emm_V5_Pos_Control(1, 00, 300, 250, start_position, 01, 00); // 脉冲数待定
+            delay_ms(700);
+            Servo_Angle_Config(1, servo1_out);
             delay_ms(1000);
-            Emm_V5_Pos_Control(1, 00, 300, 250, 0, 01, 00); // 脉冲数待定
-            delay_ms(2000);
-            Servo_Angle_Config(1, 60);
-            Emm_V5_Pos_Control(1, 01, 300, 250, 4180, 01, 00); // 脉冲数待定
-            delay_ms(3000);
-            Servo_Angle_Config(3, 130);
-            Emm_V5_Pos_Control(1, 0, 400, 250, 0, 01, 00);
-            start_p();
+            Emm_V5_Pos_Control(1, 01, 300, 250, put_maduo, 01, 00); // 脉冲数待定
+            delay_ms(800);
+            Servo_Angle_Config(3, servo3_open);
+            delay_ms(500);
+            Emm_V5_Pos_Control(1, 0, 400, 250, start_position, 01, 00);
             delay_ms(1000);
             break;
         case 2: // 绿
-            Servo_Angle_Config(1, 195);
-            Servo_Angle_Config(3, 130);
+            Servo_Angle_Config(1, servo1_in);
+            Servo_Angle_Config(3, servo3_open);
             zp(2);
             delay_ms(1000);
-            Emm_V5_Pos_Control(1, 01, 300, 250, 2070, 01, 00); // 脉冲数待定
-            delay_ms(1500);
-            Servo_Angle_Config(3, 90);
+            Emm_V5_Pos_Control(1, 01, 300, 250, catch_turntable, 01, 00); // 脉冲数待定
+            delay_ms(500);
+            Servo_Angle_Config(3, servo3_close);
+            delay_ms(500);
+            Emm_V5_Pos_Control(1, 00, 300, 250, start_position, 01, 00); // 脉冲数待定
+            delay_ms(700);
+            Servo_Angle_Config(1, servo1_out);
             delay_ms(1000);
-            Emm_V5_Pos_Control(1, 00, 300, 250, 0, 01, 00); // 脉冲数待定
-            delay_ms(1000);
-            Servo_Angle_Config(1, 60);
-            Emm_V5_Pos_Control(1, 01, 300, 250, 4180, 01, 00); // 脉冲数待定
-            delay_ms(3000);
-            Servo_Angle_Config(3, 130);
-            Emm_V5_Pos_Control(1, 0, 400, 250, 0, 01, 00);
-            start_p();
+            Emm_V5_Pos_Control(1, 01, 300, 250, put_maduo, 01, 00); // 脉冲数待定
+            delay_ms(800);
+            Servo_Angle_Config(3, servo3_open);
+            delay_ms(500);
+            Emm_V5_Pos_Control(1, 0, 400, 250, start_position, 01, 00);
             delay_ms(1000);
             break;
         case 3:
-            Servo_Angle_Config(1, 195);
-            Servo_Angle_Config(3, 130);
+            Servo_Angle_Config(1, servo1_in);
+            Servo_Angle_Config(3, servo3_open);
             zp(3);
             delay_ms(1000);
-            Emm_V5_Pos_Control(1, 01, 300, 250, 2070, 01, 00); // 脉冲数待定
-            delay_ms(1500);
-            Servo_Angle_Config(3, 90);
+            Emm_V5_Pos_Control(1, 01, 300, 250, catch_turntable, 01, 00); // 脉冲数待定
+            delay_ms(500);
+            Servo_Angle_Config(3, servo3_close);
+            delay_ms(500);
+            Emm_V5_Pos_Control(1, 00, 300, 250, start_position, 01, 00); // 脉冲数待定
+            delay_ms(700);
+            Servo_Angle_Config(1, servo1_out);
             delay_ms(1000);
-            Emm_V5_Pos_Control(1, 00, 300, 250, 0, 01, 00); // 脉冲数待定
-            delay_ms(1000);
-            Servo_Angle_Config(1, 60);
-            Emm_V5_Pos_Control(1, 01, 300, 250, 4180, 01, 00); // 脉冲数待定
-            delay_ms(3000);
-            Servo_Angle_Config(3, 130);
-            Emm_V5_Pos_Control(1, 0, 400, 250, 0, 01, 00);
-            start_p();
+            Emm_V5_Pos_Control(1, 01, 300, 250, put_maduo, 01, 00); // 脉冲数待定
+            delay_ms(800);
+            Servo_Angle_Config(3, servo3_open);
+            delay_ms(500);
+            Emm_V5_Pos_Control(1, 0, 400, 250, start_position, 01, 00);
             delay_ms(1000);
             break;
         default:

@@ -370,6 +370,7 @@ Emm_V5_Vel_Control(4, 0, speeed, 1,  0);
 //gg=0就是色环，gg=2就是地上色块,gg1就是原料区的色块
 void weitiao(int gg)
 {
+	catch_p();
 	//原料区的色块
 	if(gg==1)
    {
