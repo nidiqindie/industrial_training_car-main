@@ -19,6 +19,7 @@
 
 */
 //
+////
 int now = 2;
 #define speed_all          300
 #define acc_all            100
@@ -36,7 +37,7 @@ void Roughing_to_staging_area();
 void go_to_target(int target, int Type_of_fine_tuning);
 
 void goto_rough();
-
+//nihao
 int main(void)
 {
 
