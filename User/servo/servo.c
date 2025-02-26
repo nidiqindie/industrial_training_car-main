@@ -14,7 +14,9 @@ extern uint16_t task[2];
 
 /*****************************SERVO**********************/
 
-#define zp_red 
+#define zp_red 50
+#define zp_blue 100
+
 
 
 static void SERVO_TIM_GPIO_Config(void)
