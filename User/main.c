@@ -42,8 +42,12 @@ int main(void)
 {
 
     car_init();
-
-
+    move_forward(speed_all, 100, 7.7);
+    while (1)
+    {
+        
+    }
+    
     
     // 出来
     move_left(speed_all, acc_all, 0.5);

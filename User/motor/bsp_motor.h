@@ -9,7 +9,7 @@
 #include "Emm_V5.h"
 #include <stdbool.h>
 #include "delay.h"
-
+#include <math.h>
 #include "Serial.h"
 #include "servo.h"
 #include "Serial_k210.h"
