@@ -43,7 +43,7 @@ int Angular_mutation_flag=0;
 
 //电机转动方向标志位
 int cw_5,cw_2,cw_3,cw_4;
-
+#define yaw_vel 30 
 void yaw_run(int16_t target_yaw,int16_t error_range)
 {
 	
@@ -51,12 +51,12 @@ void yaw_run(int16_t target_yaw,int16_t error_range)
 	{
 		if((target_yaw - curAngle) <= 180) //右转
 		{
-			L_R(50,10);
+			L_R(yaw_vel,10);
 		}
 		else{                //左转
-             R_R(50,10);
+             R_R(yaw_vel,10);
 		}
-		while(abs(target_yaw-curAngle) > error_range);
+		while(abs(target_yaw-abs(curAngle)) > error_range);
 		stop();
 	}
 	
@@ -64,12 +64,12 @@ void yaw_run(int16_t target_yaw,int16_t error_range)
 	{
 		if((curAngle- target_yaw) <= 180) //左转
 		{
-	R_R(50,10);
+	R_R(yaw_vel,10);
 		}
 		else{                //右转
-	L_R(50,10);	
+	L_R(yaw_vel,10);	
 	}
-		while(abs(target_yaw-curAngle) > error_range);
+		while(abs(target_yaw-abs(curAngle)) > error_range);
 		stop();
 		}
 }
@@ -106,7 +106,7 @@ void yaw_run(int16_t target_yaw,int16_t error_range)
 
 //这几个控制运动函数speed表示速度，100速度就行
 //前进
-#define reparation_forward 0.1
+#define reparation_forward 0
 void move_forward(uint16_t speed,uint16_t j, float quan)  //speed指每10ms脉冲个数
 {
 cw_5=1;
@@ -130,7 +130,7 @@ Emm_V5_Pos_Control(2, 1, speed-(reparation_forward*speed), j, (int)(3200*quan), 
 
 
 //后退
-#define reparation_backward 0.15
+#define reparation_backward 0
 void move_backward(uint16_t speed,uint16_t j,float quan)  //speed指每10ms脉冲个数
 {
 
@@ -154,7 +154,7 @@ delay_ms(1);
 }
 
 // 左
-#define reparation_left 0.32
+#define reparation_left 0.2
 void move_left(uint16_t speed, uint16_t j, float quan) // speed指每10ms脉冲个数
 {
 
@@ -175,7 +175,7 @@ void move_left(uint16_t speed, uint16_t j, float quan) // speed指每10ms脉冲�
     delay_ms(1);
 }
 // 右
-#define reparation_right 0.15
+#define reparation_right 0.1
 void move_right(uint16_t speed, uint16_t j, float quan) // speed指每10ms脉冲个数
 {
 
@@ -365,13 +365,13 @@ Emm_V5_Vel_Control(4, 0, speeed, 1,  0);
 
 
 }
-#define gg_0_X 160
-#define gg_0_Y 139 
-#define gg_1_X 153 
-#define gg_1_Y 195
-#define gg_2_X 151
-#define gg_2_Y 146  
-//gg=0就是色环，gg=2就是地上色块,gg1就是原料区的色块
+#define gg_0_X 158
+#define gg_0_Y 106 
+#define gg_1_X 152
+#define gg_1_Y 138
+#define gg_2_X 152
+#define gg_2_Y 106
+// gg=0就是色环,gg1就是原料区的色块,gg=2就是地上色块
 void weitiao(int gg)
 {
 	catch_p();

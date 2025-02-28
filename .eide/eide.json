@@ -575,17 +575,12 @@
         },
         "options": "null"
       },
-      "uploader": "STLink",
+      "uploader": "OpenOCD",
       "uploadConfig": {
         "bin": "",
-        "proType": "SWD",
-        "resetMode": "default",
-        "runAfterProgram": true,
-        "speed": 4000,
-        "address": "0x8000000",
-        "elFile": "None",
-        "optionBytes": ".eide/rct6.st.option.bytes.ini",
-        "otherCmds": ""
+        "target": "stm32f1x",
+        "interface": "cmsis-dap-v1",
+        "baseAddr": "0x08000000"
       },
       "uploadConfigMap": {
         "JLink": {
@@ -607,7 +602,7 @@
           "speed": 4000,
           "address": "0x8000000",
           "elFile": "None",
-          "optionBytes": ".eide/f103c8t6_bsptemplate.st.option.bytes.ini",
+          "optionBytes": ".eide/rct6.st.option.bytes.ini",
           "otherCmds": ""
         }
       },

@@ -23,7 +23,7 @@
 int now = 2;
 #define speed_all          300
 #define acc_all            100
-#define big_calibrations   5
+#define big_calibrations   2
 #define smill_calibrations 1
 extern uint8_t Serial_RxFlag, K;
 char color;
@@ -41,14 +41,7 @@ void goto_rough();
 int main(void)
 {
 
-    car_init();
-    move_forward(speed_all, 100, 7.7);
-    while (1)
-    {
-        
-    }
-    
-    
+    car_init(); 
     // 出来
     move_left(speed_all, acc_all, 0.5);
     delay_ms(1000);
@@ -57,18 +50,18 @@ int main(void)
     move_forward(speed_all, 10, 2.4);
     delay_ms(3000);
 
-    // while (task[0] == 0 || task[1] == 0); // 二维码识别发送
+    while (task[0] == 0 || task[1] == 0); // 二维码识别发送
 
-    // sprintf((char *)buf, "page0.t0.txt=\"%d\"", task[0]); // 强制类型转化，转化为字符串
-    // HMISends((char *)buf);                                // 发送Ri的数据给page0页面的t3文本控件
-    // HMISendb(0xff);                                       // 结束符
-    // delay_ms(speed_all);
-    // sprintf((char *)buf, "page0.t1.txt=\"%d\"", task[1]); // 强制类型转化，转化为字符串
-    // HMISends((char *)buf);                                // 发送Ri的数据给page0页面的t3文本控件
-    // HMISendb(0xff);                                       // 结束符
+    sprintf((char *)buf, "page0.t0.txt=\"%d\"", task[0]); // 强制类型转化，转化为字符串
+    HMISends((char *)buf);                                // 发送Ri的数据给page0页面的t3文本控件
+    HMISendb(0xff);                                       // 结束符
+    delay_ms(speed_all);
+    sprintf((char *)buf, "page0.t1.txt=\"%d\"", task[1]); // 强制类型转化，转化为字符串
+    HMISends((char *)buf);                                // 发送Ri的数据给page0页面的t3文本控件
+    HMISendb(0xff);                                       // 结束符
 
     // 前进到获取物料
-    move_forward(speed_all, acc_all, 3.2);
+    move_forward(speed_all, acc_all, 3.3);
     delay_ms(3000);
     move_right(speed_all, acc_all, 0.1);
     // 微调加抓取
@@ -262,12 +255,11 @@ void goto_rough()
     move_backward(speed_all, acc_all, 1.5);
     delay_ms(1900);
     yaw_run(90, big_calibrations);
+    delay_ms(300);
+    yaw_run(90, smill_calibrations);
     move_forward(speed_all, acc_all, 3.5);
     delay_ms(2800);
 
-    // 转人工
-    move_right(speed_all, 20, 0.21);
-    delay_ms(500);
     yaw_run(90, smill_calibrations);
     move_forward(speed_all, acc_all, 3.35);
     delay_ms(2800);
@@ -275,19 +267,18 @@ void goto_rough()
 
     catch_p();
     yaw_run(180, big_calibrations);
-    move_right(speed_all, 20, 0.2);
-
+    move_right(speed_all, 20, 0.4);
     delay_ms(500);
+    yaw_run(180, smill_calibrations);   
     now = 2;
-    go_to_target(2, 0);
 }
 // 粗加工到暂存区
 void Roughing_to_staging_area()
 {
-    move_left(speed_all, acc_all, 3.35);
+    move_left(speed_all, acc_all, 3.3);
     delay_ms(3000);
     yaw_run(90, big_calibrations);
-    move_right(speed_all, acc_all, 3.57);
+    move_right(speed_all, acc_all, 3.4);
     delay_ms(3000);
     catch_p();
     yaw_run(90, smill_calibrations);
@@ -297,7 +288,7 @@ void Roughing_to_staging_area()
 // Type_of_fine_tuning=0就是色环，Type_of_fine_tuning=2就是地上色块,Type_of_fine_tuning=1就是原料区的色块
 void go_to_target(int target, int Type_of_fine_tuning)
 {
-
+    delay_ms(50);
     while (now != target) {
 
         if (target > now) {
