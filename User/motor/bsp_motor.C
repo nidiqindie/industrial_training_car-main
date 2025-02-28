@@ -43,7 +43,18 @@ int Angular_mutation_flag=0;
 
 //电机转动方向标志位
 int cw_5,cw_2,cw_3,cw_4;
-#define yaw_vel 30 
+//转动的速度
+#define yaw_vel 30
+//微调坐标
+#define gg_0_X  158
+#define gg_0_Y  106
+#define gg_1_X  152
+#define gg_1_Y  190
+#define gg_2_X  152
+#define gg_2_Y  106
+// gg=0就是色环,gg1就是原料区的色块,gg=2就是地上色块
+
+//转动函数
 void yaw_run(int16_t target_yaw,int16_t error_range)
 {
 	
@@ -365,12 +376,7 @@ Emm_V5_Vel_Control(4, 0, speeed, 1,  0);
 
 
 }
-#define gg_0_X 158
-#define gg_0_Y 106 
-#define gg_1_X 152
-#define gg_1_Y 138
-#define gg_2_X 152
-#define gg_2_Y 106
+
 // gg=0就是色环,gg1就是原料区的色块,gg=2就是地上色块
 void weitiao(int gg)
 {
@@ -535,6 +541,8 @@ void weitiao_2(void)
 
 	}
 	weitiao(2);
+    move_right(300, 30, 0.055);
+    delay_ms(300);
 }
 void se_huan(uint16_t num)
 {
