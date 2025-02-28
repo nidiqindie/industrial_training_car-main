@@ -35,14 +35,17 @@ void goto_rough();
 void Roughing_to_staging_area();
 
 void go_to_target(int target, int Type_of_fine_tuning);
-
+extern uint8_t Rxflag_0;
+extern uint8_t Rxflag_1;
+extern uint8_t Rxflag_2;
 void goto_rough();
 
 int main(void)
 {
 
     car_init();
-
+   
+    
     
 
     
@@ -68,10 +71,10 @@ int main(void)
     move_forward(speed_all, acc_all, 3.3);
     delay_ms(2500);
     move_right(speed_all, acc_all, 0.1);
+    delay_ms(500);
     // 微调加抓取
     // 微调（转盘色块）
     catch_p();
-    delay_ms(2000);
     weitiao_2();
     
     catch (task[0] / 100);
@@ -204,14 +207,16 @@ int main(void)
     move_left(speed_all, 20, 0.2);
     delay_ms(500);
     yaw_run(0, smill_calibrations);
-    move_backward(speed_all, acc_all, 1.5);
+    move_backward(speed_all, acc_all, 1.63);
     delay_ms(1900);
     yaw_run(90, big_calibrations);
     delay_ms(300);
     yaw_run(90, smill_calibrations);
     move_forward(speed_all, acc_all, 3.5);
     delay_ms(2800);
-
+    //转人工
+    move_right(speed_all, 20, 0.05);
+    delay_ms(300);
     yaw_run(90, smill_calibrations);
     move_forward(speed_all, acc_all, 3.415);
     delay_ms(2800);
@@ -329,13 +334,15 @@ void Roughing_to_staging_area()
     move_left(speed_all, acc_all, 3.3);
     delay_ms(3000);
     yaw_run(180, smill_calibrations);
+    delay_ms(100);
     move_backward(speed_all, acc_all, 3.4);
     delay_ms(3000);
     yaw_run(90, big_calibrations);
     catch_p();
     yaw_run(90, smill_calibrations);
-    move_right(speed_all,20,0.3);
+    move_right(speed_all,20,0.24);
     delay_ms(500);
+    yaw_run(90, smill_calibrations);
 }
 
 // 粗加工区按顺序位移，已包含了微调
@@ -347,13 +354,14 @@ void go_to_target(int target, int Type_of_fine_tuning)
 
         if (target > now) {
             now++;
-            move_forward(speed_all, acc_all, 0.61);
-            delay_ms(1000);
+            // 前进0.59 后退0.596
+            move_forward(speed_all, acc_all, 0.59);
+            delay_ms(1500);
             /* code */
         } else if (target < now) {
             now--;
-            move_backward(speed_all, acc_all, 0.59);
-            delay_ms(1000);
+            move_backward(speed_all, acc_all, 0.596);
+            delay_ms(1500);
             /* code */
         }
     }

@@ -456,7 +456,11 @@ extern uint8_t Serial_RxFlag;
 extern uint8_t K,X1, X2, X3, Y1, Y2, Y3, S1, S2, S3, S4, S5;  
 extern uint16_t DistanceX,DistanceY,Size,XX,YY,XX1,YY1;
 extern uint8_t KK;  
-//串口三的中断 
+//串口三的中断
+uint8_t Rxflag_0 = 0;
+uint8_t Rxflag_1 = 0;
+uint8_t Rxflag_2 = 0;
+float a          = 0;
 void DEBUG_USART3_IRQHandler(void)
 {    
     static uint8_t RxState = 0;        // 接收状态机
@@ -468,63 +472,18 @@ void DEBUG_USART3_IRQHandler(void)
         uint8_t RxData = USART_ReceiveData(USART3);  // 读取接收到的数据
         
         // 接收状态为0，等待数据包的开始标识'@'
-        if (RxState == 0)
+        if (RxState == '0')
         {
-            if (RxData == '@' && Serial_RxFlag == 0)
-            {    
-                RxState = 1;   // 进入状态1，表示开始接收数据
-                pRxPacket = 0; // 数据包索引重置
-            }
+            Rxflag_0 = 1;
         }
         // 接收状态为1，接收数据包内容
-        else if (RxState == 1)
-        {
-            // 如果接收到'@'并且数据包长度为12，进入状态2
-            if (RxData == '@' && pRxPacket == 12)
-            {
-                RxState = 2;   // 进入状态2，数据接收完成
-            }
-            else
-            {
-                // 存储接收到的数据到Serial_RxPacket数组
-                Serial_RxPacket[pRxPacket] = RxData;
-                pRxPacket++;  // 增加数据包索引
-
-                // 如果数据包长度达到12，则进行处理
-                if (pRxPacket == 12)
-                {
-                    // 处理完成时的操作，例如显示 OLED
-                }
-            }
+        if (RxState == '1') {
+Rxflag_1 = 1;
+        
         }
         // 接收状态为2，处理数据包内容
-        else if (RxState == 2)
-        {
-            // 检查数据包的结束标识'@'
-            if (RxData == '@')
-            { 
-                // 将Serial_RxPacket数组的内容分配给对应变量
-                K = Serial_RxPacket[0]; // 解析K值
-                X1 = Serial_RxPacket[1];
-                X2 = Serial_RxPacket[2];
-                X3 = Serial_RxPacket[3];
-                Y1 = Serial_RxPacket[4];
-                Y2 = Serial_RxPacket[5];
-                Y3 = Serial_RxPacket[6];
-                S1 = Serial_RxPacket[7];
-                S2 = Serial_RxPacket[8];
-                S3 = Serial_RxPacket[9];
-                S4 = Serial_RxPacket[10];
-                S5 = Serial_RxPacket[11]; // 解析S值
-                
-                // 将字符转化为数字，计算距离和大小
-                DistanceX = (X1 - 48) * 100 + (X2 - 48) * 10 + (X3 - 48);
-                DistanceY = (Y1 - 48) * 100 + (Y2 - 48) * 10 + (Y3 - 48);
-                Size = (S1 - 48) * 10000 + (S2 - 48) * 1000 + (S3 - 48) * 100 + (S4 - 48) * 10 + (S5 - 48);
-
-                RxState = 0;  // 重置状态，准备接收下一个数据包
-                Serial_RxFlag = 0;  // 清除接收标志
-            }
+        if (RxState == '2') {
+            Rxflag_2 = 1;
         }
 
         // 根据K值进行条件处理

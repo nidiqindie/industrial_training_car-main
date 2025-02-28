@@ -604,12 +604,6 @@
           "elFile": "None",
           "optionBytes": ".eide/rct6.st.option.bytes.ini",
           "otherCmds": ""
-        },
-        "OpenOCD": {
-          "bin": "",
-          "target": "stm32f1x",
-          "interface": "cmsis-dap-v1",
-          "baseAddr": "0x08000000"
         }
       },
       "custom_dep": {
