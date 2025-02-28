@@ -25,8 +25,8 @@ extern uint16_t task[2];
 #define servo1_in 195      //机械臂向内
 
 //爪子舵机PWM值
-#define servo3_close 91     //爪子抓取
-#define servo3_open 120      //爪子展开
+#define servo3_close 57     //爪子抓取
+#define servo3_open 110      //爪子展开
 
 //机械臂步进电机脉冲数
 #define start_position 0    //爪子起始位置，最高处

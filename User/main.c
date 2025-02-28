@@ -43,6 +43,7 @@ int main(void)
 
     car_init();
 
+    
 
     
     // 出来
