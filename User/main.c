@@ -23,7 +23,7 @@
 int now = 2;
 #define speed_all          300
 #define acc_all            100
-#define big_calibrations   5
+#define big_calibrations   2
 #define smill_calibrations 1
 extern uint8_t Serial_RxFlag, K;
 char color;
@@ -42,13 +42,8 @@ int main(void)
 {
 
     car_init();
-    
-    while (1)
-    {
-        Servo_Angle_Config(1,130);
-        
-    }
-    
+
+
     
     // 出来
     move_left(speed_all, acc_all, 0.5);
@@ -58,25 +53,26 @@ int main(void)
     move_forward(speed_all, 10, 2.4);
     delay_ms(3000);
 
-    // while (task[0] == 0 || task[1] == 0); // 二维码识别发送
+    while (task[0] == 0 || task[1] == 0); // 二维码识别发送
 
-    // sprintf((char *)buf, "page0.t0.txt=\"%d\"", task[0]); // 强制类型转化，转化为字符串
-    // HMISends((char *)buf);                                // 发送Ri的数据给page0页面的t3文本控件
-    // HMISendb(0xff);                                       // 结束符
-    // delay_ms(speed_all);
-    // sprintf((char *)buf, "page0.t1.txt=\"%d\"", task[1]); // 强制类型转化，转化为字符串
-    // HMISends((char *)buf);                                // 发送Ri的数据给page0页面的t3文本控件
-    // HMISendb(0xff);                                       // 结束符
+    sprintf((char *)buf, "page0.t0.txt=\"%d\"", task[0]); // 强制类型转化，转化为字符串
+    HMISends((char *)buf);                                // 发送Ri的数据给page0页面的t3文本控件
+    HMISendb(0xff);                                       // 结束符
+    delay_ms(speed_all);
+    sprintf((char *)buf, "page0.t1.txt=\"%d\"", task[1]); // 强制类型转化，转化为字符串
+    HMISends((char *)buf);                                // 发送Ri的数据给page0页面的t3文本控件
+    HMISendb(0xff);                                       // 结束符
 
     // 前进到获取物料
-    move_forward(speed_all, acc_all, 3.2);
-    delay_ms(3000);
+    move_forward(speed_all, acc_all, 3.3);
+    delay_ms(2500);
     move_right(speed_all, acc_all, 0.1);
     // 微调加抓取
     // 微调（转盘色块）
     catch_p();
     delay_ms(2000);
     weitiao_2();
+    
     catch (task[0] / 100);
     put(task[0] / 100);
     catch_p();
@@ -90,7 +86,33 @@ int main(void)
     standby_p();
     // 从物料区跑到粗加工区
     // 后退转弯到粗加工
-    goto_rough();
+
+
+    
+    move_left(speed_all, 20, 0.2);
+    delay_ms(500);
+    yaw_run(0, smill_calibrations);
+    move_backward(speed_all, acc_all, 1.5);
+    delay_ms(1900);
+    yaw_run(90, big_calibrations);
+    delay_ms(300);
+    yaw_run(90, smill_calibrations);
+    move_forward(speed_all, acc_all, 3.5);
+    delay_ms(2800);
+
+    yaw_run(90, smill_calibrations);
+    move_forward(speed_all, acc_all, 3.415);
+    delay_ms(2800);
+
+    catch_p();
+    yaw_run(180, big_calibrations);
+    move_right(speed_all, 20, 0.4);
+    delay_ms(500);
+    yaw_run(180, smill_calibrations);
+    now = 2;
+
+
+
     catch_p();
     // 加工物料
     now = 2;
@@ -121,13 +143,9 @@ int main(void)
     put(task[0] % 10);
     catch_p();
 
-    go_to_target(2, 0);
-    standby_p();
-
-    yaw_run(180, smill_calibrations);
-    move_left(speed_all, acc_all, 0.6);
-    delay_ms(800);
-    // 粗加工到暂存区
+ 
+   
+    //粗加工到暂存区
     Roughing_to_staging_area();
 
     // 暂存区放置物料
@@ -152,7 +170,7 @@ int main(void)
     // 暂存区到抓取二轮物料
     move_left(speed_all, 20, 0.5);
     delay_ms(800);
-    move_backward(speed_all, acc_all, 2.8);
+    move_backward(speed_all, acc_all, 3.1);
     delay_ms(3000);
     yaw_run(0, big_calibrations);
     move_backward(speed_all, acc_all, 1.5);
@@ -160,13 +178,14 @@ int main(void)
 
     catch_p();
     yaw_run(0, smill_calibrations);
-    move_right(speed_all, 20, 0.2);
+    move_right(speed_all, 20, 0.4);
     delay_ms(500);
 
     // 从原料区抓取物料
 
     // 微调
     weitiao_2();
+  
     catch_p();
     catch (task[1] / 100);
     put(task[1] / 100);
@@ -181,7 +200,27 @@ int main(void)
 
     // 从物料区跑到粗加工区
     // 后退转弯到粗加工
-    goto_rough();
+    move_left(speed_all, 20, 0.2);
+    delay_ms(500);
+    yaw_run(0, smill_calibrations);
+    move_backward(speed_all, acc_all, 1.5);
+    delay_ms(1900);
+    yaw_run(90, big_calibrations);
+    delay_ms(300);
+    yaw_run(90, smill_calibrations);
+    move_forward(speed_all, acc_all, 3.5);
+    delay_ms(2800);
+
+    yaw_run(90, smill_calibrations);
+    move_forward(speed_all, acc_all, 3.415);
+    delay_ms(2800);
+
+    catch_p();
+    yaw_run(180, big_calibrations);
+    move_right(speed_all, 20, 0.4);
+    delay_ms(500);
+    yaw_run(180, smill_calibrations);
+    now = 2;
     // 在这里写放置函数
     // 微调
     catch_p();
@@ -216,10 +255,8 @@ int main(void)
     put(task[1] % 10);
     catch_p();
 
-    go_to_target(2, 0);
-    standby_p();
-    move_left(speed_all, 20, 0.2);
-    delay_ms(500);
+   
+   
 
     // 粗加工到暂存区
     Roughing_to_staging_area();
@@ -263,12 +300,11 @@ void goto_rough()
     move_backward(speed_all, acc_all, 1.5);
     delay_ms(1900);
     yaw_run(90, big_calibrations);
+    delay_ms(300);
+    yaw_run(90, smill_calibrations);
     move_forward(speed_all, acc_all, 3.5);
     delay_ms(2800);
 
-    // 转人工
-    move_right(speed_all, 20, 0.21);
-    delay_ms(500);
     yaw_run(90, smill_calibrations);
     move_forward(speed_all, acc_all, 3.35);
     delay_ms(2800);
@@ -276,29 +312,36 @@ void goto_rough()
 
     catch_p();
     yaw_run(180, big_calibrations);
-    move_right(speed_all, 20, 0.2);
-
+    move_right(speed_all, 20, 0.4);
     delay_ms(500);
+    yaw_run(180, smill_calibrations);   
     now = 2;
-    go_to_target(2, 0);
 }
 // 粗加工到暂存区
 void Roughing_to_staging_area()
 {
-    move_left(speed_all, acc_all, 3.35);
+    go_to_target(2, 0);
+    standby_p();
+    yaw_run(180, smill_calibrations);
+    move_left(speed_all, acc_all, 0.4);
+    delay_ms(800);
+    move_left(speed_all, acc_all, 3.3);
+    delay_ms(3000);
+    yaw_run(180, smill_calibrations);
+    move_backward(speed_all, acc_all, 3.4);
     delay_ms(3000);
     yaw_run(90, big_calibrations);
-    move_right(speed_all, acc_all, 3.57);
-    delay_ms(3000);
     catch_p();
     yaw_run(90, smill_calibrations);
+    move_right(speed_all,20,0.3);
+    delay_ms(500);
 }
 
 // 粗加工区按顺序位移，已包含了微调
 // Type_of_fine_tuning=0就是色环，Type_of_fine_tuning=2就是地上色块,Type_of_fine_tuning=1就是原料区的色块
 void go_to_target(int target, int Type_of_fine_tuning)
 {
-
+    delay_ms(50);
     while (now != target) {
 
         if (target > now) {

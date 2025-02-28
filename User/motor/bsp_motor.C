@@ -43,7 +43,18 @@ int Angular_mutation_flag=0;
 
 //电机转动方向标志位
 int cw_5,cw_2,cw_3,cw_4;
+//转动的速度
+#define yaw_vel 30
+//微调坐标
+#define gg_0_X  158
+#define gg_0_Y  106
+#define gg_1_X  152
+#define gg_1_Y  190
+#define gg_2_X  152
+#define gg_2_Y  106
+// gg=0就是色环,gg1就是原料区的色块,gg=2就是地上色块
 
+//转动函数
 void yaw_run(int16_t target_yaw,int16_t error_range)
 {
 	
@@ -51,12 +62,12 @@ void yaw_run(int16_t target_yaw,int16_t error_range)
 	{
 		if((target_yaw - curAngle) <= 180) //右转
 		{
-			L_R(50,10);
+			L_R(yaw_vel,10);
 		}
 		else{                //左转
-             R_R(50,10);
+             R_R(yaw_vel,10);
 		}
-		while(abs(target_yaw-curAngle) > error_range);
+		while(abs(target_yaw-abs(curAngle)) > error_range);
 		stop();
 	}
 	
@@ -64,12 +75,12 @@ void yaw_run(int16_t target_yaw,int16_t error_range)
 	{
 		if((curAngle- target_yaw) <= 180) //左转
 		{
-	R_R(50,10);
+	R_R(yaw_vel,10);
 		}
 		else{                //右转
-	L_R(50,10);	
+	L_R(yaw_vel,10);	
 	}
-		while(abs(target_yaw-curAngle) > error_range);
+		while(abs(target_yaw-abs(curAngle)) > error_range);
 		stop();
 		}
 }
@@ -105,29 +116,32 @@ void yaw_run(int16_t target_yaw,int16_t error_range)
 */
 
 //这几个控制运动函数speed表示速度，100速度就行
+//前进
+#define reparation_forward 0
 void move_forward(uint16_t speed,uint16_t j, float quan)  //speed指每10ms脉冲个数
 {
 cw_5=1;
 cw_2=1;
 cw_3=0;
 cw_4=0;
-Emm_V5_Pos_Control(5, 1, speed, j, (int)(3200*quan), 0, 0);
-	 delay_ms(1);
+Emm_V5_Pos_Control(5, 1, speed - (reparation_forward*speed), j, (int)(3200 * quan), 0, 0);
+delay_ms(1);
 	
-Emm_V5_Pos_Control(2, 1, speed-2, j, (int)(3200*quan), 0, 0);
+Emm_V5_Pos_Control(2, 1, speed-(reparation_forward*speed), j, (int)(3200*quan), 0, 0);
 	 delay_ms(1);
-	
-Emm_V5_Pos_Control(3, 0, speed+2, j, (int)(3200*quan), 0, 0);
-	 delay_ms(1);
-	
-Emm_V5_Pos_Control(4, 0, speed, j, (int)(3200*quan), 0, 0);
-	 delay_ms(1);
+
+     Emm_V5_Pos_Control(3, 0, speed + (reparation_forward * speed), j, (int)(3200 * quan), 0, 0);
+     delay_ms(1);
+
+     Emm_V5_Pos_Control(4, 0, speed + (reparation_forward * speed), j, (int)(3200 * quan), 0, 0);
+     delay_ms(1);
 
 
 }
 
 
 //后退
+#define reparation_backward 0
 void move_backward(uint16_t speed,uint16_t j,float quan)  //speed指每10ms脉冲个数
 {
 
@@ -135,20 +149,65 @@ cw_5=0;
 cw_2=0;
 cw_3=1;
 cw_4=1;
-Emm_V5_Pos_Control(5, 0, speed-1, j,(int)(3200*quan), 0, 0);
-	 delay_ms(1);
-	
-Emm_V5_Pos_Control(2, 0, speed+1, j, (int)(3200*quan), 0, 0);
-	 delay_ms(1);
-	
-Emm_V5_Pos_Control(3, 1, speed-1, j, (int)(3200*quan), 0, 0);
-	 delay_ms(1);
-	
-Emm_V5_Pos_Control(4, 1, speed+1, j,(int)(3200*quan), 0, 0);
-	 delay_ms(1);
+Emm_V5_Pos_Control(5, 0, speed - (reparation_backward * speed), j, (int)(3200 * quan), 0, 0);
+delay_ms(1);
+
+Emm_V5_Pos_Control(2, 0, speed - (reparation_backward * speed), j, (int)(3200 * quan), 0, 0);
+delay_ms(1);
+
+Emm_V5_Pos_Control(3, 1, speed + (reparation_backward * speed), j, (int)(3200 * quan), 0, 0);
+delay_ms(1);
+
+Emm_V5_Pos_Control(4, 1, speed + (reparation_backward * speed), j, (int)(3200 * quan), 0, 0);
+delay_ms(1);
 
 
 }
+
+// 左
+#define reparation_left 0.2
+void move_left(uint16_t speed, uint16_t j, float quan) // speed指每10ms脉冲个数
+{
+
+    cw_5 = 1;
+    cw_2 = 0;
+    cw_3 = 1;
+    cw_4 = 0;
+    Emm_V5_Pos_Control(5, 1, speed+ceil(reparation_left*speed), j, (int)(3200 * quan), 0, 0);
+    delay_ms(1);
+
+    Emm_V5_Pos_Control(2, 0, speed - ceil(reparation_left * speed), j, (int)(3200 * quan), 0, 0);
+    delay_ms(1);
+
+    Emm_V5_Pos_Control(3, 1, speed + ceil(reparation_left * speed), j, (int)(3200 * quan), 0, 0);
+    delay_ms(1);
+
+    Emm_V5_Pos_Control(4, 0, speed - ceil(reparation_left * speed), j, (int)(3200 * quan), 0, 0);
+    delay_ms(1);
+}
+// 右
+#define reparation_right 0.1
+void move_right(uint16_t speed, uint16_t j, float quan) // speed指每10ms脉冲个数
+{
+
+    cw_5 = 0;
+    cw_2 = 1;
+    cw_3 = 0;
+    cw_4 = 1;
+
+    Emm_V5_Pos_Control(5, 0, speed + ceil(reparation_right * speed), j, (int)(3200 * quan), 0, 0);
+    delay_ms(1);
+
+    Emm_V5_Pos_Control(2, 1, speed - ceil(reparation_right * speed), j, (int)(3200 * quan), 0, 0);
+    delay_ms(1);
+
+    Emm_V5_Pos_Control(3, 0, speed + ceil(reparation_right * speed), j, (int)(3200 * quan), 0, 0);
+    delay_ms(1);
+
+    Emm_V5_Pos_Control(4, 1, speed - ceil(reparation_right * speed), j, (int)(3200 * quan), 0, 0);
+    delay_ms(1);
+}
+
 //绝对位置模式
 void move_forward_pos(uint16_t speed,uint16_t j, float quan)  //speed指每10ms脉冲个数
 {
@@ -208,51 +267,7 @@ void oo(void)
 }
 
 
-//左
 
-void move_left(uint16_t speed,uint16_t j,float quan)  //speed指每10ms脉冲个数
-{
-
-cw_5=1;
-cw_2=0;
-cw_3=1;
-cw_4=0;
-Emm_V5_Pos_Control(5, 1, speed, j, (int)(3200*quan), 0, 0);
-	 delay_ms(1);
-	
-Emm_V5_Pos_Control(2, 0, speed-1, j, (int)(3200*quan), 0, 0);
-	 delay_ms(1);
-	
-Emm_V5_Pos_Control(3, 1, speed, j, (int)(3200*quan), 0, 0);
-	 delay_ms(1);
-	
-Emm_V5_Pos_Control(4, 0, speed-2, j, (int)(3200*quan), 0, 0);
-	 delay_ms(1);
-
-}
-//右
-void move_right(uint16_t speed,uint16_t j,float quan)  //speed指每10ms脉冲个数
-{
-
-cw_5=0;
-cw_2=1;
-cw_3=0;
-cw_4=1;
-
-Emm_V5_Pos_Control(5, 0, speed, j, (int)(3200*quan), 0, 0);
-	 delay_ms(1);
-	
-Emm_V5_Pos_Control(2, 1, speed, j, (int)(3200*quan), 0, 0);
-	 delay_ms(1);
-	
-Emm_V5_Pos_Control(3, 0, speed-1, j, (int)(3200*quan), 0, 0);
-	 delay_ms(1);
-	
-Emm_V5_Pos_Control(4, 1, speed-1, j,(int)(3200*quan), 0, 0);
-	 delay_ms(1);
-
-
-}
 
 //i表示是否开启多机同步
 void stop(void)  
@@ -361,13 +376,8 @@ Emm_V5_Vel_Control(4, 0, speeed, 1,  0);
 
 
 }
-#define gg_0_X 160
-#define gg_0_Y 139 
-#define gg_1_X 153 
-#define gg_1_Y 195
-#define gg_2_X 151
-#define gg_2_Y 146  
-//gg=0就是色环，gg=2就是地上色块,gg1就是原料区的色块
+
+// gg=0就是色环,gg1就是原料区的色块,gg=2就是地上色块
 void weitiao(int gg)
 {
 	catch_p();
@@ -531,6 +541,8 @@ void weitiao_2(void)
 
 	}
 	weitiao(2);
+    move_right(300, 30, 0.055);
+    delay_ms(300);
 }
 void se_huan(uint16_t num)
 {

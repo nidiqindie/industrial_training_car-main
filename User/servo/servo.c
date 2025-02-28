@@ -26,18 +26,18 @@ extern uint16_t task[2];
 
 //爪子舵机PWM值
 #define servo3_close 91     //爪子抓取
-#define servo3_open 130      //爪子展开
+#define servo3_open 120      //爪子展开
 
 //机械臂步进电机脉冲数
 #define start_position 0    //爪子起始位置，最高处
-#define catch_rew 3550      //从原料区抓取物料
+#define catch_rew 3400      //从原料区抓取物料
 #define put_turntable 2010  //把物料放在车载转盘
 #define catch_turntable 2070//从车载转盘中拿去物料
 #define put_process 8900    //将物料放在加工区
 #define catch_process 8900  //从加工区拿去物料
 #define put_store 8900      //将物料放在暂存区
 #define put_maduo 4180      //将物料进行码垛
-
+#define y_center        180       // 源180
 
 static void SERVO_TIM_GPIO_Config(void)
 {
@@ -192,15 +192,20 @@ void Servo_Angle_Config(uint8_t channel_n, int16_t angle)
 void catch_p(void)
 {
     Servo_Angle_Config(1, servo1_out);
+    delay_ms(100);
     Servo_Angle_Config(3, servo3_open);
+    delay_ms(100);
     Emm_V5_Pos_Control(1, 00, 300, 250, start_position, 01, 00);
+    delay_ms(1);
 }
 
 //机械臂默认状态，爪子向内
 void standby_p(void)
 {
     Servo_Angle_Config(1,servo1_in);
+    delay_ms(100);
     Emm_V5_Pos_Control(1, 00, 300, 250, start_position, 01, 00);
+    delay_ms(1);
 }
 
 
@@ -224,6 +229,7 @@ void zp(uint16_t num)
 }
 
 // 从原料区取物块//130142
+
 void catch (uint16_t num)
 {
     uint16_t op = 1, x, y;
@@ -235,7 +241,7 @@ void catch (uint16_t num)
                 x = XX;
                 y = YY;
                 delay_ms(300);
-                if (abs(XX - x) <= 20 && abs(YY - y) <= 20 && K == 'R' && XX >= 100 && XX <= 240 && YY >= 130 && YY <= 230) {
+                if (abs(XX - x) <= 20 && abs(YY - y) <= 20 && K == 'R' && XX >= 100 && XX <= 240 && YY >= y_center-50 && YY <= y_center+50) {
                     Emm_V5_Pos_Control(1, 1, 400, 250, catch_rew, 01, 00);
                     delay_ms(500);
                     Servo_Angle_Config(3, servo3_close);
@@ -252,7 +258,7 @@ void catch (uint16_t num)
                 x = XX;
                 y = YY;
                 delay_ms(300);
-                if (abs(XX - x) <= 20 && abs(YY - y) <= 20 && K == 'G' && XX >= 100 && XX <= 240 && YY >= 130 && YY <= 230) {
+                if (abs(XX - x) <= 20 && abs(YY - y) <= 20 && K == 'G' && XX >= 100 && XX <= 240 && YY >= y_center - 50 && YY <= y_center + 50) {
                     Emm_V5_Pos_Control(1, 1, 400, 250, catch_rew, 01, 00);
                     delay_ms(500);
                     Servo_Angle_Config(3, servo3_close);
@@ -269,7 +275,7 @@ void catch (uint16_t num)
                 x = XX;
                 y = YY;
                 delay_ms(300);
-                if (abs(XX - x) <= 20 && abs(YY - y) <= 20 && K == 'B' && XX >= 100 && XX <= 240 && YY >= 130 && YY <= 230) {
+                if (abs(XX - x) <= 20 && abs(YY - y) <= 20 && K == 'B' && XX >= 100 && XX <= 240 && YY >= y_center - 50 && YY <= y_center + 50) {
                     Emm_V5_Pos_Control(1, 1, 400, 250, catch_rew, 01, 00);
                     delay_ms(500);
                     Servo_Angle_Config(3, servo3_close);
