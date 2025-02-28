@@ -42,8 +42,13 @@ int main(void)
 {
 
     car_init();
-
-
+    
+    while (1)
+    {
+        Servo_Angle_Config(1,130);
+        
+    }
+    
     
     // 出来
     move_left(speed_all, acc_all, 0.5);

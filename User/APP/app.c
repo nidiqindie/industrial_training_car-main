@@ -36,7 +36,7 @@ void car_init(void)
     OLED_Clear();
     // 使能四个步进电机。
     SERVO_TIM_Init();
-
+    LED_GPIO_Config();
     Emm_V5_En_Control(1, 1, 0);
     delay_ms(1);
     // Emm_V5_En_Control(5,1,0);
