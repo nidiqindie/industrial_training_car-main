@@ -23,7 +23,7 @@
 int now = 2;
 #define speed_all          300
 #define acc_all            100
-#define big_calibrations   2
+#define big_calibrations   5
 #define smill_calibrations 1
 extern uint8_t Serial_RxFlag, K;
 char color;
@@ -45,7 +45,8 @@ int main(void)
 
     car_init();
    
-    
+   
+   
     
 
     
@@ -68,7 +69,7 @@ int main(void)
     HMISendb(0xff);                                       // 结束符
 
     // 前进到获取物料
-    move_forward(speed_all, acc_all, 3.3);
+    move_forward(speed_all, acc_all, 3.45);
     delay_ms(2500);
     move_right(speed_all, acc_all, 0.1);
     delay_ms(500);
@@ -182,7 +183,7 @@ int main(void)
 
     catch_p();
     yaw_run(0, smill_calibrations);
-    move_right(speed_all, 20, 0.4);
+    move_right(speed_all, 20, 0.2);
     delay_ms(500);
 
     // 从原料区抓取物料
@@ -215,8 +216,7 @@ int main(void)
     move_forward(speed_all, acc_all, 3.5);
     delay_ms(2800);
     //转人工
-    move_right(speed_all, 20, 0.05);
-    delay_ms(300);
+    //
     yaw_run(90, smill_calibrations);
     move_forward(speed_all, acc_all, 3.415);
     delay_ms(2800);
@@ -270,29 +270,46 @@ int main(void)
     // 放物料到暂存区
     // 微调(环)
     catch_p();
-    go_to_target(task[0] / 100, 2);
-    maduo(task[0] / 100);
+    go_to_target(task[1] / 100, 2);
+    maduo(task[1] / 100);
 
     catch_p();
-    go_to_target((task[0] % 100) / 10, 2);
-    maduo((task[0] % 100) / 10);
+    go_to_target((task[1] % 100) / 10, 2);
+    maduo((task[1] % 100) / 10);
 
     catch_p();
-    go_to_target(task[0] % 10, 2);
-    maduo(task[0] % 10);
+    go_to_target(task[1] % 10, 2);
+    maduo(task[1] % 10);
 
     standby_p();
+    while (now != 2) {
+
+        if (2 > now) {
+            now++;
+            // 前进0.59 后退0.596
+            move_forward(speed_all, acc_all, 0.59);
+            delay_ms(1500);
+            /* code */
+        } else if (2 < now) {
+            now--;
+            move_backward(speed_all, acc_all, 0.596);
+            delay_ms(1500);
+            /* code */
+        }
+    }
     // 回到起点
-    move_backward(speed_all, acc_all, 3.0);
+    move_left(speed_all, 20, 0.3);
+    delay_ms(700);
+    yaw_run(180, big_calibrations);
+    delay_ms(100);
+    yaw_run(180, smill_calibrations);
+    move_forward(speed_all, acc_all, 3.0);
     delay_ms(3000);
-    yaw_run(0, big_calibrations);
-    move_backward(speed_all, acc_all, 3.9);
+    yaw_run(180, smill_calibrations);
+    move_forward(speed_all, acc_all, 3.9);
     delay_ms(3000);
-    yaw_run(0, smill_calibrations);
-    move_backward(speed_all, acc_all, 4.1);
+ move_left(speed_all, 20, 2);
     delay_ms(3000);
-    move_right(speed_all, 20, 1.0);
-    delay_ms(1000);
     while (1) {
         /* code */
     }

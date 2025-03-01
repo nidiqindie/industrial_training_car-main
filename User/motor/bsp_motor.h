@@ -51,6 +51,9 @@ void move_backward_pos(uint16_t speed,uint16_t j,float quan);
 void L_R(int speed , int j) ; //左自转
 
 void R_R(int speed , int j); //右自转
+void L_R_impulse(int speed, int j, int impulse);
+
+void R_R_impulse(int speed, int j, int impulse);
 void weitiao_2(void);
 
 void yaw_run(int16_t target_yaw, int16_t error_range) ;

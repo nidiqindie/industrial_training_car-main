@@ -9,7 +9,7 @@ char Serial_RxPacket1[12];//"@MSG\r\n"
 uint8_t Serial_RxFlag1;
 uint8_t K1,X11, X21, X31, Y11, Y21, Y31, S11, S21, S31, S41, S51;  
 uint16_t DistanceX1,DistanceY1,Size1;
-int task[2]={123,123};  
+int task[2];  
 
 void UART4_init(void)
 {
