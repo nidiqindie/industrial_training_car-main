@@ -82,35 +82,40 @@ extern int flag_err, flag_arrive, flag_arrive_lifting;
 // 转动函数
 void yaw_run(int16_t target_yaw, int16_t error_range)
 {
-    if(error_range<=1)//角度调整
+    if (error_range <= 1) // 角度调整
     {
         Angle_Adjust(target_yaw);
-    }
-    else//大转
+    } else // 大转
     {
-        if ((target_yaw >= curAngle) && (target_yaw - curAngle) > 2) {
-            if ((target_yaw - curAngle) <= 180) // 左转
+        float angle = curAngle;
+        if (target_yaw==180&&curAngle<-90)
+        {
+            angle=curAngle+360;
+            /* code */
+        }
+        
+        if ((target_yaw >= angle) && (target_yaw - angle) > 2) {
+            if ((target_yaw - angle) <= 180) // 左转
             {
-               TurnLeft(150, 150, target_yaw - curAngle);
-               delay_ms(1000);
+                TurnLeft(150, 150, target_yaw );
+                delay_ms(2000);
             } else { // 右转
-                TurnRight(150, 150, target_yaw - curAngle);
-                delay_ms(1000);
+                TurnRight(150, 150, target_yaw );
+                delay_ms(2000);
             }
         }
 
-        if ((curAngle >= target_yaw) && (curAngle - target_yaw) > 2) {
-            if ((curAngle - target_yaw) <= 180) // 左转
+        if ((angle >= target_yaw) && (angle - target_yaw) > 2) {
+            if ((angle - target_yaw) <= 180) // 左转
             {
-               TurnLeft(150, 150, curAngle - target_yaw);
-               delay_ms(1000);
+                TurnLeft(150, 150, angle - target_yaw);
+                delay_ms(2000);
             } else { // 右转
-                TurnRight(150, 150, curAngle - target_yaw);
-                delay_ms(1000);
+                TurnRight(150, 150, angle - target_yaw);
+                delay_ms(2000);
             }
         }
     }
-   
 }
 // /*偏航角增量式PID计算*/
 // int IncPIDCalcR()
@@ -324,16 +329,16 @@ void R_R(int speed, int j) // 右自转
 void L_R_impulse(int speed, int j, int impulse)
 {
 
-    Emm_V5_Pos_Control(5, 1, speed , j, impulse, 0, 0);
+    Emm_V5_Pos_Control(5, 1, speed, j, impulse, 0, 0);
     delay_ms(1);
 
-    Emm_V5_Pos_Control(2, 1, speed , j, impulse, 0, 0);
+    Emm_V5_Pos_Control(2, 1, speed, j, impulse, 0, 0);
     delay_ms(1);
 
-    Emm_V5_Pos_Control(3, 1, speed , j, impulse, 0, 0);
+    Emm_V5_Pos_Control(3, 1, speed, j, impulse, 0, 0);
     delay_ms(1);
 
-    Emm_V5_Pos_Control(4, 1, speed , j, impulse, 0, 0);
+    Emm_V5_Pos_Control(4, 1, speed, j, impulse, 0, 0);
     delay_ms(1);
 }
 void R_R_impulse(int speed, int j, int impulse)
@@ -412,8 +417,8 @@ void L_Translation(int speeed)
     Emm_V5_Vel_Control(4, 0, speeed, 1, 0);
     delay_ms(1);
 }
- 
-#define gg1_speed 15 
+
+#define gg1_speed 15
 // gg=0就是色环,gg1就是原料区的色块,gg=2就是地上色块
 void weitiao(int gg)
 {
@@ -557,7 +562,6 @@ void weitiao_2(void)
         x = XX;
     }
     weitiao(1);
-   
 }
 void se_huan(uint16_t num)
 {
@@ -584,7 +588,6 @@ void se_huan(uint16_t num)
 4	2
  板子
 */
-
 
 void Usart1_SendArray(uint8_t *array, uint16_t num)
 {
@@ -701,30 +704,36 @@ void TurnRight(uint16_t vel, uint8_t acc, float mm_or_angle)
 void Angle_Adjust(float tar_angle)
 {
 
-    float angle_err = 0;
-
-    angle_err = tar_angle - curAngle;
+    float angle_err = tar_angle - curAngle;
+    if (tar_angle == 180 && curAngle < 0) {
+        angle_err = tar_angle - curAngle - 360;
+        /* code */
+    }
 
     if (angle_err > 0) {
         TurnLeft(150, 150, angle_err);
-        delay_ms(200);
+        delay_ms(800);
     }
 
     else if (angle_err < 0) {
         angle_err = -angle_err;
         TurnRight(150, 150, angle_err);
-        delay_ms(200);
+        delay_ms(800);
     }
 
     angle_err = tar_angle - curAngle;
+    if (tar_angle == 180 && curAngle < 0) {
+        angle_err = tar_angle - curAngle - 360;
+        /* code */
+    }
     if (angle_err >= 0.1) {
         TurnLeft(150, 150, angle_err);
-        delay_ms(200);
+        delay_ms(800);
     }
 
     else if (angle_err <= 0.1) {
         angle_err = -angle_err;
         TurnRight(150, 150, angle_err);
-        delay_ms(200);
+        delay_ms(800);
     }
 }

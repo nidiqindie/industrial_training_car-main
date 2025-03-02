@@ -44,12 +44,7 @@ int main(void)
 {
 
     car_init();
-    yaw_run(90, big_calibrations);
-    yaw_run(90, smill_calibrations);
-   while (1)
-   {
-    /* code */
-   }
+ 
    
    
     
@@ -104,8 +99,8 @@ int main(void)
     yaw_run(0, smill_calibrations);
     move_backward(speed_all, acc_all, 1.5);
     delay_ms(1900);
-    yaw_run(90, big_calibrations);
-    delay_ms(300);
+    TurnLeft(150, 150, 90);
+    delay_ms(1000);
     yaw_run(90, smill_calibrations);
     move_forward(speed_all, acc_all, 3.5);
     delay_ms(2800);
@@ -115,7 +110,8 @@ int main(void)
     delay_ms(2800);
 
     catch_p();
-    yaw_run(180, big_calibrations);
+    TurnLeft(150, 150, 90);
+    delay_ms(1000);
     move_right(speed_all, 20, 0.4);
     delay_ms(500);
     yaw_run(180, smill_calibrations);
@@ -155,7 +151,7 @@ int main(void)
 
  
    
-    //粗加工到暂存区
+    //第一圈粗加工到暂存区
     Roughing_to_staging_area();
 
     // 暂存区放置物料
@@ -182,7 +178,8 @@ int main(void)
     delay_ms(800);
     move_backward(speed_all, acc_all, 3.1);
     delay_ms(3000);
-    yaw_run(0, big_calibrations);
+    TurnRight(150, 150, 90);
+    delay_ms(1000);
     move_backward(speed_all, acc_all, 1.5);
     delay_ms(3000);
 
@@ -215,8 +212,8 @@ int main(void)
     yaw_run(0, smill_calibrations);
     move_backward(speed_all, acc_all, 1.63);
     delay_ms(1900);
-    yaw_run(90, big_calibrations);
-    delay_ms(300);
+    TurnLeft(150, 150, 90);
+    delay_ms(1000);
     yaw_run(90, smill_calibrations);
     move_forward(speed_all, acc_all, 3.5);
     delay_ms(2800);
@@ -227,7 +224,8 @@ int main(void)
     delay_ms(2800);
 
     catch_p();
-    yaw_run(180, big_calibrations);
+   TurnLeft(150, 150, 90);
+    delay_ms(1000);
     move_right(speed_all, 20, 0.4);
     delay_ms(500);
     yaw_run(180, smill_calibrations);
@@ -305,8 +303,8 @@ int main(void)
     // 回到起点
     move_left(speed_all, 20, 0.3);
     delay_ms(700);
-    yaw_run(180, big_calibrations);
-    delay_ms(100);
+   TurnLeft(150, 150, 90);
+    delay_ms(1000);
     yaw_run(180, smill_calibrations);
     move_forward(speed_all, acc_all, 3.0);
     delay_ms(3000);
@@ -327,8 +325,8 @@ void goto_rough()
     yaw_run(0, smill_calibrations);
     move_backward(speed_all, acc_all, 1.5);
     delay_ms(1900);
-    yaw_run(90, big_calibrations);
-    delay_ms(300);
+    TurnLeft(150, 150, 90);
+    delay_ms(1000);
     yaw_run(90, smill_calibrations);
     move_forward(speed_all, acc_all, 3.5);
     delay_ms(2800);
@@ -339,7 +337,8 @@ void goto_rough()
 
 
     catch_p();
-    yaw_run(180, big_calibrations);
+    TurnLeft(150, 150, 90);
+    delay_ms(1000);
     move_right(speed_all, 20, 0.4);
     delay_ms(500);
     yaw_run(180, smill_calibrations);   
@@ -359,7 +358,8 @@ void Roughing_to_staging_area()
     delay_ms(100);
     move_backward(speed_all, acc_all, 3.4);
     delay_ms(3000);
-    yaw_run(90, big_calibrations);
+    TurnRight(150, 150, 90);
+    delay_ms(100);
     catch_p();
     yaw_run(90, smill_calibrations);
     move_right(speed_all,20,0.24);
