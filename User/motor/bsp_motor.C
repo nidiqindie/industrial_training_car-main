@@ -46,11 +46,11 @@ int cw_5, cw_2, cw_3, cw_4;
 #define yaw_vel 30
 // 微调坐标
 // gg=0就是色环,gg1就是原料区的色块,gg=2就是地上色块，gg=3就是色块上叠加色块
-#define gg_0_X 150
-#define gg_0_Y 100
-#define gg_1_X 145
+#define gg_0_X 156
+#define gg_0_Y 101
+#define gg_1_X 140
 #define gg_1_Y 108
-#define gg_2_X 153
+#define gg_2_X 147
 #define gg_2_Y 111
 #define gg_3_X 148
 #define gg_3_Y 112 
@@ -90,7 +90,7 @@ void yaw_run(int16_t target_yaw, int16_t error_range)
     } else // 大转
     {
         float angle = curAngle;
-        if (target_yaw==180&&curAngle<-90)
+        if (target_yaw<=180&&target_yaw>=175&&curAngle<-90)
         {
             angle=curAngle+360;
             /* code */
@@ -707,7 +707,7 @@ void Angle_Adjust(float tar_angle)
 {
 
     float angle_err = tar_angle - curAngle;
-    if (tar_angle == 180 && curAngle < 0) {
+    if (tar_angle <= 180 && tar_angle >= 175 && curAngle < 0) {
         angle_err = tar_angle - curAngle - 360;
         /* code */
     }
@@ -724,7 +724,7 @@ void Angle_Adjust(float tar_angle)
     }
 
     angle_err = tar_angle - curAngle;
-    if (tar_angle == 180 && curAngle < 0) {
+    if (tar_angle <= 180 && tar_angle >= 175 && curAngle < 0) {
         angle_err = tar_angle - curAngle - 360;
         /* code */
     }
@@ -739,7 +739,7 @@ void Angle_Adjust(float tar_angle)
         delay_ms(600);
     }
     angle_err = tar_angle - curAngle;
-    if (tar_angle == 180 && curAngle < 0) {
+    if (tar_angle <= 180 && tar_angle >= 175 && curAngle < 0) {
         angle_err = tar_angle - curAngle - 360;
         /* code */
     }

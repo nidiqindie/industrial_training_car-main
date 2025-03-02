@@ -24,17 +24,17 @@ extern uint16_t task[2];
 #define servo1_in  184 // 机械臂向内
 
 // 爪子舵机PWM值
-#define servo3_close 63 // 爪子抓取
+#define servo3_close 59 // 爪子抓取
 #define servo3_open  78 // 爪子展开
 #define servo3_catch 95 // 爪子抓取
 // 机械臂步进电机脉冲数
 #define start_position  0    // 爪子起始位置，最高处
-#define catch_rew       3000 // 从原料区抓取物料
+#define catch_rew       3200 // 从原料区抓取物料
 #define put_turntable   2010 // 把物料放在车载转盘
 #define catch_turntable 2070 // 从车载转盘中拿去物料
-#define put_process     8900 // 将物料放在加工区
+#define put_process     9200 // 将物料放在加工区
 #define catch_process   8900 // 从加工区拿去物料
-#define put_store       8900 // 将物料放在暂存区
+#define put_store       9200 // 将物料放在暂存区
 #define put_maduo       4180 // 将物料进行码垛
 #define y_center        108  // 源180
 
@@ -361,7 +361,7 @@ void put_huan(uint16_t num)
             Emm_V5_Pos_Control(1, 0, 300, 250, start_position, 01, 00);
             delay_ms(500);
             Servo_Angle_Config(1, servo1_out);
-            delay_ms(1000);
+            delay_ms(2000);
             Emm_V5_Pos_Control(1, 01, 300, 250, put_process, 01, 00);
             delay_ms(800);
             Servo_Angle_Config(3, servo3_open);
@@ -379,7 +379,7 @@ void put_huan(uint16_t num)
             Emm_V5_Pos_Control(1, 0, 300, 250, start_position, 01, 00);
             delay_ms(500);
             Servo_Angle_Config(1, servo1_out);
-            delay_ms(1000);
+            delay_ms(2000);
             Emm_V5_Pos_Control(1, 01, 300, 250, put_process, 01, 00);
             delay_ms(800);
             Servo_Angle_Config(3, servo3_open);
@@ -397,7 +397,7 @@ void put_huan(uint16_t num)
             Emm_V5_Pos_Control(1, 0, 300, 250, start_position, 01, 00);
             delay_ms(500);
             Servo_Angle_Config(1, servo1_out);
-            delay_ms(1000);
+            delay_ms(2000);
             Emm_V5_Pos_Control(1, 01, 300, 250, put_process, 01, 00);
             delay_ms(800);
             Servo_Angle_Config(3, servo3_open);
