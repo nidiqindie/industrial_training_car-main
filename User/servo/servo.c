@@ -16,17 +16,17 @@ extern uint16_t task[2];
 /*****************************SERVO**********************/
 //servo1为机械臂舵机，servo2为转盘舵机，servo3为爪子舵机
 //转盘舵机PWM值
-#define servo2_red 55       //红色转盘
-#define servo2_green 140    //绿色转盘
-#define servo2_blue 225     //蓝色转盘
+#define servo2_red 53       //红色转盘
+#define servo2_green 143    //绿色转盘
+#define servo2_blue 233     //蓝色转盘
 
 //机械臂舵机PWM
 #define servo1_out 60     //机械臂向外
-#define servo1_in 195      //机械臂向内
+#define servo1_in 184      //机械臂向内
 
 //爪子舵机PWM值
-#define servo3_close 55     //爪子抓取//57
-#define servo3_open 110      //爪子展开
+#define servo3_close 65     //爪子抓取//57
+#define servo3_open 80      //爪子展开
 
 //机械臂步进电机脉冲数
 #define start_position 0    //爪子起始位置，最高处
@@ -37,7 +37,7 @@ extern uint16_t task[2];
 #define catch_process 8900  //从加工区拿去物料
 #define put_store 8900      //将物料放在暂存区
 #define put_maduo 4180      //将物料进行码垛
-#define y_center        180       // 源180
+#define y_center        150       // 源180
 
 static void SERVO_TIM_GPIO_Config(void)
 {
@@ -300,7 +300,7 @@ void put(uint16_t num)
             Servo_Angle_Config(1, servo1_in);
             delay_ms(1000);
             Emm_V5_Pos_Control(1, 1, 300, 250, put_turntable, 01, 00); // 脉冲数待定
-            delay_ms(500);
+            delay_ms(800);
             Servo_Angle_Config(3, servo3_open);
             delay_ms(500);
             Emm_V5_Pos_Control(1, 0, 300, 250, start_position, 01, 00); // 脉冲数待定
@@ -312,7 +312,7 @@ void put(uint16_t num)
             Servo_Angle_Config(1, servo1_in);
             delay_ms(1000);
             Emm_V5_Pos_Control(1, 1, 300, 250, put_turntable, 01, 00); // 脉冲数待定
-            delay_ms(500);
+            delay_ms(800);
             Servo_Angle_Config(3, servo3_open);
             delay_ms(500);
             Emm_V5_Pos_Control(1, 0, 300, 250, start_position, 01, 00); // 脉冲数待定
@@ -324,9 +324,9 @@ void put(uint16_t num)
             Servo_Angle_Config(1, servo1_in);
             delay_ms(1000);
             Emm_V5_Pos_Control(1, 1, 300, 250, put_turntable, 01, 00); // 脉冲数待定
-            delay_ms(1000);
+            delay_ms(800);
             Servo_Angle_Config(3, servo3_open);
-            delay_ms(1000);
+            delay_ms(500);
             Emm_V5_Pos_Control(1, 0, 300, 250, start_position, 01, 00); // 脉冲数待定
             delay_ms(1000);
             break;

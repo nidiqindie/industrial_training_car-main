@@ -44,9 +44,8 @@ int main(void)
 {
 
     car_init();
- 
-   
-   
+
+
     
 
     
