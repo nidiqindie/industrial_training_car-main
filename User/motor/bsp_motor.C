@@ -91,10 +91,11 @@ void yaw_run(int16_t target_yaw, int16_t error_range)
         if ((target_yaw >= curAngle) && (target_yaw - curAngle) > 2) {
             if ((target_yaw - curAngle) <= 180) // 左转
             {
-
                TurnLeft(150, 150, target_yaw - curAngle);
+               delay_ms(1000);
             } else { // 右转
                 TurnRight(150, 150, target_yaw - curAngle);
+                delay_ms(1000);
             }
         }
 
@@ -102,8 +103,10 @@ void yaw_run(int16_t target_yaw, int16_t error_range)
             if ((curAngle - target_yaw) <= 180) // 左转
             {
                TurnLeft(150, 150, curAngle - target_yaw);
+               delay_ms(1000);
             } else { // 右转
                 TurnRight(150, 150, curAngle - target_yaw);
+                delay_ms(1000);
             }
         }
     }
@@ -702,18 +705,26 @@ void Angle_Adjust(float tar_angle)
 
     angle_err = tar_angle - curAngle;
 
-    if (angle_err > 0)
+    if (angle_err > 0) {
         TurnLeft(150, 150, angle_err);
+        delay_ms(200);
+    }
+
     else if (angle_err < 0) {
         angle_err = -angle_err;
         TurnRight(150, 150, angle_err);
+        delay_ms(200);
     }
 
     angle_err = tar_angle - curAngle;
-    if (angle_err >= 0.1)
+    if (angle_err >= 0.1) {
         TurnLeft(150, 150, angle_err);
+        delay_ms(200);
+    }
+
     else if (angle_err <= 0.1) {
         angle_err = -angle_err;
         TurnRight(150, 150, angle_err);
+        delay_ms(200);
     }
 }

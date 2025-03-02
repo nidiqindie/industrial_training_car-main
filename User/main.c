@@ -44,7 +44,12 @@ int main(void)
 {
 
     car_init();
-   
+    yaw_run(90, big_calibrations);
+    yaw_run(90, smill_calibrations);
+   while (1)
+   {
+    /* code */
+   }
    
    
     
