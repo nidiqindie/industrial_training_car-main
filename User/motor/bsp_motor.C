@@ -11,7 +11,7 @@ extern uint8_t K;
 /*
 
 装车设置顺序
-3	5
+3车头5
 
 
 4	2
@@ -52,44 +52,62 @@ int cw_5, cw_2, cw_3, cw_4;
 #define gg_2_X 152
 #define gg_2_Y 106
 // gg=0就是色环,gg1就是原料区的色块,gg=2就是地上色块
+uint8_t Array[16] = {0}; // 步进电机发送数据数组  //步进电机发送数据数组
+extern int flag_err, flag_arrive, flag_arrive_lifting;
+// 前左L1-3 前右R1-5 后左L2-4 后右R2-2
+// 各轮子方向定义
+#define DIR_FORWARD_L1  0x00
+#define DIR_BACKWARD_L1 0x01
 
+#define DIR_FORWARD_L2  0x00
+#define DIR_BACKWARD_L2 0x01
+
+#define DIR_FORWARD_R1  0x01
+#define DIR_BACKWARD_R1 0x00
+
+#define DIR_FORWARD_R2  0x01
+#define DIR_BACKWARD_R2 0x00
+
+/*脉冲与实际量关系
+10000脉冲 --- 前进763mm --- 10000÷763=13.106 ---xPulse_Per_1mm_FB
+10000脉冲 --- 左移742mm --- 10000÷742=13.477 ---xPulse_Per_1mm_LR
+ 5000脉冲 --- 左转108.2° --- 5000÷1082=4.621 ---xPulse_Per_0.1D --- 4.621*10=46.21 ---xPulse_Per_1D
+10000脉冲 --- 升降126mm --- 10000÷126=79.365 ---xPulse_Per_1mm_UD
+*/
+
+#define xPulse_Per_1mm_FB 13.11   // 前进或后退1毫米需要的脉冲数
+#define xPulse_Per_1mm_LR 13.48   // 左移或右移1毫米需要的脉冲数
+#define xPulse_Per_1D     46.56   // 左转或右转1度需要的脉冲数
+#define xPulse_Per_1mm_UD 105.263 // 上升或下降1毫米需要的脉冲数
 // 转动函数
 void yaw_run(int16_t target_yaw, int16_t error_range)
 {
-    int vel = 100;
-   
-int mul = 0;
-if ((target_yaw >= curAngle) && (target_yaw - curAngle) > 2) {
-    if ((target_yaw - curAngle) <= 180) // 左转
+    if(error_range<=1)//角度调整
     {
-        
-            mul = ceil(abs(target_yaw - curAngle)*46.5592);
-          
-            L_R_impulse(vel, 0, mul);
-            delay_ms(1000);
-    } else { // 右转
-        mul = ceil(abs(target_yaw - curAngle) * 47.58279);
-
-        R_R_impulse(vel, 0, mul);
-        delay_ms(1000);
+        Angle_Adjust(target_yaw);
     }
-   
-    }
+    else//大转
+    {
+        if ((target_yaw >= curAngle) && (target_yaw - curAngle) > 2) {
+            if ((target_yaw - curAngle) <= 180) // 左转
+            {
 
-    if ((curAngle >= target_yaw) && (curAngle - target_yaw) > 2) {
-        if ((curAngle - target_yaw) <= 180) // 左转
-        {
-            mul = ceil(abs(target_yaw - curAngle) * 46.5592);
+               TurnLeft(150, 150, target_yaw - curAngle);
+            } else { // 右转
+                TurnRight(150, 150, target_yaw - curAngle);
+            }
+        }
 
-            R_R_impulse(vel, 0, mul);
-            delay_ms(1000);
-        } else { // 右转
-            mul = ceil(abs(target_yaw - curAngle) * 47.58279);
-
-            L_R_impulse(vel, 0, mul);
-            delay_ms(1000);
+        if ((curAngle >= target_yaw) && (curAngle - target_yaw) > 2) {
+            if ((curAngle - target_yaw) <= 180) // 左转
+            {
+               TurnLeft(150, 150, curAngle - target_yaw);
+            } else { // 右转
+                TurnRight(150, 150, curAngle - target_yaw);
+            }
         }
     }
+   
 }
 // /*偏航角增量式PID计算*/
 // int IncPIDCalcR()
@@ -554,551 +572,148 @@ void se_huan(uint16_t num)
         delay_ms(2000);
     }
 }
+/*
 
-void huan(void)
+装车设置顺序
+3车头5
+
+
+4	2
+ 板子
+*/
+
+
+void Usart1_SendArray(uint8_t *array, uint16_t num)
 {
-    if (task[0] == 123) {
-        move_forward(100, 10, 2.92);
-        delay_ms(3000);
-        move_right(100, 10, 0.45);
-        delay_ms(1500);
-        weitiao(0);
-        zp(1);
-        delay_ms(1000);
-        put_huan(1);
-        move_forward(100, 10, 0.6);
-        delay_ms(1500);
-        weitiao(0);
-        zp(2);
-        delay_ms(1000);
-        put_huan(2);
-        move_forward(100, 10, 0.6);
-        delay_ms(1500);
-        weitiao(0);
-        zp(3);
-        delay_ms(1000);
-        put_huan(3);
-        move_backward(100, 10, 1.2);
-        delay_ms(2000);
-        zp(1);
-        delay_ms(1000);
-        catch_huan();
-        put(1);
-        move_forward(100, 10, 0.6);
-        delay_ms(1500);
-        zp(2);
-        delay_ms(1000);
-        catch_huan();
-        put(2);
-        move_forward(100, 10, 0.6);
-        delay_ms(1500);
-        zp(3);
-        delay_ms(1000);
-        catch_huan();
-        put(3);
-        move_left(100, 10, 0.3);
-        delay_ms(2000);
-
-        move_forward(100, 10, 2.2);
-        delay_ms(3000);
-    }
-    if (task[0] == 132) {
-        move_forward(100, 10, 2.92);
-        delay_ms(3000);
-        move_right(100, 10, 0.45);
-        delay_ms(1500);
-        weitiao(0);
-        zp(1);
-        delay_ms(1000);
-        put_huan(1);
-        move_forward(100, 10, 1.2);
-        delay_ms(2000);
-        weitiao(0);
-        zp(3);
-        delay_ms(1000);
-        put_huan(3);
-        move_backward(100, 10, 0.6);
-        delay_ms(1500);
-        weitiao(0);
-        zp(2);
-        delay_ms(1000);
-        put_huan(2);
-        move_backward(100, 10, 0.6);
-        delay_ms(1500);
-        zp(1);
-        delay_ms(1000);
-        catch_huan();
-        put(1);
-        move_forward(100, 10, 1.2);
-        delay_ms(2000);
-        zp(3);
-        delay_ms(1000);
-        catch_huan();
-        put(3);
-        move_backward(100, 10, 0.6);
-        delay_ms(1500);
-        zp(2);
-        delay_ms(1000);
-        catch_huan();
-        put(2);
-        move_left(100, 10, 0.3);
-        delay_ms(2000);
-
-        move_forward(100, 10, 2.8);
-        delay_ms(3000);
-    }
-    if (task[0] == 213) {
-        move_forward(100, 10, 3.52);
-        delay_ms(4000);
-        move_right(100, 10, 0.45);
-        delay_ms(1500);
-        weitiao(0);
-        zp(2);
-        delay_ms(1000);
-        put_huan(2);
-        move_backward(100, 10, 0.6);
-        delay_ms(1500);
-        weitiao(0);
-        zp(1);
-        delay_ms(1000);
-        put_huan(1);
-        move_forward(100, 10, 1.2);
-        delay_ms(2000);
-        weitiao(0);
-        zp(3);
-        delay_ms(1000);
-        put_huan(3);
-        move_backward(100, 10, 0.6);
-        delay_ms(1500);
-        zp(2);
-        delay_ms(1000);
-        catch_huan();
-        put(2);
-        move_backward(100, 10, 0.6);
-        delay_ms(1500);
-        zp(1);
-        delay_ms(1000);
-        catch_huan();
-        put(1);
-        move_forward(100, 10, 1.2);
-        delay_ms(2000);
-        zp(3);
-        delay_ms(1000);
-        catch_huan();
-        put(3);
-        move_left(100, 10, 0.3);
-        delay_ms(2000);
-
-        move_forward(100, 10, 2.2);
-        delay_ms(3000);
-    }
-    if (task[0] == 231) {
-        move_forward(100, 10, 3.52);
-        delay_ms(4000);
-        move_right(100, 10, 0.45);
-        delay_ms(1500);
-        weitiao(0);
-        zp(2);
-        delay_ms(1000);
-        put_huan(2);
-        move_forward(100, 10, 0.6);
-        delay_ms(1500);
-        weitiao(0);
-        zp(3);
-        delay_ms(1000);
-        put_huan(3);
-        move_backward(100, 10, 1.2);
-        delay_ms(2000);
-        weitiao(0);
-        zp(1);
-        delay_ms(1000);
-        put_huan(1);
-        move_forward(100, 10, 0.6);
-        delay_ms(1500);
-        zp(2);
-        delay_ms(1000);
-        catch_huan();
-        put(2);
-        move_forward(100, 10, 0.6);
-        delay_ms(1500);
-        zp(3);
-        delay_ms(1000);
-        catch_huan();
-        put(3);
-        move_backward(100, 10, 1.2);
-        delay_ms(2000);
-        zp(1);
-        delay_ms(1000);
-        catch_huan();
-        put(1);
-        move_left(100, 10, 0.3);
-        delay_ms(2000);
-
-        move_forward(100, 10, 3.4);
-        delay_ms(4500);
-    }
-    if (task[0] == 321) {
-        move_forward(100, 10, 4.3);
-        delay_ms(5000);
-        move_right(100, 10, 0.45);
-        delay_ms(1500);
-        weitiao(0);
-        zp(3);
-        delay_ms(1000);
-        put_huan(3);
-        move_backward(100, 10, 0.6);
-        delay_ms(1500);
-        weitiao(0);
-        zp(2);
-        delay_ms(1000);
-        put_huan(2);
-        move_backward(100, 10, 0.6);
-        delay_ms(1500);
-        weitiao(0);
-        zp(1);
-        delay_ms(1000);
-        put_huan(1);
-        move_forward(100, 10, 1.2);
-        delay_ms(2000);
-        zp(3);
-        delay_ms(1000);
-        catch_huan();
-        put(3);
-        move_backward(100, 10, 0.6);
-        delay_ms(1500);
-        zp(2);
-        delay_ms(1000);
-        catch_huan();
-        put(2);
-        move_backward(100, 10, 0.6);
-        delay_ms(1500);
-        zp(1);
-        delay_ms(1000);
-        catch_huan();
-        put(1);
-        move_left(100, 10, 0.3);
-        delay_ms(2000);
-        move_forward(100, 10, 3.4);
-        delay_ms(5000);
-    }
-    if (task[0] == 312) {
-        move_forward(100, 10, 4.3);
-        delay_ms(5000);
-        move_right(100, 10, 0.45);
-        delay_ms(1500);
-        weitiao(0);
-        zp(3);
-        delay_ms(1000);
-        put_huan(3);
-        move_backward(100, 10, 1.2);
-        delay_ms(2000);
-        weitiao(0);
-        zp(1);
-        delay_ms(1000);
-        put_huan(1);
-        move_forward(100, 10, 0.6);
-        delay_ms(1500);
-        weitiao(0);
-        zp(2);
-        delay_ms(1000);
-        put_huan(2);
-        move_forward(100, 10, 0.6);
-        delay_ms(1500);
-
-        zp(3);
-        delay_ms(1000);
-        catch_huan();
-        put(3);
-        move_backward(100, 10, 1.2);
-        delay_ms(2000);
-        zp(1);
-        delay_ms(1000);
-        catch_huan();
-        put(1);
-        move_forward(100, 10, 0.6);
-        delay_ms(1500);
-        zp(2);
-        delay_ms(1000);
-        catch_huan();
-        put(2);
-        move_left(100, 10, 0.3);
-        delay_ms(2000);
-        move_forward(100, 10, 2.8);
-        delay_ms(4000);
-    }
+    Usart_SendArray(DEBUG_USART1, array, num);
 }
 
-void huan1(void)
+// 小车步进电机--同步模式
+// 前左L1-3 前右R1-5 后左L2-4 后右R2-2
+void CarGoTogether(uint8_t dir, uint16_t vel, uint8_t acc, float mm_or_angle)
 {
-    if (task[1] == 123) {
-        move_forward(100, 10, 2.92);
-        delay_ms(3000);
-        move_right(100, 10, 0.45);
-        delay_ms(1500);
-        weitiao(0);
-        zp(1);
-        delay_ms(1000);
-        put_huan(1);
-        move_forward(100, 10, 0.6);
-        delay_ms(1500);
-        weitiao(0);
-        zp(2);
-        delay_ms(1000);
-        zp(2);
-        put_huan(2);
-        move_forward(100, 10, 0.6);
-        delay_ms(1500);
-        weitiao(0);
-        zp(3);
-        delay_ms(1000);
-        put_huan(3);
-        move_backward(100, 10, 1.2);
-        delay_ms(2000);
+    uint8_t Array[16] = {0};
 
-        zp(1);
-        delay_ms(1000);
-        catch_huan();
-        put(1);
-        move_forward(100, 10, 0.6);
-        delay_ms(1500);
-        zp(2);
-        delay_ms(1000);
-        catch_huan();
-        put(2);
-        move_forward(100, 10, 0.6);
-        delay_ms(1500);
-        zp(3);
-        delay_ms(1000);
-        catch_huan();
-        put(3);
-        move_left(100, 10, 0.3);
-        delay_ms(2000);
+    uint32_t clk = 0;
+    if (dir == 1 || dir == 2) clk = (uint32_t)(mm_or_angle * xPulse_Per_1mm_FB);
+    if (dir == 3 || dir == 4) clk = (uint32_t)(mm_or_angle * xPulse_Per_1mm_LR);
+    if (dir == 5 || dir == 6) clk = (uint32_t)(mm_or_angle * xPulse_Per_1D);
+    // 装载命令
+    Array[0] = 0x03; // 地址
+    Array[1] = 0xFD;
+    if (dir == 1)
+        Array[2] = DIR_FORWARD_L1; // 功能码
+    else if (dir == 2)
+        Array[2] = DIR_BACKWARD_L1;
+    else if (dir == 3)
+        Array[2] = DIR_BACKWARD_L1;
+    else if (dir == 4)
+        Array[2] = DIR_FORWARD_L1;
+    else if (dir == 5)
+        Array[2] = DIR_BACKWARD_L1;
+    else if (dir == 6)
+        Array[2] = DIR_FORWARD_L1;
+    Array[3]  = (uint8_t)(vel >> 8);  // 速度(RPM)高8位字节
+    Array[4]  = (uint8_t)(vel >> 0);  // 速度(RPM)低8位字节
+    Array[5]  = acc;                  // 加速度，注意：0是直接启动
+    Array[6]  = (uint8_t)(clk >> 24); // 脉冲数(bit24 - bit31)
+    Array[7]  = (uint8_t)(clk >> 16); // 脉冲数(bit16 - bit23)
+    Array[8]  = (uint8_t)(clk >> 8);  // 脉冲数(bit8  - bit15)
+    Array[9]  = (uint8_t)(clk >> 0);  // 脉冲数(bit0  - bit7 )
+    Array[10] = 0x00;                 // 相位/绝对标志，false为相对运动，true为绝对值运动
+    Array[11] = 0x01;                 // 多机同步运动标志，false为不启用，true为启用
+    Array[12] = 0x6B;                 // 校验字节
+                                      // 发送命令
+    Usart1_SendArray(Array, 13);
+    delay_ms(2);
 
-        move_forward(100, 10, 2.2);
-        delay_ms(3000);
+    Array[0] = 0x05;
+    if (dir == 1)
+        Array[2] = DIR_FORWARD_R1;
+    else if (dir == 2)
+        Array[2] = DIR_BACKWARD_R1;
+    else if (dir == 3)
+        Array[2] = DIR_FORWARD_R1;
+    else if (dir == 4)
+        Array[2] = DIR_BACKWARD_R1;
+    else if (dir == 5)
+        Array[2] = DIR_FORWARD_R1;
+    else if (dir == 6)
+        Array[2] = DIR_BACKWARD_R1;
+    Usart1_SendArray(Array, 13);
+    delay_ms(2);
+
+    Array[0] = 0x04;
+    if (dir == 1)
+        Array[2] = DIR_FORWARD_L2;
+    else if (dir == 2)
+        Array[2] = DIR_BACKWARD_L2;
+    else if (dir == 3)
+        Array[2] = DIR_FORWARD_L2;
+    else if (dir == 4)
+        Array[2] = DIR_BACKWARD_L2;
+    else if (dir == 5)
+        Array[2] = DIR_BACKWARD_L2;
+    else if (dir == 6)
+        Array[2] = DIR_FORWARD_L2;
+    Usart1_SendArray(Array, 13);
+    delay_ms(2);
+
+    Array[0] = 0x02;
+    if (dir == 1)
+        Array[2] = DIR_FORWARD_R2;
+    else if (dir == 2)
+        Array[2] = DIR_BACKWARD_R2;
+    else if (dir == 3)
+        Array[2] = DIR_BACKWARD_R2;
+    else if (dir == 4)
+        Array[2] = DIR_FORWARD_R2;
+    else if (dir == 5)
+        Array[2] = DIR_FORWARD_R2;
+    else if (dir == 6)
+        Array[2] = DIR_BACKWARD_R2;
+    Usart1_SendArray(Array, 13);
+    delay_ms(2);
+
+    // 启动同步控制
+    Array[0] = 0x00;
+    Array[1] = 0xFF;
+    Array[2] = 0x66;
+    Array[3] = 0x6B; // 校验字节
+    Usart1_SendArray(Array, 4);
+    delay_ms(10);
+}
+void TurnLeft(uint16_t vel, uint8_t acc, float mm_or_angle)
+{
+    CarGoTogether(5, vel, acc, mm_or_angle);
+    delay_ms(2);
+}
+
+void TurnRight(uint16_t vel, uint8_t acc, float mm_or_angle)
+{
+    CarGoTogether(6, vel, acc, mm_or_angle);
+    delay_ms(2);
+}
+// 角度校准
+void Angle_Adjust(float tar_angle)
+{
+
+    float angle_err = 0;
+
+    angle_err = tar_angle - curAngle;
+
+    if (angle_err > 0)
+        TurnLeft(150, 150, angle_err);
+    else if (angle_err < 0) {
+        angle_err = -angle_err;
+        TurnRight(150, 150, angle_err);
     }
-    if (task[1] == 132) {
-        move_forward(100, 10, 2.92);
-        delay_ms(3000);
-        move_right(100, 10, 0.45);
-        delay_ms(1500);
-        weitiao(0);
-        zp(1);
-        delay_ms(1000);
-        put_huan(1);
-        move_forward(100, 10, 1.2);
-        delay_ms(2000);
-        weitiao(0);
-        zp(3);
-        delay_ms(1000);
-        put_huan(3);
-        move_backward(100, 10, 0.6);
-        delay_ms(1500);
-        weitiao(0);
-        zp(2);
-        delay_ms(1000);
-        put_huan(2);
-        move_backward(100, 10, 0.6);
-        delay_ms(1500);
-        zp(1);
-        delay_ms(1000);
 
-        catch_huan();
-        put(1);
-        move_forward(100, 10, 1.2);
-        delay_ms(1500);
-        zp(3);
-        delay_ms(1000);
-        catch_huan();
-        put(3);
-        move_backward(100, 10, 0.6);
-        delay_ms(1500);
-        zp(2);
-        delay_ms(1000);
-        catch_huan();
-        put(2);
-        move_left(100, 10, 0.3);
-        delay_ms(2000);
-
-        move_forward(100, 10, 2.8);
-        delay_ms(3000);
-    }
-    if (task[1] == 213) {
-        move_forward(100, 10, 3.62);
-        delay_ms(4000);
-        move_right(100, 10, 0.45);
-        delay_ms(1500);
-        weitiao(0);
-        zp(2);
-        delay_ms(1000);
-        put_huan(2);
-        move_backward(100, 10, 0.6);
-        delay_ms(1500);
-        weitiao(0);
-        zp(1);
-        delay_ms(1000);
-        put_huan(1);
-        move_forward(100, 10, 1.2);
-        delay_ms(2000);
-        weitiao(0);
-        zp(3);
-        delay_ms(1000);
-        put_huan(3);
-        move_backward(100, 10, 0.6);
-        delay_ms(1500);
-        zp(2);
-        delay_ms(1000);
-        catch_huan();
-        put(2);
-        move_backward(100, 10, 0.6);
-        delay_ms(1500);
-        zp(1);
-        delay_ms(1000);
-        catch_huan();
-        put(1);
-        move_forward(100, 10, 1.2);
-        delay_ms(2000);
-        zp(3);
-        delay_ms(1000);
-        catch_huan();
-        put(3);
-        move_left(100, 10, 0.3);
-        delay_ms(2000);
-
-        move_forward(100, 10, 2.2);
-        delay_ms(3000);
-    }
-    if (task[1] == 231) {
-        move_forward(100, 10, 3.62);
-        delay_ms(4000);
-        move_right(100, 10, 0.45);
-        delay_ms(1500);
-        weitiao(0);
-        zp(2);
-        delay_ms(1000);
-        put_huan(2);
-        move_forward(100, 10, 0.6);
-        delay_ms(1500);
-        weitiao(0);
-        zp(3);
-        delay_ms(1000);
-        put_huan(3);
-        move_backward(100, 10, 1.2);
-        delay_ms(2000);
-        weitiao(0);
-        zp(1);
-        delay_ms(1000);
-        put_huan(1);
-        move_forward(100, 10, 0.6);
-        delay_ms(1500);
-        zp(2);
-        delay_ms(1000);
-        catch_huan();
-        put(2);
-        move_forward(100, 10, 0.6);
-        delay_ms(1500);
-        zp(3);
-        delay_ms(1000);
-        catch_huan();
-        put(3);
-        move_backward(100, 10, 1.2);
-        delay_ms(2000);
-        zp(1);
-        delay_ms(1000);
-        catch_huan();
-        put(1);
-        move_left(100, 10, 0.3);
-        delay_ms(2000);
-
-        move_forward(100, 10, 3.4);
-        delay_ms(4500);
-    }
-    if (task[1] == 321) {
-        move_forward(100, 10, 4.32);
-        delay_ms(5000);
-        move_right(100, 10, 0.45);
-        delay_ms(1500);
-        weitiao(0);
-        zp(3);
-        delay_ms(1000);
-        put_huan(3);
-        move_backward(100, 10, 0.6);
-        delay_ms(1500);
-        weitiao(0);
-        zp(2);
-        delay_ms(1000);
-        put_huan(2);
-        move_backward(100, 10, 0.6);
-        delay_ms(1500);
-        weitiao(0);
-        zp(1);
-        delay_ms(1000);
-        put_huan(1);
-        move_forward(100, 10, 1.2);
-        delay_ms(2000);
-        zp(3);
-        delay_ms(1000);
-        catch_huan();
-        put(3);
-        move_backward(100, 10, 0.6);
-        delay_ms(1500);
-        zp(2);
-        delay_ms(1000);
-        catch_huan();
-        put(2);
-        move_backward(100, 10, 0.6);
-        delay_ms(1500);
-        zp(1);
-        delay_ms(1000);
-        catch_huan();
-        put(1);
-        move_left(100, 10, 0.3);
-        delay_ms(2000);
-        move_forward(100, 10, 3.4);
-        delay_ms(5000);
-    }
-    if (task[1] == 312) {
-        move_forward(100, 10, 4.32);
-        delay_ms(5000);
-        move_right(100, 10, 0.45);
-        delay_ms(1500);
-        weitiao(0);
-        zp(3);
-        delay_ms(1000);
-        put_huan(3);
-        move_backward(100, 10, 1.2);
-        delay_ms(2000);
-        weitiao(0);
-        zp(1);
-        delay_ms(1000);
-        put_huan(1);
-        move_forward(100, 10, 0.6);
-        delay_ms(1500);
-        weitiao(0);
-        zp(2);
-        delay_ms(1000);
-        put_huan(2);
-        move_forward(100, 10, 0.6);
-        delay_ms(1500);
-        zp(3);
-        delay_ms(1000);
-        catch_huan();
-        put(3);
-        move_backward(100, 10, 1.2);
-        delay_ms(2000);
-        zp(1);
-        delay_ms(1000);
-        catch_huan();
-        put(1);
-        move_forward(100, 10, 0.6);
-        delay_ms(1500);
-        zp(2);
-        delay_ms(1000);
-        catch_huan();
-        put(2);
-        move_left(100, 10, 0.3);
-        delay_ms(2000);
-        move_forward(100, 10, 2.8);
-        delay_ms(4000);
+    angle_err = tar_angle - curAngle;
+    if (angle_err >= 0.1)
+        TurnLeft(150, 150, angle_err);
+    else if (angle_err <= 0.1) {
+        angle_err = -angle_err;
+        TurnRight(150, 150, angle_err);
     }
 }

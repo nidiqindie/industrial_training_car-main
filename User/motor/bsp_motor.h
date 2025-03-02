@@ -61,9 +61,10 @@ void weitiao(int gg);
 void oo(void);
 void se_huan(uint16_t num);
 void Forward(int speeed);
-void huan(void);
+void Angle_Adjust(float tar_angle);
 void maduo(uint16_t num);
-void huan1(void);
+void TurnLeft(uint16_t vel, uint8_t acc, float mm_or_angle);
+void TurnRight(uint16_t vel, uint8_t acc, float mm_or_angle);
 #endif
 
 
