@@ -44,7 +44,10 @@ int main(void)
 {
 
     car_init();
-// 出来
+
+
+    
+    // 出来
     move_left(speed_all, acc_all, 0.5);
     delay_ms(1000);
     standby_p();
@@ -65,13 +68,12 @@ int main(void)
     // 前进到获取物料
     move_forward(speed_all, acc_all, 3.45);
     delay_ms(2500);
-    move_right(speed_all, acc_all, 0.1);
-    delay_ms(500);
+
     // 微调加抓取
     // 微调（转盘色块）
     catch_p();
     weitiao_2();
-    
+
     catch (task[0] / 100);
     put(task[0] / 100);
     catch_p();
@@ -86,15 +88,13 @@ int main(void)
     // 从物料区跑到粗加工区
     // 后退转弯到粗加工
 
-
-    
     move_left(speed_all, 20, 0.2);
     delay_ms(500);
     yaw_run(0, smill_calibrations);
-    move_backward(speed_all, acc_all, 1.5);
+    move_backward(speed_all, acc_all, 1.53);
     delay_ms(1900);
     TurnLeft(150, 150, 90);
-    delay_ms(1000);
+    delay_ms(2000);
     yaw_run(90, smill_calibrations);
     move_forward(speed_all, acc_all, 3.5);
     delay_ms(2800);
@@ -105,13 +105,11 @@ int main(void)
 
     catch_p();
     TurnLeft(150, 150, 90);
-    delay_ms(1000);
+    delay_ms(2000);
     move_right(speed_all, 20, 0.4);
     delay_ms(500);
     yaw_run(180, smill_calibrations);
     now = 2;
-
-
 
     catch_p();
     // 加工物料
@@ -137,15 +135,12 @@ int main(void)
     put((task[0] % 100) / 10);
     catch_p();
 
-
     go_to_target(task[0] % 10, 2);
     catch_huan();
     put(task[0] % 10);
     catch_p();
 
- 
-   
-    //第一圈粗加工到暂存区
+    // 第一圈粗加工到暂存区
     Roughing_to_staging_area();
 
     // 暂存区放置物料
@@ -173,20 +168,20 @@ int main(void)
     move_backward(speed_all, acc_all, 3.1);
     delay_ms(3000);
     TurnRight(150, 150, 90);
-    delay_ms(1000);
+    delay_ms(2000);
     move_backward(speed_all, acc_all, 1.5);
     delay_ms(3000);
 
     catch_p();
     yaw_run(0, smill_calibrations);
-    move_right(speed_all, 20, 0.2);
-    delay_ms(500);
+    move_right(speed_all, 20, 0.05);
+    delay_ms(300);
 
     // 从原料区抓取物料
 
     // 微调
     weitiao_2();
-  
+
     catch_p();
     catch (task[1] / 100);
     put(task[1] / 100);
@@ -204,25 +199,26 @@ int main(void)
     move_left(speed_all, 20, 0.2);
     delay_ms(500);
     yaw_run(0, smill_calibrations);
-    move_backward(speed_all, acc_all, 1.63);
+    move_backward(speed_all, acc_all, 1.69);
     delay_ms(1900);
     TurnLeft(150, 150, 90);
-    delay_ms(1000);
-    yaw_run(90, smill_calibrations);
+    delay_ms(2000);
+    yaw_run(89, smill_calibrations);
     move_forward(speed_all, acc_all, 3.5);
     delay_ms(2800);
-    //转人工
+    // 转人工
     //
-    yaw_run(90, smill_calibrations);
+    yaw_run(89, smill_calibrations);
     move_forward(speed_all, acc_all, 3.415);
     delay_ms(2800);
 
     catch_p();
-   TurnLeft(150, 150, 90);
-    delay_ms(1000);
-    move_right(speed_all, 20, 0.4);
+    TurnLeft(150, 150, 90);
+    delay_ms(2000);
+    yaw_run(179, smill_calibrations);
+    move_right(speed_all, 20, 0.3);
     delay_ms(500);
-    yaw_run(180, smill_calibrations);
+    yaw_run(179, smill_calibrations);
     now = 2;
     // 在这里写放置函数
     // 微调
@@ -257,10 +253,6 @@ int main(void)
     catch_huan();
     put(task[1] % 10);
     catch_p();
-
-   
-   
-
     // 粗加工到暂存区
     Roughing_to_staging_area();
 
@@ -297,15 +289,16 @@ int main(void)
     // 回到起点
     move_left(speed_all, 20, 0.3);
     delay_ms(700);
-   TurnLeft(150, 150, 90);
-    delay_ms(1000);
-    yaw_run(180, smill_calibrations);
-    move_forward(speed_all, acc_all, 3.0);
+    TurnLeft(150, 150, 90);
+    delay_ms(2000);
+    yaw_run(179, smill_calibrations);
+    move_forward(speed_all, acc_all, 3.2);
     delay_ms(3000);
-    yaw_run(180, smill_calibrations);
-    move_forward(speed_all, acc_all, 3.9);
+    yaw_run(179, smill_calibrations);
+    move_forward(speed_all, acc_all, 4.2);
     delay_ms(3000);
- move_left(speed_all, 20, 2);
+    yaw_run(179, smill_calibrations);
+    move_left(speed_all, 20, 4.2);
     delay_ms(3000);
     while (1) {
         /* code */
@@ -320,7 +313,7 @@ void goto_rough()
     move_backward(speed_all, acc_all, 1.5);
     delay_ms(1900);
     TurnLeft(150, 150, 90);
-    delay_ms(1000);
+    delay_ms(2000);
     yaw_run(90, smill_calibrations);
     move_forward(speed_all, acc_all, 3.5);
     delay_ms(2800);
@@ -329,13 +322,12 @@ void goto_rough()
     move_forward(speed_all, acc_all, 3.35);
     delay_ms(2800);
 
-
     catch_p();
     TurnLeft(150, 150, 90);
-    delay_ms(1000);
+    delay_ms(2000);
     move_right(speed_all, 20, 0.4);
     delay_ms(500);
-    yaw_run(180, smill_calibrations);   
+    yaw_run(180, smill_calibrations);
     now = 2;
 }
 // 粗加工到暂存区
@@ -346,19 +338,19 @@ void Roughing_to_staging_area()
     yaw_run(180, smill_calibrations);
     move_left(speed_all, acc_all, 0.4);
     delay_ms(800);
-    move_left(speed_all, acc_all, 3.3);
+    move_left(speed_all, acc_all, 3.19);
     delay_ms(3000);
     yaw_run(180, smill_calibrations);
     delay_ms(100);
-    move_backward(speed_all, acc_all, 3.4);
+    move_backward(speed_all, acc_all, 3.25);
     delay_ms(3000);
     TurnRight(150, 150, 90);
-    delay_ms(100);
+    delay_ms(2000);
     catch_p();
     yaw_run(90, smill_calibrations);
-    move_right(speed_all,20,0.24);
-    delay_ms(500);
-    yaw_run(90, smill_calibrations);
+    // move_right(speed_all,20,0.24);
+    // delay_ms(500);
+    // yaw_run(90, smill_calibrations);
 }
 
 // 粗加工区按顺序位移，已包含了微调
