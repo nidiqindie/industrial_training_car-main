@@ -46,8 +46,8 @@ int cw_5, cw_2, cw_3, cw_4;
 #define yaw_vel 30
 // 微调坐标
 // gg=0就是色环,gg1就是原料区的色块,gg=2就是地上色块，gg=3就是色块上叠加色块
-#define gg_0_X 154
-#define gg_0_Y 102
+#define gg_0_X 153
+#define gg_0_Y 105
 #define gg_1_X 145
 #define gg_1_Y 108
 #define gg_2_X 150
