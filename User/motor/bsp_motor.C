@@ -46,8 +46,8 @@ int cw_5, cw_2, cw_3, cw_4;
 #define yaw_vel 30
 // 微调坐标
 // gg=0就是色环,gg1就是原料区的色块,gg=2就是地上色块，gg=3就是色块上叠加色块
-#define gg_0_X 79
-#define gg_0_Y 52
+#define gg_0_X 77
+#define gg_0_Y 50
 #define gg_1_X 83
 #define gg_1_Y 58
 #define gg_2_X 79
@@ -421,6 +421,7 @@ void L_Translation(int speeed)
 }
 
 #define gg1_speed 15
+#define gg0_calibation 1
 // gg=0就是色环,gg1就是原料区的色块,gg=2就是地上色块
 void weitiao(int gg)
 {
@@ -471,15 +472,15 @@ void weitiao(int gg)
         while (flag_adjusting <= 4 && flag_adjusting != 0) {
             printf("XX1:%d YY1:%d\n\r", XX1, YY1);
             if (flag_cx_complete == 0 && XX1 != 0) {
-                if (XX1 < gg_0_X - 2) {
+                if (XX1 < gg_0_X - gg0_calibation) {
                     Forward(5);
-                    while (XX1 < gg_0_X - 2);
+                    while (XX1 < gg_0_X - gg0_calibation);
 
                 }
 
-                else if (XX1 > gg_0_X + 2) {
+                else if (XX1 > gg_0_X + gg0_calibation) {
                     Backward(5);
-                    while (XX1 > gg_0_X + 2);
+                    while (XX1 > gg_0_X + gg0_calibation);
                 }
                 stop();
                 flag_cx_complete = 1;
@@ -487,13 +488,13 @@ void weitiao(int gg)
                 flag_cy_start    = 1;
             }
             if (flag_cy_start == 1 && flag_cy_complete == 0 && YY1 != 0) {
-                if (YY1 < gg_0_Y - 2) {
+                if (YY1 < gg_0_Y - gg0_calibation) {
                     R_Translation(5);
-                    while (YY1 < gg_0_Y - 2);
+                    while (YY1 < gg_0_Y - gg0_calibation);
 
-                } else if (YY1 > gg_0_Y + 2) {
+                } else if (YY1 > gg_0_Y + gg0_calibation) {
                     L_Translation(5);
-                    while (YY1 > gg_0_Y + 2);
+                    while (YY1 > gg_0_Y + gg0_calibation);
                 }
                 stop();
                 flag_cy_complete = 1;
@@ -507,6 +508,44 @@ void weitiao(int gg)
     if (gg == 2) {
         flag_adjusting = 1;
         while (flag_adjusting <= 4 && flag_adjusting != 0) {
+            if (flag_cx_complete == 0 && XX != 0) {
+                if (XX < gg_2_X - 2) {
+                    Forward(15);
+                    while (XX < gg_2_X - 2);
+
+                }
+
+                else if (XX > gg_2_X + 2) {
+                    Backward(15);
+                    while (XX > gg_2_X + 2);
+                }
+                stop();
+                flag_cx_complete = 1;
+                flag_cy_complete = 0;
+                flag_cy_start    = 1;
+            }
+            if (flag_cy_start == 1 && flag_cy_complete == 0 && YY != 0) {
+                if (YY < gg_2_Y - 2) {
+                    R_Translation(15);
+                    while (YY < gg_2_Y - 2);
+
+                } else if (YY > gg_2_Y + 2) {
+                    L_Translation(15);
+                    while (YY > gg_2_Y + 2);
+                }
+                stop();
+                flag_cy_complete = 1;
+                flag_adjusting++;
+                flag_cx_complete = 0;
+                delay_ms(200);
+            }
+        }
+    }
+
+    // 地上的色块
+    if (gg == 3) {
+        flag_adjusting = 1;
+        while (flag_adjusting <= 2 && flag_adjusting != 0) {
             if (flag_cx_complete == 0 && XX != 0) {
                 if (XX < gg_2_X - 2) {
                     Forward(15);

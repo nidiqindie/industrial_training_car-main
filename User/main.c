@@ -44,8 +44,7 @@ int main(void)
 {
 
     car_init();
-
-
+   
 
     // 出来
     move_left(speed_all, acc_all, 0.5);
@@ -124,18 +123,18 @@ int main(void)
     go_to_target(task[0] % 10, 0);
     put_huan(task[0] % 10);
     catch_p();
-    // 加工完成
-    go_to_target(task[0] / 100, 2);
+    // 加工完成取物料
+    go_to_target(task[0] / 100, 3);
     catch_huan();
     put(task[0] / 100);
     catch_p();
 
-    go_to_target((task[0] % 100) / 10, 2);
+    go_to_target((task[0] % 100) / 10, 3);
     catch_huan();
     put((task[0] % 100) / 10);
     catch_p();
 
-    go_to_target(task[0] % 10, 2);
+    go_to_target(task[0] % 10, 3);
     catch_huan();
     put(task[0] % 10);
     catch_p();
@@ -170,13 +169,13 @@ int main(void)
     delay_ms(3000);
     TurnRight(150, 150, 90);
     delay_ms(2000);
-    move_backward(speed_all, acc_all, 1.5);
+    move_backward(speed_all, acc_all, 1.35);
     delay_ms(3000);
 
     catch_p();
     delay_ms(50);
     yaw_run(0, smill_calibrations);
-    move_right(speed_all, 20, 0.05);
+    move_right(speed_all, 20, 0.1);
     delay_ms(300);
 
     // 从原料区抓取物料
@@ -246,17 +245,17 @@ int main(void)
     catch_p();
     delay_ms(1500);
 
-    go_to_target(task[1] / 100, 2);
+    go_to_target(task[1] / 100, 3);
     catch_huan();
     put(task[1] / 100);
     catch_p();
 
-    go_to_target((task[1] % 100) / 10, 2);
+    go_to_target((task[1] % 100) / 10, 3);
     catch_huan();
     put((task[1] % 100) / 10);
     catch_p();
 
-    go_to_target(task[1] % 10, 2);
+    go_to_target(task[1] % 10, 3);
     catch_huan();
     put(task[1] % 10);
     catch_p();
@@ -272,7 +271,7 @@ int main(void)
     delay_ms(50);
     yaw_run(181, smill_calibrations);
     delay_ms(100);
-    move_backward(speed_all, acc_all, 3.4);
+    move_backward(speed_all, acc_all, 3.6);
     delay_ms(3000);
     TurnRight(150, 150, 89);
     delay_ms(2000);
@@ -327,6 +326,7 @@ int main(void)
     yaw_run(181, smill_calibrations);
     move_left(speed_all, 20, 4.25);
     delay_ms(3000);
+    move_forward(speed_all,20,0.25);
     while (1) {
         /* code */
     }
@@ -369,7 +369,7 @@ void Roughing_to_staging_area()
     delay_ms(3000);
     yaw_run(180, smill_calibrations);
     delay_ms(100);
-    move_backward(speed_all, acc_all, 3.5);
+    move_backward(speed_all, acc_all, 3.37);
     delay_ms(3000);
     TurnRight(150, 150, 90);
     delay_ms(2000);
@@ -381,7 +381,8 @@ void Roughing_to_staging_area()
 }
 
 // 粗加工区按顺序位移，已包含了微调
-// Type_of_fine_tuning=0就是色环，Type_of_fine_tuning=2就是地上色块,Type_of_fine_tuning=1就是原料区的色块
+// Type_of_fine_tuning=0就是色环，Type_of_fine_tuning=2就是地上色块,Type_of_fine_tuning=1就是原料区的色块,Type_of_fine_tuning=3就是抓取地上色块
+//抓取地上物块微调次数少此外与Type_of_fine_tuning=2无异
 void go_to_target(int target, int Type_of_fine_tuning)
 {
     delay_ms(50);
