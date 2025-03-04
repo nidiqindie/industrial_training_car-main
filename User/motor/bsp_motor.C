@@ -46,14 +46,14 @@ int cw_5, cw_2, cw_3, cw_4;
 #define yaw_vel 30
 // 微调坐标
 // gg=0就是色环,gg1就是原料区的色块,gg=2就是地上色块，gg=3就是色块上叠加色块
-#define gg_0_X 156
-#define gg_0_Y 101
-#define gg_1_X 140
-#define gg_1_Y 108
-#define gg_2_X 147
-#define gg_2_Y 111
-#define gg_3_X 148
-#define gg_3_Y 112 
+#define gg_0_X 79
+#define gg_0_Y 52
+#define gg_1_X 83
+#define gg_1_Y 58
+#define gg_2_X 79
+#define gg_2_Y 52
+#define gg_3_X 75
+#define gg_3_Y 55 
 uint8_t Array[16] = {0}; // 步进电机发送数据数组  //步进电机发送数据数组
 extern int flag_err, flag_arrive, flag_arrive_lifting;
 // 前左L1-3 前右R1-5 后左L2-4 后右R2-2
@@ -82,7 +82,7 @@ extern int flag_err, flag_arrive, flag_arrive_lifting;
 #define xPulse_Per_1D     46.91   // 左转或右转1度需要的脉冲数
 #define xPulse_Per_1mm_UD 105.263 // 上升或下降1毫米需要的脉冲数
 // 转动函数
-void yaw_run(int16_t target_yaw, int16_t error_range)
+void yaw_run(float target_yaw, int16_t error_range)
 {
     if (error_range <= 1) // 角度调整
     {
@@ -707,7 +707,7 @@ void Angle_Adjust(float tar_angle)
 {
 
     float angle_err = tar_angle - curAngle;
-    if (tar_angle <= 180 && tar_angle >= 175 && curAngle < 0) {
+    if (tar_angle <= 185 && tar_angle >= 175 && curAngle < 0) {
         angle_err = tar_angle - curAngle - 360;
         /* code */
     }
@@ -724,7 +724,7 @@ void Angle_Adjust(float tar_angle)
     }
 
     angle_err = tar_angle - curAngle;
-    if (tar_angle <= 180 && tar_angle >= 175 && curAngle < 0) {
+    if (tar_angle <= 185 && tar_angle >= 175 && curAngle < 0) {
         angle_err = tar_angle - curAngle - 360;
         /* code */
     }
@@ -738,19 +738,5 @@ void Angle_Adjust(float tar_angle)
         TurnRight(150, 150, angle_err);
         delay_ms(600);
     }
-    angle_err = tar_angle - curAngle;
-    if (tar_angle <= 180 && tar_angle >= 175 && curAngle < 0) {
-        angle_err = tar_angle - curAngle - 360;
-        /* code */
-    }
-    if (angle_err >= 0.1) {
-        TurnLeft(150, 150, angle_err);
-        delay_ms(600);
-    }
-
-    else if (angle_err <= 0.1) {
-        angle_err = -angle_err;
-        TurnRight(150, 150, angle_err);
-        delay_ms(600);
-    }
+  
 }

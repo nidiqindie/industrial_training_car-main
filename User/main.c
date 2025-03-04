@@ -31,7 +31,7 @@ extern uint16_t DistanceX, DistanceY, Size, XX, YY;
 extern int task[2];
 unsigned char buf[64];
 // 提取函数声明
-void goto_rough();
+
 void Roughing_to_staging_area();
 
 void go_to_target(int target, int Type_of_fine_tuning);
@@ -44,14 +44,16 @@ int main(void)
 {
 
     car_init();
-    
+
+
+
     // 出来
     move_left(speed_all, acc_all, 0.5);
     delay_ms(1000);
     standby_p();
     // 前进到扫码
-    move_forward(speed_all, 10, 2.4);
-    delay_ms(3000);
+    move_forward(speed_all, 10, 2.9);
+    delay_ms(2500);
 
     while (task[0] == 0 || task[1] == 0); // 二维码识别发送
 
@@ -64,7 +66,7 @@ int main(void)
     HMISendb(0xff);                                       // 结束符
 
     // 前进到获取物料
-    move_forward(speed_all, acc_all, 3.45);
+    move_forward(speed_all, acc_all, 2.95);
     delay_ms(2500);
 
     // 微调加抓取
@@ -89,7 +91,7 @@ int main(void)
     move_left(speed_all, 20, 0.2);
     delay_ms(500);
     yaw_run(0, smill_calibrations);
-    move_backward(speed_all, acc_all, 1.53);
+    move_backward(speed_all, acc_all, 1.69);
     delay_ms(1900);
     TurnLeft(150, 150, 90);
     delay_ms(2000);
@@ -137,6 +139,7 @@ int main(void)
     catch_huan();
     put(task[0] % 10);
     catch_p();
+    delay_ms(1);
 
     // 第一圈粗加工到暂存区
     Roughing_to_staging_area();
@@ -171,6 +174,7 @@ int main(void)
     delay_ms(3000);
 
     catch_p();
+    delay_ms(50);
     yaw_run(0, smill_calibrations);
     move_right(speed_all, 20, 0.05);
     delay_ms(300);
@@ -196,27 +200,32 @@ int main(void)
     // 后退转弯到粗加工
     move_left(speed_all, 20, 0.2);
     delay_ms(500);
+    delay_ms(50);
     yaw_run(0, smill_calibrations);
     move_backward(speed_all, acc_all, 1.69);
     delay_ms(1900);
     TurnLeft(150, 150, 90);
     delay_ms(2000);
-    yaw_run(89, smill_calibrations);
+    delay_ms(50);
+    yaw_run(91, smill_calibrations);
     move_forward(speed_all, acc_all, 3.5);
     delay_ms(2800);
     // 转人工
     //
-    yaw_run(89, smill_calibrations);
+    delay_ms(50);
+    yaw_run(91, smill_calibrations);
     move_forward(speed_all, acc_all, 3.415);
     delay_ms(2800);
 
     catch_p();
     TurnLeft(150, 150, 90);
     delay_ms(2000);
-    yaw_run(179, smill_calibrations);
+    delay_ms(50);
+    yaw_run(181, smill_calibrations);
     move_right(speed_all, 20, 0.3);
     delay_ms(500);
-    yaw_run(179, smill_calibrations);
+    delay_ms(50);
+    yaw_run(181, smill_calibrations);
     now = 2;
     // 在这里写放置函数
     // 微调
@@ -252,7 +261,24 @@ int main(void)
     put(task[1] % 10);
     catch_p();
     // 粗加工到暂存区
-    Roughing_to_staging_area();
+    go_to_target(2, 0);
+    standby_p();
+    delay_ms(50);
+    yaw_run(181, smill_calibrations);
+    move_left(speed_all, acc_all, 0.4);
+    delay_ms(800);
+    move_left(speed_all, acc_all, 3.19);
+    delay_ms(3000);
+    delay_ms(50);
+    yaw_run(181, smill_calibrations);
+    delay_ms(100);
+    move_backward(speed_all, acc_all, 3.4);
+    delay_ms(3000);
+    TurnRight(150, 150, 89);
+    delay_ms(2000);
+    catch_p();
+    delay_ms(50);
+    yaw_run(91, smill_calibrations);
 
     // 放物料到暂存区
     // 微调(环)
@@ -289,14 +315,17 @@ int main(void)
     delay_ms(700);
     TurnLeft(150, 150, 90);
     delay_ms(2000);
-    yaw_run(179, smill_calibrations);
+    delay_ms(50);
+    yaw_run(181, smill_calibrations);
     move_forward(speed_all, acc_all, 3.2);
     delay_ms(3000);
-    yaw_run(179, smill_calibrations);
+    delay_ms(50);
+    yaw_run(181, smill_calibrations);
     move_forward(speed_all, acc_all, 4.2);
     delay_ms(3000);
-    yaw_run(179, smill_calibrations);
-    move_left(speed_all, 20, 4.2);
+    delay_ms(50);
+    yaw_run(181, smill_calibrations);
+    move_left(speed_all, 20, 4.25);
     delay_ms(3000);
     while (1) {
         /* code */
@@ -340,7 +369,7 @@ void Roughing_to_staging_area()
     delay_ms(3000);
     yaw_run(180, smill_calibrations);
     delay_ms(100);
-    move_backward(speed_all, acc_all, 3.25);
+    move_backward(speed_all, acc_all, 3.5);
     delay_ms(3000);
     TurnRight(150, 150, 90);
     delay_ms(2000);
