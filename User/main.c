@@ -47,7 +47,7 @@ int main(void)
    
 
     // 出来
-    move_left(speed_all, acc_all, 0.5);
+    move_left(speed_all, acc_all, 0.55);
     delay_ms(1000);
     standby_p();
     // 前进到扫码
@@ -67,6 +67,8 @@ int main(void)
     // 前进到获取物料
     move_forward(speed_all, acc_all, 2.95);
     delay_ms(2500);
+    move_right(speed_all, acc_all, 0.05);
+    delay_ms(500);
 
     // 微调加抓取
     // 微调（转盘色块）
@@ -271,7 +273,7 @@ int main(void)
     delay_ms(50);
     yaw_run(181, smill_calibrations);
     delay_ms(100);
-    move_backward(speed_all, acc_all, 3.4);
+    move_backward(speed_all, acc_all, 3.45);
     delay_ms(3000);
     TurnRight(150, 150, 89);
     delay_ms(2000);
@@ -369,7 +371,7 @@ void Roughing_to_staging_area()
     delay_ms(3000);
     yaw_run(180, smill_calibrations);
     delay_ms(100);
-    move_backward(speed_all, acc_all, 3.37);
+    move_backward(speed_all, acc_all, 3.43);
     delay_ms(3000);
     TurnRight(150, 150, 90);
     delay_ms(2000);
