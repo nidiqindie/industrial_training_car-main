@@ -271,7 +271,7 @@ int main(void)
     delay_ms(50);
     yaw_run(181, smill_calibrations);
     delay_ms(100);
-    move_backward(speed_all, acc_all, 3.6);
+    move_backward(speed_all, acc_all, 3.4);
     delay_ms(3000);
     TurnRight(150, 150, 89);
     delay_ms(2000);
