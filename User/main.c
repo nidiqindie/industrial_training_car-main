@@ -11,7 +11,7 @@
 #include "Serial_k210.h"
 #include "OLED.h"
 #include "delay.h"
-#include "jy61p.h"
+#include "hwt101.h"
 /*
  move_forward(speed_all, 10, 7.7);
     delay_ms(5200);
@@ -20,7 +20,7 @@
 */
 //
 ////
-#define  manually_calibrated 1
+#define manually_calibrated 3
 int now = 2;
 #define speed_all          300
 #define acc_all            100
@@ -45,8 +45,6 @@ int main(void)
 {
 
     car_init();
-   
-
     // 出来
     move_left(speed_all, acc_all, 0.83);
     delay_ms(1000);
@@ -160,19 +158,20 @@ int main(void)
     put_huan(task[0] % 10);
 
     catch_p();
+
     go_to_target(1, 2);
     standby_p();
     /*
     第二圈
     */
     // 暂存区到抓取二轮物料
-    move_left(speed_all, 20, 0.5);
+    move_left(speed_all, 20, 0.3);
     delay_ms(800);
     move_backward(speed_all, acc_all, 3.1);
     delay_ms(3000);
     TurnRight(150, 150, 90);
     delay_ms(2000);
-    move_backward(speed_all, acc_all, 1.45);
+    move_backward(speed_all, acc_all, 1.53);
     delay_ms(3000);
 
     catch_p();
@@ -209,13 +208,13 @@ int main(void)
     TurnLeft(150, 150, 90);
     delay_ms(2000);
     delay_ms(50);
-    yaw_run(90+manually_calibrated-1, smill_calibrations);
+    yaw_run(90 + manually_calibrated + 1, smill_calibrations);
     move_forward(speed_all, acc_all, 3.5);
     delay_ms(2800);
     // 转人工
     //
     delay_ms(50);
-    yaw_run(90+manually_calibrated, smill_calibrations);
+    yaw_run(90 + manually_calibrated, smill_calibrations);
     move_forward(speed_all, acc_all, 3.415);
     delay_ms(2800);
 
@@ -223,11 +222,11 @@ int main(void)
     TurnLeft(150, 150, 90);
     delay_ms(2000);
     delay_ms(50);
-    yaw_run(180+manually_calibrated, smill_calibrations);
+    yaw_run(180 + manually_calibrated, smill_calibrations);
     move_right(speed_all, 20, 0.3);
     delay_ms(500);
     delay_ms(50);
-    yaw_run(180+manually_calibrated, smill_calibrations);
+    yaw_run(180 + manually_calibrated, smill_calibrations);
     now = 2;
     // 在这里写放置函数
     // 微调
@@ -262,17 +261,18 @@ int main(void)
     catch_huan();
     put(task[1] % 10);
     catch_p();
+    delay_ms(300);
     // 粗加工到暂存区
     go_to_target(2, 0);
     standby_p();
     delay_ms(50);
-    yaw_run(180+manually_calibrated, smill_calibrations);
+    yaw_run(180 + manually_calibrated, smill_calibrations);
     move_left(speed_all, acc_all, 0.4);
     delay_ms(800);
     move_left(speed_all, acc_all, 3.19);
     delay_ms(3000);
     delay_ms(50);
-    yaw_run(180+manually_calibrated, smill_calibrations);
+    yaw_run(180 + manually_calibrated, smill_calibrations);
     delay_ms(100);
     move_backward(speed_all, acc_all, 3.35);
     delay_ms(3000);
@@ -280,7 +280,9 @@ int main(void)
     delay_ms(2000);
     catch_p();
     delay_ms(50);
-    yaw_run(90+manually_calibrated, smill_calibrations);
+    yaw_run(90 + manually_calibrated, smill_calibrations);
+    move_right(100, 10, 0.2);
+    delay_ms(300);
 
     // 放物料到暂存区
     // 微调(环)
@@ -318,18 +320,18 @@ int main(void)
     TurnLeft(150, 150, 90);
     delay_ms(2000);
     delay_ms(50);
-    yaw_run(180+manually_calibrated, smill_calibrations);
+    yaw_run(180 + manually_calibrated, smill_calibrations);
     move_forward(speed_all, acc_all, 3.2);
     delay_ms(3000);
     delay_ms(50);
-    yaw_run(180+manually_calibrated, smill_calibrations);
+    yaw_run(180 + manually_calibrated, smill_calibrations);
     move_forward(speed_all, acc_all, 4.2);
     delay_ms(3000);
     delay_ms(50);
-    yaw_run(180+manually_calibrated, smill_calibrations);
+    yaw_run(180 + manually_calibrated, smill_calibrations);
     move_left(speed_all, 20, 4.25);
     delay_ms(3000);
-    move_forward(speed_all,20,0.25);
+    move_forward(speed_all, 20, 0.25);
     while (1) {
         /* code */
     }
@@ -363,6 +365,7 @@ void goto_rough()
 // 粗加工到暂存区
 void Roughing_to_staging_area()
 {
+    delay_ms(300);
     go_to_target(2, 0);
     standby_p();
     yaw_run(180, smill_calibrations);
@@ -372,20 +375,20 @@ void Roughing_to_staging_area()
     delay_ms(3000);
     yaw_run(180, smill_calibrations);
     delay_ms(100);
-    move_backward(speed_all, acc_all, 3.33);
+    move_backward(speed_all, acc_all, 3.45);
     delay_ms(3000);
     TurnRight(150, 150, 90);
     delay_ms(2000);
     catch_p();
     yaw_run(90, smill_calibrations);
-    // move_right(speed_all,20,0.24);
-    // delay_ms(500);
+    move_right(speed_all, 20, 0.2);
+    delay_ms(500);
     // yaw_run(90, smill_calibrations);
 }
 
 // 粗加工区按顺序位移，已包含了微调
 // Type_of_fine_tuning=0就是色环，Type_of_fine_tuning=2就是地上色块,Type_of_fine_tuning=1就是原料区的色块,Type_of_fine_tuning=3就是抓取地上色块
-//抓取地上物块微调次数少此外与Type_of_fine_tuning=2无异
+// 抓取地上物块微调次数少此外与Type_of_fine_tuning=2无异
 void go_to_target(int target, int Type_of_fine_tuning)
 {
     delay_ms(50);

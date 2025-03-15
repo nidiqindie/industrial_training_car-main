@@ -14,7 +14,7 @@
 #include "servo.h"
 #include "Serial_k210.h"
 #include "Serial.h"
-#include "jy61p.h"
+#include "hwt101.h"
 #include "OLED.h"
 
 
@@ -24,14 +24,16 @@ void car_init(void)
 //初始化一些必要的东西，张大头板子和串口并且延时2秒等待其初始化
 	board_init();
 	delay_ms(2000);
-    Usart2Init(115200);
+    Usart2Init(9600);
     USART1_Config();
 	SERVO_TIM_Init();
 	USART3_Config();
 	UART4_init();
     UART5_init();
+    Yaw_setzero();
+
     // 初始化陀螺仪
-    jy61p_init();
+    // jy61p_init();
     OLED_Init();
     OLED_Clear();
     // 使能四个步进电机。

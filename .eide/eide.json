@@ -212,21 +212,6 @@
             "path": "User/serial/Serial.h"
           },
           {
-            "path": "User/jy61p/REG.h"
-          },
-          {
-            "path": "User/jy61p/wit_c_sdk.c"
-          },
-          {
-            "path": "User/jy61p/wit_c_sdk.h"
-          },
-          {
-            "path": "User/jy61p/jy61p.c"
-          },
-          {
-            "path": "User/jy61p/jy61p.h"
-          },
-          {
             "path": "User/oled/oled_software/OLED.c"
           },
           {
@@ -234,6 +219,21 @@
           },
           {
             "path": "User/oled/oled_software/OLED_Font.h"
+          },
+          {
+            "path": "User/hwt101/hwt101.c"
+          },
+          {
+            "path": "User/hwt101/hwt101.h"
+          },
+          {
+            "path": "User/hwt101/REG.h"
+          },
+          {
+            "path": "User/hwt101/wit_c_sdk.c"
+          },
+          {
+            "path": "User/hwt101/wit_c_sdk.h"
           }
         ],
         "folders": []
@@ -575,12 +575,17 @@
         },
         "options": "null"
       },
-      "uploader": "OpenOCD",
+      "uploader": "JLink",
       "uploadConfig": {
         "bin": "",
-        "target": "stm32f1x",
-        "interface": "cmsis-dap-v1",
-        "baseAddr": "0x08000000"
+        "baseAddr": "",
+        "cpuInfo": {
+          "vendor": "ST",
+          "cpuName": "STM32F103RC (allow opt. bytes)"
+        },
+        "proType": 1,
+        "speed": 8000,
+        "otherCmds": ""
       },
       "uploadConfigMap": {
         "JLink": {
@@ -604,6 +609,12 @@
           "elFile": "None",
           "optionBytes": ".eide/rct6.st.option.bytes.ini",
           "otherCmds": ""
+        },
+        "OpenOCD": {
+          "bin": "",
+          "target": "stm32f1x",
+          "interface": "cmsis-dap-v1",
+          "baseAddr": "0x08000000"
         }
       },
       "custom_dep": {
@@ -628,9 +639,9 @@
           "User/serial",
           ".cmsis/include",
           "Project/F103RCT6_BspTemplate/RTE/_F103C8T6_BspTemplate",
-          "User/jy61p",
           "User/oled/oled_software",
-          "RTE/_RCT6"
+          "RTE/_RCT6",
+          "User/hwt101"
         ],
         "libList": [],
         "defineList": [

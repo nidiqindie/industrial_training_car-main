@@ -1,5 +1,5 @@
-#include "jy61p.h"
-
+#include "hwt101.h"
+float yaw = 0;
 // jy61p参数定义
 #define ACC_UPDATE   0x01
 #define GYRO_UPDATE  0x02
@@ -8,6 +8,7 @@
 #define READ_UPDATE  0x80
 static volatile char s_cDataUpdate = 0, s_cCmd = 0xff;
 const uint32_t c_uiBaud[10] = {0, 4800, 9600, 19200, 38400, 57600, 115200, 230400, 460800, 921600};
+uint8_t array_yaw[20]       = {0};
 static void CmdProcess(void);
 void jy61p_init();
 static void AutoScanSensor(void);
@@ -55,13 +56,58 @@ void Usart2Init(unsigned int uiBaud)
     NVIC_InitStructure.NVIC_IRQChannelCmd                = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
 }
+void CopeSerial2Data(unsigned char ucData)
+{
+    static unsigned char ucRxBuffer[250];
+    static unsigned char ucRxCnt = 0;
+
+    ucRxBuffer[ucRxCnt++] = ucData;
+    if (ucRxBuffer[0] != 0x55) // 校验数据头
+    {
+        ucRxCnt = 0;
+        return;
+    }
+
+    if (ucRxCnt < 11) { return; } // 判断一帧数据是否接收完成
+    {
+        switch (ucRxBuffer[1]) {
+            case 0x53:
+                yaw = (((short)ucRxBuffer[7] << 8) | ucRxBuffer[6]) / 32768.0 * 180.0;
+                // 设置角度范围在-350到10之间
+                if (yaw > 10) yaw -= 360;
+                break;
+        }
+        ucRxCnt = 0;
+    }
+}
+void Uartx_SendArray(USART_TypeDef *pUSARTx, uint8_t *array, uint16_t num)
+{
+    uint8_t i;
+
+    for (i = 0; i < num; i++) {
+        /* 发送一个字节数据到USART */
+        Usart_SendByte(pUSARTx, array[i]);
+    }
+    /* 等待发送完成 */
+    while (USART_GetFlagStatus(pUSARTx, USART_FLAG_TC) == RESET);
+}
+
+void Yaw_setzero()
+{
+    array_yaw[0] = 0xFF;
+    array_yaw[1] = 0xAA;
+    array_yaw[2] = 0x76;
+    array_yaw[3] = 0x00;
+    array_yaw[4] = 0x00;
+
+    Uartx_SendArray(USART2, array_yaw, 5);
+}
+
 void USART2_IRQHandler(void)
 {
     unsigned char ucTemp;
     if (USART_GetITStatus(USART2, USART_IT_RXNE) != RESET) {
-        ucTemp = USART_ReceiveData(USART2);
-        WitSerialDataIn(ucTemp);
-
+        CopeSerial2Data((unsigned char)USART2->DR); // 接收数据
         USART_ClearITPendingBit(USART2, USART_IT_RXNE);
     }
 }

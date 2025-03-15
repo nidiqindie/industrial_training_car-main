@@ -46,14 +46,14 @@ int cw_5, cw_2, cw_3, cw_4;
 #define yaw_vel 30
 // 微调坐标
 // gg=0就是色环,gg1就是原料区的色块,gg=2就是地上色块，gg=3就是色块上叠加色块
-#define gg_0_X 77
-#define gg_0_Y 50
-#define gg_1_X 83
-#define gg_1_Y 58
-#define gg_2_X 79
-#define gg_2_Y 52
-#define gg_3_X 75
-#define gg_3_Y 55 
+#define gg_0_X 153
+#define gg_0_Y 105
+#define gg_1_X 163
+#define gg_1_Y 123
+#define gg_2_X 158
+#define gg_2_Y 111
+#define gg_3_X 153
+#define gg_3_Y 117
 uint8_t Array[16] = {0}; // 步进电机发送数据数组  //步进电机发送数据数组
 extern int flag_err, flag_arrive, flag_arrive_lifting;
 // 前左L1-3 前右R1-5 后左L2-4 后右R2-2
@@ -90,19 +90,18 @@ void yaw_run(float target_yaw, int16_t error_range)
     } else // 大转
     {
         float angle = curAngle;
-        if (target_yaw<=180&&target_yaw>=175&&curAngle<-90)
-        {
-            angle=curAngle+360;
+        if (target_yaw <= 180 && target_yaw >= 175 && curAngle < -90) {
+            angle = curAngle + 360;
             /* code */
         }
-        
+
         if ((target_yaw >= angle) && (target_yaw - angle) > 2) {
             if ((target_yaw - angle) <= 180) // 左转
             {
-                TurnLeft(150, 150, target_yaw );
+                TurnLeft(150, 150, target_yaw);
                 delay_ms(2000);
             } else { // 右转
-                TurnRight(150, 150, target_yaw );
+                TurnRight(150, 150, target_yaw);
                 delay_ms(2000);
             }
         }
@@ -420,8 +419,8 @@ void L_Translation(int speeed)
     delay_ms(1);
 }
 
-#define gg1_speed 15
-#define gg0_calibation 1
+#define gg1_speed      15
+#define gg0_calibation 2
 // gg=0就是色环,gg1就是原料区的色块,gg=2就是地上色块
 void weitiao(int gg)
 {
@@ -589,16 +588,16 @@ void weitiao_2(void)
     while (1) {
         delay_ms(1000);
 
-        if (abs(XX - x) >= 10)
+        if (abs(XX - x) >= 30)
             break;
         x = XX;
     }
     KKK = K;
     x   = XX;
     while (1) {
-        delay_ms(50);
+        delay_ms(500);
 
-        if (abs(XX - x) <= 20 && KKK != K)
+        if (abs(XX - x) <= 10 && KKK != K)
             break;
         x = XX;
     }
@@ -777,5 +776,4 @@ void Angle_Adjust(float tar_angle)
         TurnRight(150, 150, angle_err);
         delay_ms(600);
     }
-  
 }
