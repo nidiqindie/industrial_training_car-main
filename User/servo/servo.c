@@ -36,7 +36,7 @@ extern uint16_t task[2];
 #define catch_process   8900 // 从加工区拿去物料
 #define put_store       9200 // 将物料放在暂存区
 #define put_maduo       4180 // 将物料进行码垛
-#define y_center        58  // 源180
+#define y_center        123  // 源180
 
 static void SERVO_TIM_GPIO_Config(void)
 {
@@ -192,7 +192,7 @@ void catch_p(void)
 {
     Servo_Angle_Config(1, servo1_out);
     delay_ms(100);
-    Servo_Angle_Config(3, servo3_open);
+    Servo_Angle_Config(3, servo3_catch);
     delay_ms(100);
     Emm_V5_Pos_Control(1, 00, 300, 250, start_position, 01, 00);
     delay_ms(1);
@@ -240,7 +240,7 @@ void catch (uint16_t num)
                 x = XX;
                 y = YY;
                 delay_ms(300);
-                if (abs(XX - x) <= 10 && abs(YY - y) <= 10 && K == 'R' && XX >= 53 && XX <= 113 && YY >= y_center - 25 && YY <= y_center + 25) {
+                if (abs(XX - x) <= 10 && abs(YY - y) <= 10 && K == 'R' && XX >= 113 && XX <= 213 && YY >= y_center - 50 && YY <= y_center + 50) {
                     Emm_V5_Pos_Control(1, 1, 400, 250, catch_rew, 01, 00);
                     delay_ms(500);
                     Servo_Angle_Config(3, servo3_close);
@@ -257,7 +257,7 @@ void catch (uint16_t num)
             x = XX;
             y = YY;
             delay_ms(300);
-            if (abs(XX - x) <= 10 && abs(YY - y) <= 10 && K == 'G' && XX >= 53 && XX <= 113 && YY >= y_center - 25 && YY <= y_center + 25) {
+            if (abs(XX - x) <= 10 && abs(YY - y) <= 10 && K == 'G' && XX >=113 && XX <= 213 && YY >= y_center - 50 && YY <= y_center + 50) {
                 Emm_V5_Pos_Control(1, 1, 400, 250, catch_rew, 01, 00);
                 delay_ms(500);
                 Servo_Angle_Config(3, servo3_close);
@@ -274,7 +274,7 @@ void catch (uint16_t num)
             x = XX;
             y = YY;
             delay_ms(300);
-            if (abs(XX - x) <= 10 && abs(YY - y) <= 10 && K == 'B' && XX >= 53 && XX <= 113 && YY >= y_center -25 && YY <= y_center + 25) {
+            if (abs(XX - x) <= 10 && abs(YY - y) <= 10 && K == 'B' && XX >= 113 && XX <= 213 && YY >= y_center -50 && YY <= y_center + 50) {
                 Emm_V5_Pos_Control(1, 1, 400, 250, catch_rew, 01, 00);
                 delay_ms(500);
                 Servo_Angle_Config(3, servo3_close);
@@ -351,6 +351,8 @@ void catch_huan(void)
 //  将转盘中的物料放到加工区
 void put_huan(uint16_t num)
 {
+    Servo_Angle_Config(3, servo3_open);
+
     switch (num) {
         case 1:
             zp(1);

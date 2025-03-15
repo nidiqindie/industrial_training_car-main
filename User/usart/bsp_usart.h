@@ -7,7 +7,7 @@
 #include "board.h"
 #include "fifo.h"
 #include "wit_c_sdk.h"
-extern float yaw;
+
 
 //
 #define Enable_IRQ_USERT1_RX   1 

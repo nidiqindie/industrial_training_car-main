@@ -9,8 +9,6 @@ __IO bool rxFrameFlag = false;
 __IO uint8_t rxCmd[FIFO_SIZE] = {0};
 __IO uint8_t rxCount = 0;
 
-float yaw;
-
 static void NVIC_USART1_Configuration(void)
 {
   NVIC_InitTypeDef NVIC_InitStructure;

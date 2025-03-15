@@ -13,11 +13,12 @@
 #include "Serial.h"
 #include "servo.h"
 #include "Serial_k210.h"
+#include "hwt101.h"
 #define side_error 5
 #define THE_ANGLE_90 90
 #define THE_ANGLE_180 180
 #define THE_ANGLE_0 0
-#define curAngle sReg[Roll + 2] / 32768.0f * 180.0f
+#define curAngle yaw
 /*PID时基(TIMER6定义*/
 #define            PID_TIMEBASE_TIM               TIM6
 #define            PID_TIMEBASE_APBxClock_FUN     RCC_APB1PeriphClockCmd
