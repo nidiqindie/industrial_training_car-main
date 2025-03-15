@@ -4,10 +4,6 @@
             "path": "."
         }
     ],
-    "settings": {
-        "files.associations": {
-            "bsp_motor.C": "cpp"
-        }
-    },
+    "settings": {},
     "extensions": {}
 }
