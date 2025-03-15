@@ -8,7 +8,8 @@
 char Serial_RxPacket[12];//"@MSG\r\n"
 int gg=0;
 uint8_t Serial_RxFlag;
-uint8_t K,X1, X2, X3, Y1, Y2, Y3, S1, S2, S3, S4, S5;  
+uint8_t K,X1, X2, X3, Y1, Y2, Y3, S1, S2, S3, S4, S5;
+uint8_t ring_color;//圆环颜色  
 uint16_t DistanceX,DistanceY,Size,XX,YY,XX1,YY1;
 extern uint8_t KK='c';
 void UART5_init(void)
@@ -114,7 +115,7 @@ void UART5_IRQHandler(void)
 			LED_CYAN;
                 DistanceX = (X1 - 48) * 100 + (X2 - 48) * 10 + (X3 - 48);
                 DistanceY = (Y1 - 48) * 100 + (Y2 - 48) * 10 + (Y3 - 48);
-                Size = (S1 - 48) * 10000 + (S2 - 48) * 1000 + (S3 - 48) * 100 + (S4 - 48) * 10 + (S5 - 48);
+                //Size = (S1 - 48) * 10000 + (S2 - 48) * 1000 + (S3 - 48) * 100 + (S4 - 48) * 10 + (S5 - 48);
 
 
                 RxState = 0;
@@ -132,6 +133,7 @@ void UART5_IRQHandler(void)
         {
             XX1 = DistanceX;
             YY1 = DistanceY;
+            ring_color=S1;
         }
 
         USART_ClearITPendingBit(UART5, USART_IT_RXNE);
