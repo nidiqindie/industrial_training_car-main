@@ -18,7 +18,7 @@
     这个速度加这个时间刚刚好，而且7.7就是跑满一边的长度
 
 */
-//
+#define luyu 1
 ////
 #define manually_calibrated 3
 int now = 2;
