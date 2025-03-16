@@ -9,9 +9,10 @@ char Serial_RxPacket[12];//"@MSG\r\n"
 int gg=0;
 uint8_t Serial_RxFlag;
 uint8_t K,X1, X2, X3, Y1, Y2, Y3, S1, S2, S3, S4, S5;
-uint8_t ring_color;//圆环颜色  
+int ring_color;//圆环颜色  
 uint16_t DistanceX,DistanceY,Size,XX,YY,XX1,YY1;
 extern uint8_t KK='c';
+extern int flag_color;
 void UART5_init(void)
 {
 	USART_InitTypeDef USART_InitStructure;
@@ -129,11 +130,11 @@ void UART5_IRQHandler(void)
             YY = DistanceY;
 
         }
-        if (K == 'C')
+        if (K == 'C'&&(flag_color==0||(S1-48)==flag_color))//判断是否为目标颜色，为目标颜色才会覆盖坐标
         {
             XX1 = DistanceX;
             YY1 = DistanceY;
-            ring_color=S1;
+            ring_color=S1-48;
         }
 
         USART_ClearITPendingBit(UART5, USART_IT_RXNE);

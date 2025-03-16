@@ -18,7 +18,10 @@
     这个速度加这个时间刚刚好，而且7.7就是跑满一边的长度
 
 */
-#define luyu 1
+// 原始任务码是1-红 2-绿 3-蓝，对应地图上靠近暂存区的颜色是红色，中间是绿色，另一边上是蓝色
+#define red_num 1
+#define green_num 2
+#define blue_num 3
 ////
 #define manually_calibrated 3
 int now = 2;
@@ -31,6 +34,8 @@ char color;
 extern uint16_t DistanceX, DistanceY, Size, XX, YY;
 extern int task[2];
 unsigned char buf[64];
+
+extern int ring_color;
 // 提取函数声明
 
 void Roughing_to_staging_area();
@@ -62,7 +67,30 @@ int main(void)
     sprintf((char *)buf, "page0.t1.txt=\"%d\"", task[1]); // 强制类型转化，转化为字符串
     HMISends((char *)buf);                                // 发送Ri的数据给page0页面的t3文本控件
     HMISendb(0xff);                                       // 结束符
-
+    int task_array[2][3] = {{task[0] / 100, (task[0] % 100) / 10, task[0] % 10}, {task[1] / 100, (task[1] % 100) / 10, task[1] % 10}};
+    for (int i = 0; i < 2; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            switch (task_array[i][j])
+            {
+                // 原始任务码是1-红 2-绿 3-蓝，对应地图上靠近暂存区的颜色是红色，中间是绿色，另一边上是蓝色
+            case 1:
+                task_array[i][j] = red_num;
+                break;
+            case 2:
+                task_array[i][j] = green_num;
+                break;
+            case 3:
+                task_array[i][j] = blue_num;
+                break;
+            default:
+                break;
+            }
+        }
+    }
+    task[0] = task_array[0][0] * 100 + task_array[0][1] * 10 + task_array[0][2];
+    task[1] = task_array[1][0] * 100 + task_array[1][1] * 10 + task_array[1][2];
     // 前进到获取物料
     move_forward(speed_all, acc_all, 2.95);
     delay_ms(2500);
@@ -109,11 +137,12 @@ int main(void)
     move_right(speed_all, 20, 0.4);
     delay_ms(500);
     yaw_run(180, smill_calibrations);
-    now = 2;
+
 
     catch_p();
     // 加工物料
-    now = 2;
+    weitiao(0);
+    now = ring_color==red_num?red_num:(ring_color==blue_num?blue_num:green_num);
     delay_ms(100);
     go_to_target(task[0] / 100, 0);
     put_huan(task[0] / 100);
@@ -146,6 +175,8 @@ int main(void)
 
     // 暂存区放置物料
     catch_p();
+    weitiao(0);
+    now = ring_color==red_num?red_num:(ring_color==blue_num?blue_num:green_num);
     go_to_target(task[0] / 100, 0);
     put_huan(task[0] / 100);
 
@@ -227,10 +258,12 @@ int main(void)
     delay_ms(500);
     delay_ms(50);
     yaw_run(180 + manually_calibrated, smill_calibrations);
-    now = 2;
+    
     // 在这里写放置函数
     // 微调
     catch_p();
+    weitiao(0);
+    now = ring_color==red_num?red_num:(ring_color==blue_num?blue_num:green_num);
     delay_ms(2000);
     go_to_target(task[1] / 100, 0);
     put_huan(task[1] / 100);
