@@ -134,6 +134,7 @@ void UART5_IRQHandler(void)
         {
             XX1 = DistanceX;
             YY1 = DistanceY;
+            ring_color=S1-48;
         }
 
         USART_ClearITPendingBit(UART5, USART_IT_RXNE);
