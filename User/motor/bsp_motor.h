@@ -30,8 +30,9 @@
 #define            PID_TIMEBASE_IRQ_IRQHandler      TIM6_IRQHandler
     /*end*/
 
-    extern int pos_flag;
+extern int pos_flag;
 extern int speed;
+extern int flag_color;
 
 
 
