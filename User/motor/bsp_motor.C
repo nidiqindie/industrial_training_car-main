@@ -46,14 +46,14 @@ int cw_5, cw_2, cw_3, cw_4;
 #define yaw_vel 30
 // 微调坐标
 // gg=0就是色环,gg1就是原料区的色块,gg=2就是地上色块，gg=3就是色块上叠加色块
-#define gg_0_X 153
-#define gg_0_Y 105
-#define gg_1_X 163
-#define gg_1_Y 123
-#define gg_2_X 158
-#define gg_2_Y 111
-#define gg_3_X 153
-#define gg_3_Y 117
+#define gg_0_X 169
+#define gg_0_Y 137
+#define gg_1_X 179
+#define gg_1_Y 156
+#define gg_2_X 171
+#define gg_2_Y 114
+#define gg_3_X 180
+#define gg_3_Y 150
 uint8_t Array[16] = {0}; // 步进电机发送数据数组  //步进电机发送数据数组
 extern int flag_err, flag_arrive, flag_arrive_lifting;
 // 前左L1-3 前右R1-5 后左L2-4 后右R2-2

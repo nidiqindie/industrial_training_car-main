@@ -12,6 +12,7 @@
 #include "OLED.h"
 #include "delay.h"
 #include "hwt101.h"
+
 /*
  move_forward(speed_all, 10, 7.7);
     delay_ms(5200);
@@ -19,8 +20,12 @@
 
 */
 //
+// 原始任务码是1-红 2-绿 3-蓝，对应地图上1靠近暂存区的颜色是红色，2中间是绿色，3另一边上是蓝色
+#define red_num 1
+#define green_num 2
+#define blue_num 3
 ////
-#define manually_calibrated 3
+#define manually_calibrated 0
 int now = 2;
 #define speed_all          300
 #define acc_all            100
@@ -62,7 +67,30 @@ int main(void)
     sprintf((char *)buf, "page0.t1.txt=\"%d\"", task[1]); // 强制类型转化，转化为字符串
     HMISends((char *)buf);                                // 发送Ri的数据给page0页面的t3文本控件
     HMISendb(0xff);                                       // 结束符
-
+    int task_array[2][3] = {{task[0] / 100, (task[0] % 100) / 10, task[0] % 10}, {task[1] / 100, (task[1] % 100) / 10, task[1] % 10}};
+    for (int i = 0; i < 2; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            switch (task_array[i][j])
+            {
+                // 原始任务码是1-红 2-绿 3-蓝，对应地图上靠近暂存区的颜色是红色，中间是绿色，另一边上是蓝色
+            case 1:
+                task_array[i][j] = red_num;
+                break;
+            case 2:
+                task_array[i][j] = green_num;
+                break;
+            case 3:
+                task_array[i][j] = blue_num;
+                break;
+            default:
+                break;
+            }
+        }
+    }
+    task[0] = task_array[0][0] * 100 + task_array[0][1] * 10 + task_array[0][2];
+    task[1] = task_array[1][0] * 100 + task_array[1][1] * 10 + task_array[1][2];
     // 前进到获取物料
     move_forward(speed_all, acc_all, 2.95);
     delay_ms(2500);
@@ -407,5 +435,24 @@ void go_to_target(int target, int Type_of_fine_tuning)
             /* code */
         }
     }
-    weitiao(Type_of_fine_tuning);
+    if (Type_of_fine_tuning == 0)
+    {
+        switch (target) {
+            case red_num:
+                flag_color = 1;
+                break;
+            case green_num:
+                flag_color = 2;
+                break;
+            case blue_num:
+                flag_color = 3;
+                break;
+            default:
+                break;
+        }
+        weitiao(Type_of_fine_tuning);
+        flag_color = 0;
+    }
+    else
+        weitiao(Type_of_fine_tuning);
 }

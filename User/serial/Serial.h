@@ -7,6 +7,7 @@
 extern uint16_t XX,YY,XX1,YY1;
 extern char Serial_RxPacket[];
 extern uint8_t Serial_RxFlag;
+extern uint8_t flag_color;
 
 void UART5_init(void);
 
