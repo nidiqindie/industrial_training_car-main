@@ -17,14 +17,14 @@
  move_forward(speed_all, 10, 7.7);
     delay_ms(5200);
     这个速度加这个时间刚刚好，而且7.7就是跑满一边的长度
-//nihao
+
 */
-//
+
 // 原始任务码是1-红 2-绿 3-蓝，对应地图上1靠近暂存区的颜色是红色，2中间是绿色，3另一边上是蓝色
 #define red_num 1
 #define green_num 2
 #define blue_num 3
-////
+
 #define manually_calibrated 0
 int now = 2;
 #define speed_all          300
@@ -52,6 +52,8 @@ int main(void)
 {
 
     car_init();
+   
+    
     // 出来
     move_left(speed_all, acc_all, 0.83);
     delay_ms(1000);
