@@ -4,7 +4,7 @@
 #include "bsp_usart.h"
 #include "bsp_led.h"
 #include "Serial.h"
-
+#include "bsp_motor.h"
 char Serial_RxPacket[12]; //"@MSG\r\n"
 int gg = 0;
 uint8_t Serial_RxFlag;
