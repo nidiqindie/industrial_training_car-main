@@ -421,6 +421,8 @@ void L_Translation(int speeed)
 
 #define gg1_speed      15
 #define gg0_calibation 2
+int flag_color=0;//目标色环颜色
+extern int ring_color;
 // gg=0就是色环,gg1就是原料区的色块,gg=2就是地上色块
 void weitiao(int gg)
 {
@@ -467,6 +469,7 @@ void weitiao(int gg)
     }
     // 色环
     if (gg == 0) {
+        flag_color=ring_color;//记录当前微调使用的色环颜色
         flag_adjusting = 1;
         while (flag_adjusting <= 4 && flag_adjusting != 0) {
             printf("XX1:%d YY1:%d\n\r", XX1, YY1);
@@ -496,6 +499,7 @@ void weitiao(int gg)
                     while (YY1 > gg_0_Y + gg0_calibation);
                 }
                 stop();
+                flag_color=0;//清楚目标色环颜色
                 flag_cy_complete = 1;
                 flag_adjusting++;
                 flag_cx_complete = 0;

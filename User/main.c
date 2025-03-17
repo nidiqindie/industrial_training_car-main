@@ -36,6 +36,8 @@ char color;
 extern uint16_t DistanceX, DistanceY, Size, XX, YY;
 extern int task[2];
 unsigned char buf[64];
+
+extern int ring_color;
 // 提取函数声明
 
 void Roughing_to_staging_area();
@@ -137,11 +139,12 @@ int main(void)
     move_right(speed_all, 20, 0.4);
     delay_ms(500);
     yaw_run(180, smill_calibrations);
-    now = 2;
+
 
     catch_p();
     // 加工物料
-    now = 2;
+    weitiao(0);
+    now = ring_color==red_num?red_num:(ring_color==blue_num?blue_num:green_num);
     delay_ms(100);
     go_to_target(task[0] / 100, 0);
     put_huan(task[0] / 100);
@@ -174,6 +177,8 @@ int main(void)
 
     // 暂存区放置物料
     catch_p();
+    weitiao(0);
+    now = ring_color==red_num?red_num:(ring_color==blue_num?blue_num:green_num);
     go_to_target(task[0] / 100, 0);
     put_huan(task[0] / 100);
 
@@ -255,10 +260,12 @@ int main(void)
     delay_ms(500);
     delay_ms(50);
     yaw_run(180 + manually_calibrated, smill_calibrations);
-    now = 2;
+    
     // 在这里写放置函数
     // 微调
     catch_p();
+    weitiao(0);
+    now = ring_color==red_num?red_num:(ring_color==blue_num?blue_num:green_num);
     delay_ms(2000);
     go_to_target(task[1] / 100, 0);
     put_huan(task[1] / 100);
