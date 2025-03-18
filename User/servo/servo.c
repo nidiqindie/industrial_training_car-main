@@ -20,12 +20,12 @@ extern uint16_t task[2];
 #define servo2_blue  233 // 蓝色转盘
 
 // 机械臂舵机PWM
-#define servo1_out 60  // 机械臂向外
-#define servo1_in  184 // 机械臂向内
+#define servo1_out 94  // 机械臂向外
+#define servo1_in  208 // 机械臂向内
 
 // 爪子舵机PWM值
-#define servo3_close 37 // 爪子抓取
-#define servo3_open  53 // 爪子展开
+#define servo3_close 35 // 爪子抓取
+#define servo3_open  52 // 爪子展开
 #define servo3_catch 80 // 爪子抓取
 // 机械臂步进电机脉冲数
 #define start_position  0    // 爪子起始位置，最高处

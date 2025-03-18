@@ -52,9 +52,46 @@ int main(void)
 {
 
     car_init();
-   
+catch_p();
     
-    // 出来
+    // 加工物料
+    weitiao(0);
+    now = ring_color==red_num?red_num:(ring_color==blue_num?blue_num:green_num);
+    delay_ms(100);
+    go_to_target(1, 0);
+    put_huan(1);
+    catch_p();
+    go_to_target(2, 0);
+    put_huan(2);
+    catch_p();
+    go_to_target(3, 0);
+    put_huan(3);
+    catch_p();
+    // 加工完成取物料
+    go_to_target(1, 3);
+    catch_huan();
+    put(1);
+    catch_p();
+
+    go_to_target(2, 3);
+    catch_huan();
+    put(2);
+    catch_p();
+
+    go_to_target(3, 3);
+    catch_huan();
+    put(3);
+    catch_p();
+    delay_ms(1);
+
+
+while (1)
+{
+    /* code */
+}
+
+
+    
     move_left(speed_all, acc_all, 0.83);
     delay_ms(1000);
     standby_p();
