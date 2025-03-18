@@ -56,6 +56,15 @@ void Usart2Init(unsigned int uiBaud)
     NVIC_InitStructure.NVIC_IRQChannelCmd                = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
 }
+double custom_fmod(double a, double b)
+{
+    return a - b * floor(a / b);
+}
+
+double convert_yaw(double yaw)
+{
+    return custom_fmod(yaw + 180.0, 360.0) - 180.0;
+}
 void CopeSerial2Data(unsigned char ucData)
 {
     static unsigned char ucRxBuffer[250];
@@ -73,8 +82,8 @@ void CopeSerial2Data(unsigned char ucData)
         switch (ucRxBuffer[1]) {
             case 0x53:
                 yaw = (((short)ucRxBuffer[7] << 8) | ucRxBuffer[6]) / 32768.0 * 180.0;
-                // 设置角度范围在-350到10之间
-                if (yaw > 10) yaw -= 360;
+                //把0到360转化为-180到180
+                yaw = convert_yaw(yaw);
                 break;
         }
         ucRxCnt = 0;

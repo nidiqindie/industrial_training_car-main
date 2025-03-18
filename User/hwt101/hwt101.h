@@ -6,6 +6,7 @@
 #include "wit_c_sdk.h"
 #include "bsp_usart.h"
 #include "delay.h"
+#include <math.h>
 extern float yaw;
 void jy61p_init(void);
 void Usart2Init(unsigned int uiBaud);

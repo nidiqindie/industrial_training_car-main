@@ -29,7 +29,7 @@ void car_init(void)
     USART1_Config();
     //舵机初始化
 	SERVO_TIM_Init();
-    //调试串口初始化
+    //调试串口初始化波特率9600
 	USART3_Config();
     //串口四初始化
 	UART4_init();
