@@ -52,46 +52,9 @@ int main(void)
 {
 
     car_init();
-catch_p();
-    
-    // 加工物料
-    weitiao(0);
-    now = ring_color==red_num?red_num:(ring_color==blue_num?blue_num:green_num);
-    delay_ms(100);
-    go_to_target(1, 0);
-    put_huan(1);
-    catch_p();
-    go_to_target(2, 0);
-    put_huan(2);
-    catch_p();
-    go_to_target(3, 0);
-    put_huan(3);
-    catch_p();
-    // 加工完成取物料
-    go_to_target(1, 3);
-    catch_huan();
-    put(1);
-    catch_p();
-
-    go_to_target(2, 3);
-    catch_huan();
-    put(2);
-    catch_p();
-
-    go_to_target(3, 3);
-    catch_huan();
-    put(3);
-    catch_p();
-    delay_ms(1);
-
-
-while (1)
-{
-    /* code */
-}
-
 
     
+    //出来
     move_left(speed_all, acc_all, 0.83);
     delay_ms(1000);
     standby_p();
@@ -397,15 +360,16 @@ while (1)
     yaw_run(180 + manually_calibrated, smill_calibrations);
     move_forward(speed_all, acc_all, 3.2);
     delay_ms(3000);
-    delay_ms(50);
+    move_right(speed_all,20,0.15);
+    delay_ms(300);
     yaw_run(180 + manually_calibrated, smill_calibrations);
-    move_forward(speed_all, acc_all, 4.2);
+    move_forward(speed_all, acc_all, 4.0);
     delay_ms(3000);
     delay_ms(50);
     yaw_run(180 + manually_calibrated, smill_calibrations);
-    move_left(speed_all, 20, 4.25);
+    move_left(speed_all, 20, 4.4);
     delay_ms(3000);
-    move_forward(speed_all, 20, 0.25);
+    move_forward(speed_all, 20, 0.45);
     while (1) {
         /* code */
     }
