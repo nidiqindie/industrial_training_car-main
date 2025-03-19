@@ -232,13 +232,15 @@ int main(void)
     catch (task[1] % 10);
     put(task[1] % 10);
 
+    // 转人工
+    //
     // 从物料区跑到粗加工区
     // 后退转弯到粗加工
     move_left(speed_all, 20, 0.2);
     delay_ms(500);
     delay_ms(50);
     yaw_run(0 + manually_calibrated, smill_calibrations);
-    move_backward(speed_all, acc_all, 1.69);
+    move_backward(speed_all, acc_all, 1.59);
     delay_ms(1900);
     TurnLeft(150, 150, 90);
     delay_ms(2000);
