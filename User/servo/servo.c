@@ -32,9 +32,9 @@ extern uint16_t task[2];
 #define catch_rew       2500 // 从原料区抓取物料
 #define put_turntable   1450 // 把物料放在车载转盘
 #define catch_turntable 1450 // 从车载转盘中拿去物料
-#define put_process     6700 // 将物料放在加工区
+#define put_process     6750 // 将物料放在加工区
 #define catch_process   6650 // 从加工区拿去物料
-#define put_store       6700 // 将物料放在暂存区
+#define put_store       6750 // 将物料放在暂存区
 #define put_maduo       3000 // 将物料进行码垛
 #define y_center        123  // 源180
 
@@ -300,7 +300,7 @@ void put(uint16_t num)
             Servo_Angle_Config(1, servo1_in);
             delay_ms(1100);
             Emm_V5_Pos_Control(1, 1, 300, 250, put_turntable, 01, 00); // 脉冲数待定
-            delay_ms(800);
+            delay_ms(500);
             Servo_Angle_Config(3, servo3_open);
             delay_ms(300);
             Emm_V5_Pos_Control(1, 0, 300, 250, start_position, 01, 00); // 脉冲数待定
@@ -313,7 +313,7 @@ void put(uint16_t num)
             Servo_Angle_Config(1, servo1_in);
             delay_ms(1100);
             Emm_V5_Pos_Control(1, 1, 300, 250, put_turntable, 01, 00); // 脉冲数待定
-            delay_ms(800);
+            delay_ms(500);
             Servo_Angle_Config(3, servo3_open);
             delay_ms(300);
             Emm_V5_Pos_Control(1, 0, 300, 250, start_position, 01, 00); // 脉冲数待定
@@ -326,7 +326,7 @@ void put(uint16_t num)
             Servo_Angle_Config(1, servo1_in);
             delay_ms(1100);
             Emm_V5_Pos_Control(1, 1, 300, 250, put_turntable, 01, 00); // 脉冲数待定
-            delay_ms(800);
+            delay_ms(500);
             Servo_Angle_Config(3, servo3_open);
             delay_ms(300);
             Emm_V5_Pos_Control(1, 0, 300, 250, start_position, 01, 00); // 脉冲数待定
@@ -434,7 +434,7 @@ void maduo(uint16_t num)
             delay_ms(1000);
             Emm_V5_Pos_Control(1, 01, 300, 250, put_maduo, 01, 00); // 脉冲数待定
             delay_ms(800);
-            Servo_Angle_Config(3, servo3_open);
+            Servo_Angle_Config(3, servo3_catch);
             delay_ms(400);
             Emm_V5_Pos_Control(1, 0, 400, 250, start_position, 01, 00);
             delay_ms(1000);
@@ -456,7 +456,7 @@ void maduo(uint16_t num)
             delay_ms(1000);
             Emm_V5_Pos_Control(1, 01, 300, 250, put_maduo, 01, 00); // 脉冲数待定
             delay_ms(800);
-            Servo_Angle_Config(3, servo3_open);
+            Servo_Angle_Config(3, servo3_catch);
             delay_ms(400);
             Emm_V5_Pos_Control(1, 0, 400, 250, start_position, 01, 00);
             delay_ms(1000);
@@ -478,7 +478,7 @@ void maduo(uint16_t num)
             delay_ms(1000);
             Emm_V5_Pos_Control(1, 01, 300, 250, put_maduo, 01, 00); // 脉冲数待定
             delay_ms(800);
-            Servo_Angle_Config(3, servo3_open);
+            Servo_Angle_Config(3, servo3_catch);
             delay_ms(400);
             Emm_V5_Pos_Control(1, 0, 400, 250, start_position, 01, 00);
             delay_ms(1000);
