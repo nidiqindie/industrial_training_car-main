@@ -124,17 +124,17 @@ void UART5_IRQHandler(void)
             }
         }
 
-        if (K == 'R' || K == 'G' || K == 'B')
+        if ((K == 'R' || K == 'G' || K == 'B')&&(flag_color==0||flag_color==K))
         {
             XX = DistanceX;
             YY = DistanceY;
 
         }
-        if (K == 'C'&&(flag_color==0||(S1-48)==flag_color))//判断是否为目标颜色，为目标颜色才会覆盖坐标
+        if (K == 'C'&&(flag_color==0||flag_color==(S1-'0')))//判断是否为目标颜色，为目标颜色才会覆盖坐标
         {
             XX1 = DistanceX;
             YY1 = DistanceY;
-            ring_color=S1-48;
+            ring_color=S1-'0';
         }
 
         USART_ClearITPendingBit(UART5, USART_IT_RXNE);

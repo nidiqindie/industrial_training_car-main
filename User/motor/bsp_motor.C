@@ -49,7 +49,7 @@ int cw_5, cw_2, cw_3, cw_4;
 #define gg_0_X 161
 #define gg_0_Y 135
 #define gg_1_X 179
-#define gg_1_Y 161
+#define gg_1_Y 156
 #define gg_2_X 171
 #define gg_2_Y 140
 #define gg_3_X 180
@@ -471,20 +471,26 @@ void weitiao(int gg)
     // 色环
     if (gg == 0) {
         flag_color=ring_color;//记录当前微调使用的色环颜色
+        delay_ms(100);
         flag_adjusting = 1;
         while (flag_adjusting <= 4 && flag_adjusting != 0) {
             printf("XX1:%d YY1:%d\n\r", XX1, YY1);
             if (flag_cx_complete == 0 && XX1 != 0) {
                 if (XX1 < gg_0_X - gg0_calibation) {
                     Forward(5);
+                   
                     while (XX1 < gg_0_X - gg0_calibation);
 
                 }
 
                 else if (XX1 > gg_0_X + gg0_calibation) {
                     Backward(5);
+                 
+
                     while (XX1 > gg_0_X + gg0_calibation);
                 }
+          
+
                 stop();
                 flag_cx_complete = 1;
                 flag_cy_complete = 0;
@@ -500,16 +506,17 @@ void weitiao(int gg)
                     while (YY1 > gg_0_Y + gg0_calibation);
                 }
                 stop();
-                flag_color=0;//清楚目标色环颜色
                 flag_cy_complete = 1;
                 flag_adjusting++;
                 flag_cx_complete = 0;
                 delay_ms(200);
             }
         }
+        flag_color=0;//清楚目标色环颜色
     }
     // 地上的色块
     if (gg == 2) {
+        flag_color=K;//记录当前微调使用的色环颜色
         flag_adjusting = 1;
         while (flag_adjusting <= 4 && flag_adjusting != 0) {
             if (flag_cx_complete == 0 && XX != 0) {
@@ -544,6 +551,7 @@ void weitiao(int gg)
                 delay_ms(200);
             }
         }
+        flag_color=0;//清楚目标色环颜色
     }
 
     // 地上的色块
@@ -584,6 +592,9 @@ void weitiao(int gg)
         }
     }
 }
+//校赛1000+500
+#define movingtiming 1000
+#define stoptiming 300
 void weitiao_2(void)
 {
     char KKK;
@@ -591,7 +602,7 @@ void weitiao_2(void)
     x = XX;
 
     while (1) {
-        delay_ms(1000);
+        delay_ms(movingtiming);
 
         if (abs(XX - x) >= 30)
             break;
@@ -600,9 +611,9 @@ void weitiao_2(void)
     KKK = K;
     x   = XX;
     while (1) {
-        delay_ms(500);
+        delay_ms(stoptiming);
 
-        if (abs(XX - x) <= 10 && KKK != K)
+        if (abs(XX - x) <= 5 && KKK != K)
             break;
         x = XX;
     }

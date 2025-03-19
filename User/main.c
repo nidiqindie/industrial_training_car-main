@@ -53,6 +53,7 @@ int main(void)
 
     car_init();
 
+
     
     //出来
     move_left(speed_all, acc_all, 0.83);
@@ -172,7 +173,7 @@ int main(void)
     catch_huan();
     put(task[0] % 10);
     catch_p();
-    delay_ms(1);
+    delay_ms(1000);
 
     // 第一圈粗加工到暂存区
     Roughing_to_staging_area();
@@ -240,7 +241,7 @@ int main(void)
     delay_ms(500);
     delay_ms(50);
     yaw_run(0 + manually_calibrated, smill_calibrations);
-    move_backward(speed_all, acc_all, 1.59);
+    move_backward(speed_all, acc_all, 1.63);
     delay_ms(1900);
     TurnLeft(150, 150, 90);
     delay_ms(2000);
@@ -300,7 +301,7 @@ int main(void)
     catch_huan();
     put(task[1] % 10);
     catch_p();
-    delay_ms(300);
+    delay_ms(1300);
     // 粗加工到暂存区
     go_to_target(2, 0);
     standby_p();
@@ -326,6 +327,8 @@ int main(void)
     // 放物料到暂存区
     // 微调(环)
     catch_p();
+    weitiao(2);
+    now = K=='R'?red_num:(K=='B'?blue_num:green_num);
     go_to_target(task[1] / 100, 2);
     maduo(task[1] / 100);
 
@@ -362,8 +365,7 @@ int main(void)
     yaw_run(180 + manually_calibrated, smill_calibrations);
     move_forward(speed_all, acc_all, 3.2);
     delay_ms(3000);
-    move_right(speed_all,20,0.15);
-    delay_ms(300);
+   
     yaw_run(180 + manually_calibrated, smill_calibrations);
     move_forward(speed_all, acc_all, 4.0);
     delay_ms(3000);
