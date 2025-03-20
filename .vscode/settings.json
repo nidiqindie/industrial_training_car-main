@@ -1,5 +1,9 @@
 {
     "files.associations": {
-        "bsp_motor.C": "cpp"
-    }
+        "bsp_motor.C": "cpp",
+        "bsp_motor.h": "c"
+    },
+    "python.autoComplete.extraPaths": [
+        "c:/Users/a1321/.trae/extensions/rt-thread.rt-thread-micropython-1.0.11/microExamples/code-completion"
+    ]
 }

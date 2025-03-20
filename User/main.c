@@ -20,7 +20,7 @@
 
 */
 
-// 原始任务码是1-红 2-绿 3-蓝，对应地图上1靠近暂存区的颜色是红色，2中间是绿色，3另一边上是蓝色
+
 
 
 #define manually_calibrated 0
@@ -144,7 +144,7 @@ int main(void)
     catch_p();
     // 加工物料
     weitiao(0);
-    now = ring_color==red_num?red_num:(ring_color==blue_num?blue_num:green_num);
+    now = ring_color==1?red_num:(ring_color==2?blue_num:green_num);
     delay_ms(100);
     go_to_target(task[0] / 100, 0);
     put_huan(task[0] / 100);
@@ -178,7 +178,7 @@ int main(void)
     // 暂存区放置物料
     catch_p();
     weitiao(0);
-    now = ring_color==red_num?red_num:(ring_color==blue_num?blue_num:green_num);
+    now = ring_color == 1 ? red_num : (ring_color == 2 ? blue_num : green_num);
     go_to_target(task[0] / 100, 0);
     put_huan(task[0] / 100);
 
@@ -267,7 +267,7 @@ int main(void)
     // 微调
     catch_p();
     weitiao(0);
-    now = ring_color==red_num?red_num:(ring_color==blue_num?blue_num:green_num);
+    now = ring_color == 1 ? red_num : (ring_color == 2 ? blue_num : green_num);
     delay_ms(2000);
     go_to_target(task[1] / 100, 0);
     put_huan(task[1] / 100);
