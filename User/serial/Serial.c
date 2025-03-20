@@ -9,7 +9,8 @@ char Serial_RxPacket[12];//"@MSG\r\n"
 int gg=0;
 uint8_t Serial_RxFlag;
 uint8_t K,X1, X2, X3, Y1, Y2, Y3, S1, S2, S3, S4, S5;
-int ring_color;//圆环颜色  
+int ring_color;//圆环颜色
+int temp = 0;
 uint16_t DistanceX,DistanceY,Size,XX,YY,XX1,YY1;
 extern uint8_t KK='c';
 
@@ -130,21 +131,35 @@ void UART5_IRQHandler(void)
             YY = DistanceY;
 
         }
-        if (K == 'C'&&(flag_color==0||flag_color==(S1-'0')))//判断是否为目标颜色，为目标颜色才会覆盖坐标
+        
+        switch ((S1 - '0')) {
+                // 原始任务码是1-红 2-绿 3-蓝，对应地图上靠近暂存区的颜色是红色，中间是绿色，另一边上是蓝色
+            case 1:
+                temp = red_num;
+                break;
+            case 2:
+                temp = green_num;
+                break;
+            case 3:
+                temp = blue_num;
+                break;
+            default:
+                break;
+        }
+        if (K == 'C' && (flag_color == 0 || flag_color == temp)) // 判断是否为目标颜色，为目标颜色才会覆盖坐标
         {
             if(flag_color!=0&&abs(XX1-DistanceX)<100)
             {
                 XX1 = DistanceX;
                 YY1 = DistanceY;
-                ring_color=S1-'0';
+                ring_color = temp;
             }
             else if(flag_color==0)
             {
                 XX1 = DistanceX;
                 YY1 = DistanceY;
-                ring_color=S1-'0';
+                ring_color = temp;
             }
-            
         }
 
         USART_ClearITPendingBit(UART5, USART_IT_RXNE);

@@ -615,7 +615,7 @@ void weitiao_2(void)
     while (1) {
         delay_ms(stoptiming);
 
-        if (abs(XX - x) <= 5 && KKK != K)
+        if (abs(XX - x) <= 3 && KKK != K)
             break;
         x = XX;
     }

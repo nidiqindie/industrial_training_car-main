@@ -50,7 +50,8 @@ int main(void)
 {
 
     car_init();
-
+    
+    
     
     //出来
     move_left(speed_all, acc_all, 0.83);
@@ -91,8 +92,8 @@ int main(void)
             }
         }
     }
-    task[0] = task_array[0][0] * 100 + task_array[0][1] * 10 + task_array[0][2];
-    task[1] = task_array[1][0] * 100 + task_array[1][1] * 10 + task_array[1][2];
+    int task_move[2] = {task_array[0][0] * 100 + task_array[0][1] * 10 + task_array[0][2], task_array[1][0] * 100 + task_array[1][1] * 10 + task_array[1][2]};
+
     // 前进到获取物料
     move_forward(speed_all, acc_all, 2.95);
     delay_ms(2500);
@@ -117,7 +118,7 @@ int main(void)
     standby_p();
     // 从物料区跑到粗加工区
     // 后退转弯到粗加工
-
+   
     move_left(speed_all, 20, 0.2);
     delay_ms(500);
     yaw_run(0, smill_calibrations);
@@ -144,29 +145,30 @@ int main(void)
     catch_p();
     // 加工物料
     weitiao(0);
-    now = ring_color==1?red_num:(ring_color==2?blue_num:green_num);
+    now = ring_color == red_num ? red_num : (ring_color == blue_num ? blue_num : green_num);
     delay_ms(100);
-    go_to_target(task[0] / 100, 0);
+    go_to_target(task_move[0] / 100, 0);
     put_huan(task[0] / 100);
     catch_p();
-    go_to_target((task[0] % 100) / 10, 0);
+    go_to_target((task_move[0] % 100) / 10, 0);
     put_huan((task[0] % 100) / 10);
     catch_p();
-    go_to_target(task[0] % 10, 0);
+    go_to_target(task_move[0] % 10, 0);
     put_huan(task[0] % 10);
     catch_p();
     // 加工完成取物料
-    go_to_target(task[0] / 100, 3);
+    
+    go_to_target(task_move[0] / 100, 3);
     catch_huan();
     put(task[0] / 100);
     catch_p();
 
-    go_to_target((task[0] % 100) / 10, 3);
+    go_to_target((task_move[0] % 100) / 10, 3);
     catch_huan();
     put((task[0] % 100) / 10);
     catch_p();
 
-    go_to_target(task[0] % 10, 3);
+    go_to_target(task_move[0] % 10, 3);
     catch_huan();
     put(task[0] % 10);
     catch_p();
@@ -178,16 +180,16 @@ int main(void)
     // 暂存区放置物料
     catch_p();
     weitiao(0);
-    now = ring_color == 1 ? red_num : (ring_color == 2 ? blue_num : green_num);
-    go_to_target(task[0] / 100, 0);
+    now = ring_color == red_num ? red_num : (ring_color == blue_num ? blue_num : green_num);
+    go_to_target(task_move[0] / 100, 0);
     put_huan(task[0] / 100);
 
     catch_p();
-    go_to_target((task[0] % 100) / 10, 0);
+    go_to_target((task_move[0] % 100) / 10, 0);
     put_huan((task[0] % 100) / 10);
 
     catch_p();
-    go_to_target(task[0] % 10, 0);
+    go_to_target(task_move[0] % 10, 0);
     put_huan(task[0] % 10);
 
     catch_p();
@@ -234,6 +236,7 @@ int main(void)
     //
     // 从物料区跑到粗加工区
     // 后退转弯到粗加工
+  
     move_left(speed_all, 20, 0.2);
     delay_ms(500);
     delay_ms(50);
@@ -267,34 +270,34 @@ int main(void)
     // 微调
     catch_p();
     weitiao(0);
-    now = ring_color == 1 ? red_num : (ring_color == 2 ? blue_num : green_num);
+    now = ring_color == red_num ? red_num : (ring_color == blue_num ? blue_num : green_num);
     delay_ms(2000);
-    go_to_target(task[1] / 100, 0);
+    go_to_target(task_move[1] / 100, 0);
     put_huan(task[1] / 100);
 
     catch_p();
-    go_to_target((task[1] % 100) / 10, 0);
+    go_to_target((task_move[1] % 100) / 10, 0);
     put_huan((task[1] % 100) / 10);
 
     catch_p();
-    go_to_target(task[1] % 10, 0);
+    go_to_target(task_move[1] % 10, 0);
     put_huan(task[1] % 10);
 
     // 加工完成取物料
     catch_p();
     delay_ms(1500);
 
-    go_to_target(task[1] / 100, 3);
+    go_to_target(task_move[1] / 100, 3);
     catch_huan();
     put(task[1] / 100);
     catch_p();
 
-    go_to_target((task[1] % 100) / 10, 3);
+    go_to_target((task_move[1] % 100) / 10, 3);
     catch_huan();
     put((task[1] % 100) / 10);
     catch_p();
 
-    go_to_target(task[1] % 10, 3);
+    go_to_target(task_move[1] % 10, 3);
     catch_huan();
     put(task[1] % 10);
     catch_p();
@@ -325,15 +328,15 @@ int main(void)
     // 微调(环)
     catch_p();
     weitiao(2);
-    go_to_target(task[1] / 100, 2);
+    go_to_target(task_move[1] / 100, 2);
     maduo(task[1] / 100);
 
     catch_p();
-    go_to_target((task[1] % 100) / 10, 2);
+    go_to_target((task_move[1] % 100) / 10, 2);
     maduo((task[1] % 100) / 10);
 
     catch_p();
-    go_to_target(task[1] % 10, 2);
+    go_to_target(task_move[1] % 10, 2);
     maduo(task[1] % 10);
 
     standby_p();
