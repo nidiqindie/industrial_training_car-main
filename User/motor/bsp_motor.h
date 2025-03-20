@@ -33,7 +33,9 @@
 extern int pos_flag;
 extern int speed;
 extern int flag_color;
-
+#define red_num 1
+#define green_num 2
+#define blue_num 3
 
 
 // void PID_timebase_init(void);

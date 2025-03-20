@@ -21,9 +21,7 @@
 */
 
 // 原始任务码是1-红 2-绿 3-蓝，对应地图上1靠近暂存区的颜色是红色，2中间是绿色，3另一边上是蓝色
-#define red_num 1
-#define green_num 2
-#define blue_num 3
+
 
 #define manually_calibrated 0
 int now = 2;
@@ -52,7 +50,6 @@ int main(void)
 {
 
     car_init();
-
 
     
     //出来
@@ -328,7 +325,6 @@ int main(void)
     // 微调(环)
     catch_p();
     weitiao(2);
-    now = K=='R'?red_num:(K=='B'?blue_num:green_num);
     go_to_target(task[1] / 100, 2);
     maduo(task[1] / 100);
 
@@ -451,19 +447,19 @@ void go_to_target(int target, int Type_of_fine_tuning)
     }
     if (Type_of_fine_tuning == 0)
     {
-        switch (target) {
-            case red_num:
-                flag_color = 1;
-                break;
-            case green_num:
-                flag_color = 2;
-                break;
-            case blue_num:
-                flag_color = 3;
-                break;
-            default:
-                break;
-        }
+        // switch (target) {
+        //     case red_num:
+        //         flag_color = 1;
+        //         break;
+        //     case green_num:
+        //         flag_color = 2;
+        //         break;
+        //     case blue_num:
+        //         flag_color = 3;
+        //         break;
+        //     default:
+        //         break;
+        // }
         weitiao(Type_of_fine_tuning);
         flag_color = 0;
     }

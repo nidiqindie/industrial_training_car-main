@@ -7,6 +7,7 @@ extern uint16_t DistanceX, DistanceY, Size;
 int flag_adjusting = 1, flag_cx_complete, flag_cy_complete, flag_cy_start;
 extern int task[2];
 extern uint8_t K;
+extern int now;
 
 /*
 
@@ -551,6 +552,7 @@ void weitiao(int gg)
                 delay_ms(200);
             }
         }
+        now=flag_color=='R'?red_num:(flag_color=='B'?blue_num:green_num);
         flag_color=0;//清楚目标色环颜色
     }
 

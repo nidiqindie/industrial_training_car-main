@@ -132,9 +132,19 @@ void UART5_IRQHandler(void)
         }
         if (K == 'C'&&(flag_color==0||flag_color==(S1-'0')))//判断是否为目标颜色，为目标颜色才会覆盖坐标
         {
-            XX1 = DistanceX;
-            YY1 = DistanceY;
-            ring_color=S1-'0';
+            if(flag_color!=0&&abs(XX1-DistanceX)<100)
+            {
+                XX1 = DistanceX;
+                YY1 = DistanceY;
+                ring_color=S1-'0';
+            }
+            else if(flag_color==0)
+            {
+                XX1 = DistanceX;
+                YY1 = DistanceY;
+                ring_color=S1-'0';
+            }
+            
         }
 
         USART_ClearITPendingBit(UART5, USART_IT_RXNE);
