@@ -433,7 +433,7 @@ void weitiao(int gg)
     if (gg == 1) {
         flag_adjusting = 1;
 
-        while (flag_adjusting <= 2 && flag_adjusting != 0) {
+        while (flag_adjusting <= 3 && flag_adjusting != 0) {
 
             if (flag_cx_complete == 0 && XX != 0) {
                 if (XX < gg_1_X - 2) {
@@ -517,7 +517,7 @@ void weitiao(int gg)
     }
     // 地上的色块
     if (gg == 2) {
-        flag_color=K;//记录当前微调使用的色环颜色
+        
         flag_adjusting = 1;
         while (flag_adjusting <= 4 && flag_adjusting != 0) {
             if (flag_cx_complete == 0 && XX != 0) {
@@ -615,7 +615,7 @@ void weitiao_2(void)
     while (1) {
         delay_ms(stoptiming);
 
-        if (abs(XX - x) <= 3 && KKK != K)
+        if (abs(XX - x) <= 2 && KKK != K)
             break;
         x = XX;
     }

@@ -38,7 +38,7 @@ void car_init(void)
 	UART4_init();
     //串口5初始化
     UART5_init();
-    
+    delay_ms(1000);
     // 使能四个步进电机。
     SERVO_TIM_Init();
     //RGB灯初始化

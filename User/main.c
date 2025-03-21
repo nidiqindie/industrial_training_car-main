@@ -50,9 +50,9 @@ int main(void)
 {
 
     car_init();
-    
-    
-    
+
+    delay_ms(1000);
+
     //出来
     move_left(speed_all, acc_all, 0.83);
     delay_ms(1000);
@@ -157,17 +157,19 @@ int main(void)
     put_huan(task[0] % 10);
     catch_p();
     // 加工完成取物料
-    
+    flag_color = task[0] / 100==1?'R':(task[0]/100 == 2 ?'G':'B');
     go_to_target(task_move[0] / 100, 3);
     catch_huan();
     put(task[0] / 100);
     catch_p();
 
+    flag_color = (task[0] % 100) / 10 == 1 ? 'R' : ((task[0] % 100) / 10 == 2 ? 'G' : 'B');
     go_to_target((task_move[0] % 100) / 10, 3);
     catch_huan();
     put((task[0] % 100) / 10);
     catch_p();
 
+    flag_color = task[0] % 10 == 1 ? 'R' : (task[0] % 10 == 2 ? 'G' : 'B');
     go_to_target(task_move[0] % 10, 3);
     catch_huan();
     put(task[0] % 10);
@@ -287,16 +289,19 @@ int main(void)
     catch_p();
     delay_ms(1500);
 
+    flag_color = task[1] / 100 == 1 ? 'R' : (task[1] / 100 == 2 ? 'G' : 'B');
     go_to_target(task_move[1] / 100, 3);
     catch_huan();
     put(task[1] / 100);
     catch_p();
 
+    flag_color = (task[1] % 100) / 10 == 1 ? 'R' : ((task[1] % 100) / 10 == 2 ? 'G' : 'B');
     go_to_target((task_move[1] % 100) / 10, 3);
     catch_huan();
     put((task[1] % 100) / 10);
     catch_p();
 
+    flag_color = task[1] % 10 == 1 ? 'R' : (task[1] % 10 == 2 ? 'G' : 'B');
     go_to_target(task_move[1] % 10, 3);
     catch_huan();
     put(task[1] % 10);
@@ -327,15 +332,20 @@ int main(void)
     // 放物料到暂存区
     // 微调(环)
     catch_p();
+    flag_color = K;
     weitiao(2);
+
+    flag_color = task[1] / 100 == 1 ? 'R' : (task[1] / 100 == 2 ? 'G' : 'B');
     go_to_target(task_move[1] / 100, 2);
     maduo(task[1] / 100);
 
     catch_p();
+    flag_color = (task[1] % 100) / 10 == 1 ? 'R' : ((task[1] % 100) / 10 == 2 ? 'G' : 'B');
     go_to_target((task_move[1] % 100) / 10, 2);
     maduo((task[1] % 100) / 10);
 
     catch_p();
+    flag_color = task[1] % 10 == 1 ? 'R' : (task[1] % 10 == 2 ? 'G' : 'B');
     go_to_target(task_move[1] % 10, 2);
     maduo(task[1] % 10);
 
@@ -406,7 +416,7 @@ void goto_rough()
 // 粗加工到暂存区
 void Roughing_to_staging_area()
 {
-    delay_ms(300);
+    delay_ms(1000);
     go_to_target(2, 0);
     standby_p();
     yaw_run(180, smill_calibrations);
@@ -448,6 +458,8 @@ void go_to_target(int target, int Type_of_fine_tuning)
             /* code */
         }
     }
+    ring_color = 0;
+    delay_ms(100);
     if (Type_of_fine_tuning == 0)
     {
         // switch (target) {
