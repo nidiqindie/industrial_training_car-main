@@ -146,7 +146,7 @@ void UART5_IRQHandler(void)
             default:
                 break;
         }
-        if (K == 'C' && (flag_color == 0 || flag_color == temp)) // 判断是否为目标颜色，为目标颜色才会覆盖坐标
+        if (K == 'C' && (flag_color == 0 || flag_color == temp)&&temp!=green_num) // 判断是否为目标颜色，为目标颜色才会覆盖坐标
         {
             if(flag_color!=0&&abs(XX1-DistanceX)<100)
             {

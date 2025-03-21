@@ -50,7 +50,7 @@ int cw_5, cw_2, cw_3, cw_4;
 #define gg_0_X 161
 #define gg_0_Y 135
 #define gg_1_X 179
-#define gg_1_Y 156
+#define gg_1_Y 166
 #define gg_2_X 171
 #define gg_2_Y 140
 #define gg_3_X 180

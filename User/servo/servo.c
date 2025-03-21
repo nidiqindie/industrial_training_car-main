@@ -29,7 +29,7 @@ extern uint16_t task[2];
 #define servo3_catch 80 // 爪子抓取
 // 机械臂步进电机脉冲数
 #define start_position  0    // 爪子起始位置，最高处
-#define catch_rew       2500 // 从原料区抓取物料
+#define catch_rew       1770 // 从原料区抓取物料
 #define put_turntable   1450 // 把物料放在车载转盘
 #define catch_turntable 1450 // 从车载转盘中拿去物料
 #define put_process     6750 // 将物料放在加工区
@@ -240,7 +240,7 @@ void catch (uint16_t num)
                 x = XX;
                 y = YY;
                 delay_ms(300);
-                if (abs(XX - x) <= 10 && abs(YY - y) <= 10 && K == 'R' && XX >= 113 && XX <= 213 && YY >= y_center - 50 && YY <= y_center + 50) {
+                if (abs(XX - x) <= 10 && abs(YY - y) <= 10 && K == 'R' && XX >= 113 && XX <= 213 && YY >= y_center - 70 && YY <= y_center + 70) {
                     Emm_V5_Pos_Control(1, 1, 400, 250, catch_rew, 01, 00);
                     delay_ms(500);
                     Servo_Angle_Config(3, servo3_close);
@@ -257,7 +257,7 @@ void catch (uint16_t num)
             x = XX;
             y = YY;
             delay_ms(300);
-            if (abs(XX - x) <= 10 && abs(YY - y) <= 10 && K == 'G' && XX >=113 && XX <= 213 && YY >= y_center - 50 && YY <= y_center + 50) {
+            if (abs(XX - x) <= 10 && abs(YY - y) <= 10 && K == 'G' && XX >=113 && XX <= 213 && YY >= y_center - 70 && YY <= y_center + 70) {
                 Emm_V5_Pos_Control(1, 1, 400, 250, catch_rew, 01, 00);
                 delay_ms(500);
                 Servo_Angle_Config(3, servo3_close);
@@ -274,7 +274,7 @@ void catch (uint16_t num)
             x = XX;
             y = YY;
             delay_ms(300);
-            if (abs(XX - x) <= 10 && abs(YY - y) <= 10 && K == 'B' && XX >= 113 && XX <= 213 && YY >= y_center -50 && YY <= y_center + 50) {
+            if (abs(XX - x) <= 10 && abs(YY - y) <= 10 && K == 'B' && XX >= 113 && XX <= 213 && YY >= y_center -70 && YY <= y_center + 70) {
                 Emm_V5_Pos_Control(1, 1, 400, 250, catch_rew, 01, 00);
                 delay_ms(500);
                 Servo_Angle_Config(3, servo3_close);
