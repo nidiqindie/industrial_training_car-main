@@ -34,9 +34,9 @@ extern int pos_flag;
 extern int speed;
 extern int flag_color;
 // 原始任务码是1-红 2-绿 3-蓝，对应地图上1靠近暂存区的颜色是红色，2中间是绿色，3另一边上是蓝色
-#define red_num 3
+#define red_num 1
 #define green_num 2
-#define blue_num 1
+#define blue_num 3
 
 
 // void PID_timebase_init(void);
