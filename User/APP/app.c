@@ -29,11 +29,11 @@ void car_init(void)
     USART1_Config();
     //舵机初始化
 	SERVO_TIM_Init();
-    //调试串口初始化波特率9600
-      //陀螺仪串口初始化
-      Usart2Init(9600);
-      Yaw_setzero();
-	USART3_Config();
+    // 调试串口初始化波特率9600
+    //  陀螺仪串口初始化
+    Usart2Init(9600);
+    Yaw_setzero();
+    USART3_Config();
     //串口四初始化
 	UART4_init();
     //串口5初始化
@@ -45,6 +45,7 @@ void car_init(void)
     LED_GPIO_Config();
     Emm_V5_En_Control(1, 1, 0);
     delay_ms(1);
+   
     // Emm_V5_En_Control(5,1,0);
     // delay_ms(1);
 

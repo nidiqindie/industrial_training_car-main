@@ -396,14 +396,18 @@ void programme_2()
     
     flag_programme = 2;
     car_init();
-
+    delay_ms(1000);
+    delay_ms(1000);
+    delay_ms(1000);
+    delay_ms(1000);
+    delay_ms(1000);
     delay_ms(1000);
 
-    delay_ms(1000);
     // 出来
     move_left(speed_all, acc_all, 0.83);
     delay_ms(1000);
     standby_p();
+
     // 前进到扫码
     move_forward(speed_all, 10, 2.9);
     delay_ms(2500);
@@ -437,11 +441,12 @@ void programme_2()
         }
     }
     int task_move[2] = {task_array[0][0] * 100 + task_array[0][1] * 10 + task_array[0][2], task_array[1][0] * 100 + task_array[1][1] * 10 + task_array[1][2]};
-
+    move_right(speed_all, acc_all, 0.1);
+    delay_ms(200);
     // 前进到获取物料
     move_forward(speed_all, acc_all, 2.95);
     delay_ms(2500);
-    move_right(speed_all, acc_all, 0.33);
+    move_right(speed_all, acc_all, 0.23);
     delay_ms(500);
 
     // 微调加抓取

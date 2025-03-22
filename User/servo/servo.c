@@ -29,7 +29,7 @@ extern uint16_t task[2];
 #define servo3_catch 80 // 爪子抓取
 // 机械臂步进电机脉冲数
 #define start_position  0    // 爪子起始位置，最高处
-#define catch_rew       1770 // 从原料区抓取物料
+#define catch_rew       1770 // 从原料区抓取物料yuan2500
 #define put_turntable   1450 // 把物料放在车载转盘
 #define catch_turntable 1450 // 从车载转盘中拿去物料
 #define put_process     6750 // 将物料放在加工区
